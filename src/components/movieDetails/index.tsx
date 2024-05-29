@@ -56,6 +56,16 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
                 />
                 <Chip label={`Released: ${movie.release_date}`} />
             </Paper>
+            <Paper component="ul" sx={styles.chipSet}>
+                <li>
+                    <Chip label="Production Countries" sx={styles.chipLabel} color="primary" />
+                </li>
+                {movie.production_countries.map((g) => (
+                    <li key={g.name}>
+                        <Chip label={g.name} />
+                    </li>
+                ))}
+            </Paper>
         </>
     );
 };
