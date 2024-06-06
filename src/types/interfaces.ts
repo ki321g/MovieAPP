@@ -21,6 +21,12 @@ export interface BaseMovieProps {
     movies: BaseMovie[];
   }
 
+  export interface MovieDetailsProps extends BaseMovieProps {
+    genres: {
+      id: number;
+      name: string;
+    }[];
+  }
   export interface MovieImage {
     file_path: string;
     aspect_ratio?: number; //some props are optional...
