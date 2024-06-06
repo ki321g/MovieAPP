@@ -6,6 +6,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useParams } from 'react-router-dom';
 import { MovieDetailsProps, MovieImage } from '../types/interfaces'; // replace existing MoviePageProps import
+import { getMovie, getMovieImages } from "../api/tmdb-api";
 
 const styles = {
 	imageListRoot: {
