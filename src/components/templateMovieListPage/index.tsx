@@ -1,4 +1,4 @@
-import  React, {useState} from "react";
+import React, {useState} from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import Grid from "@mui/material/Grid";
