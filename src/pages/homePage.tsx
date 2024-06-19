@@ -2,7 +2,7 @@ import React from 'react';
 import PageTemplate from '../components/templateMovieListPage';
 import { getMovies } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
 import MovieFilterUI, {
 	titleFilter,
 	genreFilter,
@@ -10,6 +10,7 @@ import MovieFilterUI, {
 import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
+import { BaseMovieProps } from '../../types/interfaces';
 
 const titleFiltering = {
 	name: 'title',
@@ -23,7 +24,10 @@ const genreFiltering = {
 };
 
 const HomePage: React.FC = () => {
-	const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>('discover',getMovies);
+	const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
+		'discover',
+		getMovies
+	);
 	const { filterValues, setFilterValues, filterFunction } = useFiltering(
 		// [],
 		[titleFiltering, genreFiltering]
@@ -48,15 +52,14 @@ const HomePage: React.FC = () => {
 
 	const movies = data ? data.results : [];
 	const displayedMovies = filterFunction(movies);
-	
 
 	return (
 		<>
 			<PageTemplate
-				title="Discover Movies"
+				title='Discover Movies'
 				movies={displayedMovies}
 				action={(movie: BaseMovieProps) => {
-				return <AddToFavouritesIcon {...movie} />
+					return <AddToFavouritesIcon {...movie} />;
 				}}
 			/>
 			<MovieFilterUI
