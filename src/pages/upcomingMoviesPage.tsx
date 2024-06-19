@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from 'react';
 import PageTemplate from '../components/templateMovieListPage';
-import { BaseMovieProps } from "../types/interfaces";
+//import { BaseMovieProps } from "../types/interfaces";
 import { getUpcomingMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import MovieFilterUI, {
   titleFilter,
   genreFilter,
 } from "../components/movieFilterUI";
+import { UpcommingMovies } from '../types/interfaces';
+import { useQuery } from 'react-query';
+import Spinner from '../components/spinner';
 
 const titleFiltering = {
   name: "title",
@@ -20,36 +24,29 @@ const genreFiltering = {
 };
 
 const UpcomingMoviesPage: React.FC = () => {
-  const [movies, setMovies] = useState<BaseMovieProps[]>([]);
-  const favourites = movies.filter(m => m.favourite)
+  const { data, error, isLoading, isError } = useQuery<UpcommingMovies, Error>('upcomming',getUpcomingMovies);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
 
-  localStorage.setItem('favourites', JSON.stringify(favourites))
-  // New function
-  const addToFavourites = (movieId: number) => {
-    const updatedMovies = movies.map((m: BaseMovieProps) =>
-      m.id === movieId ? { ...m, favourite: true } : m
-    );
-    setMovies(updatedMovies);
-  };
+  if (isLoading) {
+		return <Spinner />;
+	}
 
-  const changeFilterValues = (type: string, value: string) => {
-    const changedFilter = { name: type, value: value };
-    const updatedFilterSet =
-      type === "title"
-        ? [changedFilter, filterValues[1]]
-        : [filterValues[0], changedFilter];
-    setFilterValues(updatedFilterSet);
-  };
+	if (isError) {
+		return <h1>{error.message}</h1>;
+	}
 
-  useEffect(() => {
-    getUpcomingMovies().then(movies => {
-        setMovies(movies);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+	const changeFilterValues = (type: string, value: string) => {
+		const changedFilter = { name: type, value: value };
+		const updatedFilterSet =
+			type === 'title'
+				? [changedFilter, filterValues[1]]
+				: [filterValues[0], changedFilter];
+		setFilterValues(updatedFilterSet);
+	};
+
+	const movies = data ? data.results : [];
   const displayedMovies = filterFunction(movies);
 
   return (
@@ -57,7 +54,9 @@ const UpcomingMoviesPage: React.FC = () => {
       <PageTemplate
         title='Upcoming Movies'
         movies={displayedMovies}
-        selectFavourite={addToFavourites}
+        action={(movie: BaseMovieProps) => {
+          return <AddToFavouritesIcon {...movie} />
+          }}
       />
       <MovieFilterUI
         onFilterValuesChange={changeFilterValues}
