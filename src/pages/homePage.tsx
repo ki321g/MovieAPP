@@ -2,6 +2,7 @@ import React from 'react';
 import PageTemplate from '../components/templateMovieListPage';
 import { getMovies } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import MovieFilterUI, {
 	titleFilter,
 	genreFilter,
@@ -46,22 +47,17 @@ const HomePage: React.FC = () => {
 	};
 
 	const movies = data ? data.results : [];
-  // console.log('movies');
-  // console.log(movies);
 	const displayedMovies = filterFunction(movies);
-  // console.log('displayedMovies');
-  // console.log(displayedMovies);
-	// Redundant, but necessary to avoid app crashing.
-	const favourites = movies.filter((m) => m.favourite);
-	localStorage.setItem('favourites', JSON.stringify(favourites));
-	const addToFavourites = (movieId: number) => true;
+	
 
 	return (
 		<>
 			<PageTemplate
-				title='Discover Movies'
+				title="Discover Movies"
 				movies={displayedMovies}
-				selectFavourite={addToFavourites}
+				action={(movie: BaseMovieProps) => {
+				return <AddToFavouritesIcon {...movie} />
+				}}
 			/>
 			<MovieFilterUI
 				onFilterValuesChange={changeFilterValues}
