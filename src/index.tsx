@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from 'react-dom/client'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
@@ -21,6 +22,8 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+
 
 const App = () => {
   return (
