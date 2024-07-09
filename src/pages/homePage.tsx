@@ -16,7 +16,7 @@ const titleFiltering = {
 	name: 'title',
 	value: '',
 	condition: titleFilter,
-};
+}; 
 const genreFiltering = {
 	name: 'genre',
 	value: '0',
