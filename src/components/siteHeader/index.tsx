@@ -33,6 +33,7 @@ const SiteHeader: React.FC = () => {
     { label: "Favorites", path: "/movies/favourites" },
     { label: "Option 3", path: "/" },
     { label: "Option 4", path: "/" },
+    { label: "Login", path: "/login" },
   ];
 
   const handleMenuSelect = (pageURL: string) => {
@@ -50,12 +51,10 @@ const SiteHeader: React.FC = () => {
           <Typography variant="h4" sx={styles.title}>
             TMDB Client
           </Typography>
-          <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
-          </Typography>
-          {isMobile ? (
-            <>
-              <IconButton
+        {isMobile ? (
+            <>              
+			   <IconButton
+				edge="start"
                 aria-label="menu"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -68,25 +67,17 @@ const SiteHeader: React.FC = () => {
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
                 keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
                 open={open}
                 onClose={() => setAnchorEl(null)}
               >
                 {menuOptions.map((opt) => (
-                  <MenuItem
-                    key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
-                  >
-                    {opt.label}
-                  </MenuItem>
+					<MenuItem 
+					 key={opt.label} 
+					 onClick={() => handleMenuSelect(opt.path)}
+					>
+					  {opt.label}
+					</MenuItem>
                 ))}
               </Menu>
             </>
@@ -103,8 +94,8 @@ const SiteHeader: React.FC = () => {
               ))}
             </>
           )}
-        </Toolbar>
-      </AppBar>
+      </Toolbar>
+    </AppBar>
       <Offset />
     </>
   );

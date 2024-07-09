@@ -79,7 +79,7 @@ interface FilterMoviesCardProps {
 					/>
 					<FormControl sx={styles.formControl}>
 						<InputLabel id='genre-label'>Genre</InputLabel>
-            <Select labelId="genre-label" id="genre-select" value={genreFilter} onChange={handleGenreChange}>
+            <Select labelId="genre-label" label="Genre" id="genre-select" value={genreFilter} onChange={handleGenreChange}>
 							{genres.map((genre) => {
 								return (
 									<MenuItem key={genre.id} value={genre.id}>
