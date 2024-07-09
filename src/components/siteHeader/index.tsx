@@ -3,24 +3,35 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import { makeStyles } from '@mui/styles';
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { NestedMenuItem, NestedDropdown } from 'mui-nested-menu';
 
 const styles = {
     title: {
       flexGrow: 1,
     },
   };
+  const useStyles = makeStyles({
+    popover: {
+      '& .MuiPopover-root': {
+        left: 'unset !important',
+        right: '100% !important',
+      },
+    },
+  });
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC = () => {
+  const classes = useStyles();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement|null>(null);
   const open = Boolean(anchorEl);
@@ -29,10 +40,22 @@ const SiteHeader: React.FC = () => {
 
   const menuOptions = [
     { label: "Home", path: "/" },
-    { label: "Upcoming", path: "/movies/upcoming" },
+    { 
+      label: "Movies", 
+      subMenu: [
+        { label: "Discover", path: "/movies/discover" },
+        { label: "Upcoming", path: "/movies/upcoming" },
+      ]
+    },
+    { 
+      label: "TV Shows", 
+      subMenu: [
+        { label: "Discover", path: "/tv/discover" },
+        { label: "Upcoming", path: "/tv/upcoming" },
+      ]
+    },
     { label: "Favorites", path: "/movies/favourites" },
     { label: "Option 3", path: "/" },
-    { label: "Option 4", path: "/" },
     { label: "Login", path: "/login" },
   ];
 
@@ -53,8 +76,8 @@ const SiteHeader: React.FC = () => {
           </Typography>
         {isMobile ? (
             <>              
-			   <IconButton
-				edge="start"
+			        <IconButton
+				        edge="start"
                 aria-label="menu"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -71,19 +94,39 @@ const SiteHeader: React.FC = () => {
                 open={open}
                 onClose={() => setAnchorEl(null)}
               >
-                {menuOptions.map((opt) => (
-					<MenuItem 
-					 key={opt.label} 
-					 onClick={() => handleMenuSelect(opt.path)}
-					>
-					  {opt.label}
-					</MenuItem>
+                {/* {menuOptions.map((option, index) => (
+                <React.Fragment key={index}>
+                  <MenuItem onClick={() => handleMenuSelect(option.path)}>
+                    {option.label}
+                  </MenuItem>
+                  {option.subMenu && option.subMenu.map((subOption, subIndex) => (
+                    <MenuItem key={subIndex} onClick={() => handleMenuSelect(subOption.path)}>
+                      {subOption.label}
+                    </MenuItem>
+                  ))}
+                </React.Fragment>
+              ))} */}
+               {menuOptions.map((option, index) => (
+                  option.subMenu ? (
+                    <NestedMenuItem label={option.label} parentMenuOpen={true} key={index} className={classes.popover}>
+                      {option.subMenu.map((subOption, subIndex) => (
+                        <MenuItem key={subIndex} onClick={() => handleMenuSelect(subOption.path)}>
+                          {subOption.label}
+                        </MenuItem>
+                      ))}
+                    </NestedMenuItem>
+                  ) : (
+                    <MenuItem key={index} onClick={() => handleMenuSelect(option.path)}>
+                      {option.label}
+                    </MenuItem>
+                  )
                 ))}
               </Menu>
+               
             </>
           ) : (
             <>
-              {menuOptions.map((opt) => (
+              {/* {menuOptions.map((opt) => (
                 <Button
                   key={opt.label}
                   color="inherit"
@@ -91,7 +134,22 @@ const SiteHeader: React.FC = () => {
                 >
                   {opt.label}
                 </Button>
-              ))}
+              ))} */}
+              {menuOptions.map((option, index) => (
+                  option.subMenu ? (
+                    <NestedMenuItem label={option.label} parentMenuOpen={true} key={index}>
+                      {option.subMenu.map((subOption, subIndex) => (
+                        <MenuItem key={subIndex} onClick={() => handleMenuSelect(subOption.path)}>
+                          {subOption.label}
+                        </MenuItem>
+                      ))}
+                    </NestedMenuItem>
+                  ) : (
+                    <MenuItem key={index} onClick={() => handleMenuSelect(option.path)}>
+                      {option.label}
+                    </MenuItem>
+                  )
+                ))}
             </>
           )}
       </Toolbar>

@@ -1,0 +1,2 @@
+> npm install mui-nested-menu
+npm install @mui/styles --legacy-peer-deps
