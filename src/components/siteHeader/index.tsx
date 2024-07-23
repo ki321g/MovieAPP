@@ -70,6 +70,11 @@ const SiteHeader: React.FC = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleClick = (pageURL: string) => {
+    navigate(pageURL);
+  };
+
+
   return (
     <>
       <AppBar position="fixed" elevation={0} color="secondary">
@@ -115,7 +120,7 @@ const SiteHeader: React.FC = () => {
               TMDB CLIENT
             </Link> */}
           </Typography>
-          <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }}>Login</Button>
+          <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }}  onClick={() => handleClick('/login')}>Login</Button>
       </Toolbar>
     </AppBar>
       <Offset />
