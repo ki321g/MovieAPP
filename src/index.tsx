@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom/client'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import palette from "./theme/palette";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
@@ -28,21 +29,23 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <SiteHeader /> 
-        <MoviesContextProvider>
-          <Routes>
-            <Route path="/movies/discover" element={<DiscoverMoviesPage />} />
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-            <Route path="/movies/:id" element={<MoviePage />} />            
-            <Route path="/reviews/:id" element={<MovieReviewPage/>} />
-            <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </MoviesContextProvider>
-      </BrowserRouter>
+      <ThemeProvider theme={createTheme({ palette })}>
+        <BrowserRouter>
+          <SiteHeader /> 
+          <MoviesContextProvider>
+            <Routes>
+              <Route path="/movies/discover" element={<DiscoverMoviesPage />} />
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+              <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
+              <Route path="/movies/:id" element={<MoviePage />} />            
+              <Route path="/reviews/:id" element={<MovieReviewPage/>} />
+              <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </MoviesContextProvider>
+        </BrowserRouter>
+      </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
