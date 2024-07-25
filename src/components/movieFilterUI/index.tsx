@@ -17,6 +17,7 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
 const styles = {
     root: {
         backgroundColor: "#bfbfbf",
+        // backgroundColor: "primary",
     },
     fab: {
         marginTop: 8,

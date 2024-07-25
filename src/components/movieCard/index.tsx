@@ -17,7 +17,10 @@ import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
-  card: { maxWidth: 345 },
+  card: { maxWidth: 345,
+          background: "#141414",
+          boxShadow: 'none',
+        },
   media: { height: 500 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
@@ -37,15 +40,12 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
   const { favourites, addToFavourites } = useContext(MoviesContext);
 
-  // if (favourites.find((id) => id === movie.id)) 
-  //   movie.favourite = true;
   const isFavourite = favourites.find((id) => id === movie.id)? true : false;
 
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          // movie.favourite ? (
           isFavourite ? (  
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />

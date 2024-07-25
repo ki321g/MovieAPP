@@ -15,6 +15,7 @@ import SiteHeader from './components/siteHeader'
 import MoviesContextProvider from "./contexts/moviesContext";
 import AddMovieReviewPage from './pages/addMovieReviewPage'
 import LoginPage from "./pages/loginPage";
+import LoginTest from "./pages/loginTest";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,8 +41,9 @@ const App = () => {
               <Route path="/movies/:id" element={<MoviePage />} />            
               <Route path="/reviews/:id" element={<MovieReviewPage/>} />
               <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
-              <Route path="/" element={<HomePage />} />              
+              <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/logintest" element={<LoginTest />} />
               <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </MoviesContextProvider>
