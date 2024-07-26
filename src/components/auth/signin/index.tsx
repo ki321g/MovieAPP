@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { AuthContext } from '../../../contexts/authContext';
+// import { useHistory } from 'react-router-dom';
 
 import { auth, googleProvider } from '../../../config/firebase';
 import { 
@@ -14,7 +15,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleButton from 'react-google-button'
 
 export const Auth = () => {
-    const history = useHistory();
+    const authContext = useContext(AuthContext);
+    const { authenticate } = authContext || {};
+    // const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
 
@@ -26,8 +29,10 @@ export const Auth = () => {
 
     const signIn = async () => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            history.push('/');
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            console.log(result);
+            const token = result.user.stsTokenManager.accessToken;
+            authenticate && authenticate(token);
         } catch (err) {
             console.error(err);
         }
@@ -35,8 +40,9 @@ export const Auth = () => {
 
     const signInWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
-            history.push('/');
+            const result = await signInWithPopup(auth, googleProvider);
+            const token = result.user.stsTokenManager.accessToken;;
+            authenticate && authenticate(token);
         } catch (err) {
             console.error(err);
         }

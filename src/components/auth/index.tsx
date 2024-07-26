@@ -1,25 +1,15 @@
 import { auth, googleProvider } from '../../config/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, fetchSignInMethodsForEmail, signInWithPopup, signOut } from "firebase/auth";
-import { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { AuthContext } from '../../contexts/authContext';
 import styles from "./styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-export const Auth = () => {
-
-    // const signIn = () => {
-    //     signInWithEmailAndPassword(auth, "email", "password")
-    //         .then((userCredential) => {
-    //             // Signed in 
-    //             const user = userCredential.user;
-    //             // ...
-    //         })
-    //         .catch((error) => {
-    //             const errorCode = error.code;
-    //             const errorMessage = error.message;
-    //         });
-    // }
+// export const Auth = () => {
+export const Auth: React.FC = () => {
+    const authContext = useContext(AuthContext);
+    const { authenticate } = authContext || {};
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
 
@@ -27,7 +17,9 @@ export const Auth = () => {
 
     const signIn = async () => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            const token = result.user.accessToken;
+            authenticate && authenticate(token);
         } catch (err) {
             console.error(err);
         }
@@ -35,7 +27,9 @@ export const Auth = () => {
 
     const signUp = async () => {
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
+            const result = await createUserWithEmailAndPassword(auth, email, password);
+            const token = result.user.accessToken;
+            authenticate && authenticate(token);
         } catch (err) {
             console.error(err);
         }
@@ -43,7 +37,9 @@ export const Auth = () => {
 
     const signInWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
+            const result = await signInWithPopup(auth, googleProvider);
+            const token = result.user.accessToken;
+            authenticate && authenticate(token);
         } catch (err) {
             console.error(err);
         }

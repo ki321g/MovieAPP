@@ -1,4 +1,7 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -9,10 +12,11 @@ import { makeStyles } from '@mui/styles';
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useNavigate } from "react-router-dom";
+
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { NestedMenuItem, NestedDropdown } from 'mui-nested-menu';
+import { AuthContext } from '../../contexts/authContext';
 // import { Link } from 'react-router-dom';
 
 const styles = {
@@ -34,7 +38,7 @@ const styles = {
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader: React.FC = () => {
-  // const classes = useStyles();
+  const { token, signout } = useContext(AuthContext) || {};
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement|null>(null);
   const open = Boolean(anchorEl);
@@ -120,7 +124,14 @@ const SiteHeader: React.FC = () => {
               TMDB CLIENT
             </Link> */}
           </Typography>
-          <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }}  onClick={() => handleClick('/login')}>Login</Button>
+          {token ? (
+            <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }} onClick={() => signout && signout()}>Sign out</Button>
+            
+          ) : (
+              <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }} onClick={() => handleClick('/login')}>Login</Button>
+          )}
+          
+          
       </Toolbar>
     </AppBar>
       <Offset />
