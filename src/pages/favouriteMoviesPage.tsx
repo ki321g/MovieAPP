@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -26,10 +26,15 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {
-  const { favourites: movieIds } = useContext(MoviesContext);
+  const { favourites: movieIds, getFavourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
+  
+  useEffect(() => {
+    // Fetch the favourites here and update the state
+    getFavourites();
+  }, []);
 
   console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
   console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
@@ -66,6 +71,8 @@ const FavouriteMoviesPage: React.FC = () => {
       type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
     setFilterValues(updatedFilterSet);
   };
+
+  
 
   return (
     <>
