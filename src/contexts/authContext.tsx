@@ -4,20 +4,39 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";
 import { signOut } from "firebase/auth";
 import { auth, googleProvider } from '../config/firebase';
+import LoggedInUser from '../types/interfaces'
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
-  const [token, setToken] = useState<string|null>(null);
+    const [token, setToken] = useState<string|null>(null);
+    const [uid, setUid] = useState<string|null>(null);
+    const [email, setEmail] = useState<string|null>(null);
+    const [displayName, setDisplayName] = useState<string|null>(null);
+    const [photoUrl, setPhotoUrl] = useState<string|null>(null);
+
+    // const [loggedInUser, setLoggedInUser] = useState<LoggedInUser|null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
 //   const authenticate = async (username: string, password: string) => {
 //     const token = await fakeAuth(username, password);
-const authenticate = async (token: string) => {
-    setToken(token);
-    const origin = location.state?.intent?.pathname || "/";
-    navigate(origin);
+
+// const authenticate = async (
+//         token: string, 
+//         uid: string,
+//         email: string,
+//         displayName: string,
+//         photoUrl: string,
+//     ) => {
+const authenticate = async ( token: string ) => {
+        setToken(token);
+        // setUid(uid);
+        // setEmail(email);
+        // setDisplayName(displayName);
+        // setPhotoUrl(photoUrl);
+        const origin = location.state?.intent?.pathname || "/";
+        navigate(origin);
   };
   
   const signout = async () => {

@@ -8,8 +8,15 @@ import {
     addDoc, 
     deleteDoc, 
     updateDoc,
-    doc } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
+    doc 
+} from 'firebase/firestore';
+import { 
+    ref, 
+    uploadBytes,
+    getDownloadURL,
+    listAll,
+    list, 
+} from 'firebase/storage';
 import Box from "@mui/material/Box"
 // import { UploadFile } from '@mui/icons-material';
 
@@ -27,6 +34,8 @@ const LoginTestL: React.FC = () => {
 
     // File Upload State
     const [fileUpload, setFileUpload] = useState<File | null>(null);
+    const [imageUrls, setImageUrls] = useState([]);    
+    const allMovieImagesRef = ref(storage, `movieImages/`);
 
     const getMovieList = async () => {
         try {
@@ -41,9 +50,6 @@ const LoginTestL: React.FC = () => {
         };
     };
 
-    useEffect(() => {
-        getMovieList();
-    }, []);
 
     const deleteMovie = async (id) => {
         try {
@@ -101,11 +107,25 @@ const LoginTestL: React.FC = () => {
         const movieImagesRef = ref(storage, `movieImages/${newFileName}`);
         
         try {
-            await uploadBytes(movieImagesRef, fileUpload);
+            // await uploadBytes(movieImagesRef, fileUpload);
+            const snapshot = await uploadBytes(movieImagesRef, fileUpload);
+            const url = await getDownloadURL(snapshot.ref);
+            setImageUrls((prev) => [...prev, url]);
         } catch (err) {
             console.error(err);
         };
     };
+    
+    useEffect(() => {
+        getMovieList();
+        listAll(allMovieImagesRef).then((response) => {
+            response.items.forEach((item) => {
+              getDownloadURL(item).then((url) => {
+                setImageUrls((prev) => [...prev, url]);
+              });
+            });
+          });
+    }, []);
 
 	return (
 		<>
@@ -159,6 +179,11 @@ const LoginTestL: React.FC = () => {
                         accept='image/*'
                     />
                     <button onClick={UploadFile}> Upload Image </button>
+                    
+                    <br /><br />
+                    {imageUrls.map((url) => {
+                        return <img src={url} />;
+                    })}
                 </div>
             </div>
 

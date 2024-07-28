@@ -11,6 +11,8 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
+import { auth } from '../config/firebase';
+
 
 const titleFiltering = {
   name: "title",
@@ -28,6 +30,13 @@ const FavouriteMoviesPage: React.FC = () => {
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
+
+  console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
+  console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
+  console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
+  console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
+  console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
+
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(

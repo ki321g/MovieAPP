@@ -16,12 +16,12 @@ export interface BaseMovieProps {
   vote_count: number;
   favourite?: boolean;
   genre_ids?: number[];
-}
+};
 
 export interface BaseMovieListProps {
   movies: BaseMovieProps[];
   action: (m: BaseMovieProps) => React.ReactNode;
-}
+};
 
 export interface MovieDetailsProps extends BaseMovieProps {
   genres: {
@@ -37,45 +37,45 @@ export interface MovieImage {
   vote_average?: number;
   vote_count?: number;
   width?: number;
-}
+};
   
 export interface MoviePageProps {
   movie: MovieDetailsProps;
   images: MovieImage[];
-}
+};
 
 export type FilterOption = "title" | "genre";
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
-}
+};
 
 export interface Review{
   id: string;
   content: string
   author: string
-}
+};
 
 export interface GenreData {
   genres: {
     id: string;
     name: string
   }[];
-}
+};
   
 export interface DiscoverMovies {
   page: number;	
   total_pages: number;
   total_results: number;
   results: BaseMovieProps[];
-}
+};
 
 export interface UpcommingMovies {
   page: number;	
   total_pages: number;
   total_results: number;
   results: BaseMovieProps[];
-}
+};
 
 export interface Review {
   author: string,
@@ -83,10 +83,32 @@ export interface Review {
   agree: boolean,
   rating: number,
   movieId: number,
-}
+};
+
+export interface LoggedInUser {
+  uid: string | null;
+  email: string | null;
+  displayName: string | null;
+  // firstName: string | null;
+  // lastName: string | null;
+  photoUrl: string | null;
+  token: string | null;
+};
 
 export interface AuthContextInterface {
+  uid: string | null;
+  email: string | null;
+  displayName: string | null;  
+  photoUrl: string | null;
   token: string | null;
-  authenticate: ((token: string) => void);
+  authenticate: (( token: string ) => void);
+  // authenticate: ((
+  //   token: string, 
+  //   uid: string,
+  //   email: string,
+  //   displayName: string,
+  //   photoUrl: string,
+  // ) => void);
   signout: () => void;
-}
+};
+
