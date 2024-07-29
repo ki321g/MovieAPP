@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";
 import { signOut } from "firebase/auth";
 import { auth, googleProvider } from '../config/firebase';
-import LoggedInUser from '../types/interfaces'
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
 const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
+  
     const [token, setToken] = useState<string|null>(null);
     const [uid, setUid] = useState<string|null>(null);
     const [email, setEmail] = useState<string|null>(null);
