@@ -10,7 +10,7 @@ import MovieFilterUI, {
 import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
-import { BaseMovieProps } from '../../types/interfaces';
+import { BaseMovieProps } from '../types/interfaces';
 
 const titleFiltering = {
 	name: 'title',

@@ -4,6 +4,7 @@ import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import { BaseMovieProps } from "../../types/interfaces";
 
+
 export const titleFilter = (movie: BaseMovieProps, value: string): boolean => {
     return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
 };
@@ -17,6 +18,7 @@ export const genreFilter = (movie: BaseMovieProps, value: string) => {
 const styles = {
     root: {
         backgroundColor: "#bfbfbf",
+        // backgroundColor: "primary",
     },
     fab: {
         marginTop: 8,
