@@ -108,7 +108,6 @@ export default function TemporaryDrawer() {
             // console.log(currentMoviePlaylists);
 
             if (currentMoviePlaylists.find(playlist => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
-                console.log('already exists');
                 handleAlert();
               } else {
                 await addDoc(moviePlaylistRef, {
@@ -249,7 +248,7 @@ export default function TemporaryDrawer() {
         >
             <Alert onClose={handleAlertClose} variant="filled" severity="error" sx={{ width: '100%' }}>
             {/* <AlertTitle>Error</AlertTitle> */}
-                Playlist already exists
+                Playlist already exists. Please try a different name.
             </Alert>
         </Snackbar>
         </>
