@@ -4,7 +4,6 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CreatableSelect from 'react-select/creatable';
-import { StylesConfig } from 'react-select';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -35,13 +34,19 @@ const createOption = (label: string) => ({
 const defaultOptions = [];
 
 const customStyles = {
+    control: (provided) => ({
+        ...provided,
+        fontSize: '1.5em',
+        padding: '6px 8px',
+      }),
     option: (provided, state) => ({
       ...provided,
+      fontSize: '1.5em',
       color: state.isSelected ? 'white' : 'black',
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: 'red',
+      backgroundColor: state.isFocused ? 'lightgray' : null,
+    //   fontSize: state.isSelected ? '1.75em' : '1.25em',
+      padding: state.isSelected ? '10px 15px' : '10px 12px',
+  
     }),
   };
   
@@ -63,11 +68,8 @@ export default function TemporaryDrawer() {
         setAlert(true);
       };
       
-      const handleAlertClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-        setAlert(false);
+      const handleAlertClose = () => {
+         setAlert(false);
       };
 
     const getMoviePlaylist = async () => {
@@ -188,16 +190,16 @@ export default function TemporaryDrawer() {
                         onCreateOption={handleSelectCreate}
                         options={options}
                         value={value}
-                        theme={(theme) => ({
-                            ...theme,
-                            padding: 2,
-                            colors: {
-                            ...theme.colors,
-                            primary25: '#807F80',
-                            primary: 'black',
-                            backgroundColor: 'black',
-                            },
-                        })}
+                        // theme={(theme) => ({
+                        //     ...theme,
+                        //     padding: 2,
+                        //     colors: {
+                        //     ...theme.colors,
+                        //     primary25: '#807F80',
+                        //     primary: 'black',
+                        //     backgroundColor: 'black',
+                        //     },
+                        // })}
                         /> 
                 <Button 
                     onClick={handleUpdate}
