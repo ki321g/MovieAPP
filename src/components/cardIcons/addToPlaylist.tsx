@@ -124,12 +124,12 @@ const getMoviePlaylists = async () => {
           ...doc.data(),
       }));
       // console.log(moviePlaylists);
-      // console.log(filteredMoviePlaylists);
+      console.log(filteredMoviePlaylists);
 
       const latestMoviePlaylists = filteredMoviePlaylists.map(playlist => playlist.playlist_name);
       
       // console.log('latestMoviePlaylists');
-      // console.log(latestMoviePlaylists);
+      console.log(latestMoviePlaylists);
       latestMoviePlaylists.forEach(item => {
         const found = value.find(val => val.label === item);
         if (!found) {

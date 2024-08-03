@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { BaseMovieProps, Review } from "../types/interfaces";
 import { db, auth } from '../config/firebase';
 import { ref } from 'firebase/storage';
+import { getMovie } from '../api/tmdb-api';
 import { 
     getDocs, 
     query, 
@@ -20,15 +21,17 @@ interface MovieContextInterface {
     getFavourites: (() => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
     addReview: ((movie: BaseMovieProps, review: Review) => void);
+    getPlaylists: (() => void);
     addToPlaylist: ((movie: BaseMovieProps) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
     mustWatch: [],
-    addToFavourites: () => {},    
+    addToFavourites: () => {},
     getFavourites: () => {},
     removeFromFavourites: () => {},
     addReview: (movie, review) => { movie.id, review},
+    getPlaylists: () => {},
     addToPlaylist: () => {},
 };
 
@@ -37,10 +40,11 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
+    const [playlists, setPLaylists] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
     // const [favouritesMovieList, setFavouritesMovieList] = useState([]);
     const favouriteMovieRef = collection(db, 'favourites');
-    
+    const moviePlaylistRef = collection(db, 'playlists');
 
     // Log favourites state whenever it changes
     // useEffect(() => {
@@ -194,6 +198,36 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             return prevMustWatch;
         });
     }, []);
+    const getPlaylists = async () => {
+        const playlistMovies = await getPlaylistsMovies();
+        retrun(playlistMovies);
+    };
+    const getPlaylistsMovies = async () => {
+        try {
+            
+            const result = query(moviePlaylistRef, where("userId", "==", auth?.currentUser?.uid));
+            const playlistMovies = await getDocs(result);
+            const filteredPlaylistMovies = playlistMovies.docs.map((doc) => ({                    
+                id: doc.id,
+                ...doc.data(),
+            }));         
+            
+            // const moviePromises = filteredPlaylistMovies.map(movieId => getMovie(movieId));
+            // const movies = await Promise.all(moviePromises);
+
+            const updatedPlaylistMovies = await Promise.all(
+                filteredPlaylistMovies.map(async (movie) => {
+                  const movieDetails = await getMovie(movie.id);
+                  return { ...movie, details: movieDetails };
+                })
+              );
+            
+            console.log(updatedPlaylistMovies);
+            return(updatedPlaylistMovies);
+        } catch (err) {
+            console.error(err);
+        };
+    }
 
     return (
         <MoviesContext.Provider
