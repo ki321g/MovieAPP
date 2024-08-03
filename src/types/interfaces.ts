@@ -120,3 +120,8 @@ export interface Playlist {
   playlist_name: string;
   userId: string;
 };
+
+export interface PlaylistMovies {
+  playlist_name: string;	
+  results: BaseMovieProps[];
+};
