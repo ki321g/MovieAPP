@@ -1,7 +1,6 @@
 import React, { useState, MouseEvent, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -17,6 +16,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { NestedMenuItem, NestedDropdown } from 'mui-nested-menu';
 import { AuthContext } from '../../contexts/authContext';
+import { db, auth } from '../../config/firebase';
 // import { Link } from 'react-router-dom';
 
 const styles = {
@@ -61,8 +61,14 @@ const SiteHeader: React.FC = () => {
         { label: "Upcoming", path: "/tv/upcoming" },
       ]
     },
+    { 
+      label: "Playlists", 
+      subMenu: [
+        { label: "Movie Playlists", path: "/movies/playlists" },
+        { label: "TV Playlists", path: "/tv/upcoming" },
+      ]
+    },
     { label: "Favorites", path: "/movies/favourites" },
-    { label: "Option 3", path: "/" },
   ];
 
   const handleMenuSelect = (pageURL: string) => {
@@ -124,7 +130,7 @@ const SiteHeader: React.FC = () => {
               TMDB CLIENT
             </Link> */}
           </Typography>
-          {token ? (
+          { auth.currentUser ? (
             <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }} onClick={() => signout && signout()}>Sign out</Button>
             
           ) : (

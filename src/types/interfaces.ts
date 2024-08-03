@@ -112,3 +112,16 @@ export interface AuthContextInterface {
   signout: () => void;
 };
 
+export interface Playlist {  
+  id?: string;
+  movie_id: number;
+  movie_title: string;
+  playlist_id: string;
+  playlist_name: string;
+  userId: string;
+};
+
+export interface PlaylistMovies {
+  playlist_name: string;	
+  results: BaseMovieProps[];
+};

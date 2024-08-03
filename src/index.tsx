@@ -15,6 +15,7 @@ import SiteHeader from './components/siteHeader';
 import HomePage from "./pages/homePage";
 import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
+import PlaylistMoviesPage from "./pages/playlistMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import DiscoverMoviesPage from "./pages/discoverMoviesPage";
@@ -48,6 +49,11 @@ const App = () => {
                     <FavouriteMoviesPage />
                   </ProtectedRoute>
                 } />
+                <Route path="/movies/playlists" element={
+                  <ProtectedRoute>
+                    <PlaylistMoviesPage />
+                  </ProtectedRoute>
+                } />                
                 <Route path="/movies/:id" element={<MoviePage />} />
                 <Route path="/reviews/:id" element={<MovieReviewPage/>} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
