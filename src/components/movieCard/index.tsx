@@ -47,10 +47,14 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
   const { favourites, addToFavourites, getFavourites } = useContext(MoviesContext);
 
   const isFavourite = favourites.find((id) => id === movie.id)? true : false;
-
   
   useEffect(() => {
-    getFavourites(); // Fetch the favourites here and update the state
+    // Fetch the favourites here and update the state
+    const fetchFavourites = async () => {
+      await getFavourites(); 
+    };
+  
+    fetchFavourites();
   }, []);
 
   return (

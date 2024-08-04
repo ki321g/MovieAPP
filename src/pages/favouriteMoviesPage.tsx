@@ -12,6 +12,7 @@ import MovieFilterUI, {
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
 import { auth } from '../config/firebase';
+import { BaseMovieProps } from '../types/interfaces';
 
 
 const titleFiltering = {
@@ -79,7 +80,7 @@ const FavouriteMoviesPage: React.FC = () => {
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
-        action={(movie) => {
+        action={(movie: BaseMovieProps) => {
           return (
             <>
               <RemoveFromFavourites {...movie} />

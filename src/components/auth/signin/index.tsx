@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from '../../../contexts/authContext';
 // import { useHistory } from 'react-router-dom';
 
+import { MoviesContext } from "../../../contexts/moviesContext";
 import { auth, googleProvider } from '../../../config/firebase';
 import { 
         signInWithEmailAndPassword, 
@@ -19,7 +20,9 @@ export const Auth = () => {
     const authContext = useContext(AuthContext);
     const { authenticate } = authContext || {};
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');    
+    const [password, setPassword] = useState('');
+    const { clearFavourites } = useContext(MoviesContext);
+
 
     const paperStyle={padding :50,height:'50vh',width:280, margin:"60px auto"};
     const avatarStyle={backgroundColor:'#1bbd7e'};
@@ -56,6 +59,7 @@ export const Auth = () => {
     const logout = async () => {
         try {
             await signOut(auth);
+            clearFavourites(); // Clear the favourites
         } catch (err) {
             console.error(err);
         }

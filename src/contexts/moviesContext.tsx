@@ -20,6 +20,7 @@ interface MovieContextInterface {
     addToFavourites: ((movie: BaseMovieProps) => void);
     getFavourites: (() => void);
     removeFromFavourites: ((movie: BaseMovieProps) => void);
+    clearFavourites: (() => void);
     addReview: ((movie: BaseMovieProps, review: Review) => void);
     getPlaylists: (() => void);
     addToPlaylist: ((movie: BaseMovieProps) => void);
@@ -30,6 +31,7 @@ const initialContextState: MovieContextInterface = {
     addToFavourites: () => {},
     getFavourites: () => {},
     removeFromFavourites: () => {},
+    clearFavourites: () => {},
     addReview: (movie, review) => { movie.id, review},
     getPlaylists: () => {},
     addToPlaylist: () => {},
@@ -58,10 +60,15 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
     const getFavourites = async () => {
         try {
-            const favouriteMovies = await getFavouritesMovieList();
-            const favouriteMovieIds = favouriteMovies.map(movie => movie.movie_id);
-            setFavourites(favouriteMovieIds);
+            if (auth?.currentUser?.uid) {
+                const favouriteMovies = await getFavouritesMovieList();
+                const favouriteMovieIds = favouriteMovies.map(movie => movie.movie_id);
+                setFavourites(favouriteMovieIds);
             //return favourites;
+            } else {
+                setFavourites([]); // Clear favourites when the user is not authenticated
+            }
+            
         } catch (err) {
             console.error(err);
         };
@@ -229,6 +236,11 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         };
     }
 
+    const clearFavourites = () => {
+        console.log('clearFavourites');
+        setFavourites([]); // Clear the favourites
+      };
+
     return (
         <MoviesContext.Provider
             value={{
@@ -238,6 +250,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 getFavourites,
                 addToPlaylist,
                 removeFromFavourites,
+                clearFavourites,
                 addReview,
             }}
         >

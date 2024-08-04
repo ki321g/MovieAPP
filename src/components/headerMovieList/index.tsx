@@ -14,6 +14,7 @@ const styles = {
         // marginBottom: 1.5,
         background: "#141414",
         boxShadow: 'none',
+        paddingBottom: '20px',
     },
 };
 
