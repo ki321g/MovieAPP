@@ -36,11 +36,11 @@ const FavouriteMoviesPage: React.FC = () => {
     getFavourites();
   }, []);
 
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
 
 
   // Create an array of queries and run them in parallel.

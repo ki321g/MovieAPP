@@ -96,20 +96,11 @@ export interface LoggedInUser {
 };
 
 export interface AuthContextInterface {
-  uid: string | null;
-  email: string | null;
-  displayName: string | null;  
-  photoUrl: string | null;
-  token: string | null;
-  authenticate: (( token: string ) => void);
-  // authenticate: ((
-  //   token: string, 
-  //   uid: string,
-  //   email: string,
-  //   displayName: string,
-  //   photoUrl: string,
-  // ) => void);
+  user: any | null;
+  token: string | null;  
+  authenticate: () => void;
   signout: () => void;
+  loading: boolean;
 };
 
 export interface Playlist {  
