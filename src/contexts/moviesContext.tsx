@@ -40,7 +40,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
-    const [playlists, setPLaylists] = useState<number[]>([]);
+    const [playlists, setPlaylists] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
     // const [favouritesMovieList, setFavouritesMovieList] = useState([]);
     const favouriteMovieRef = collection(db, 'favourites');

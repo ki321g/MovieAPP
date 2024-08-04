@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect }  from 'react';
 import PageTemplate from '../components/templateMovieListPage';
 import { getMovies } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';

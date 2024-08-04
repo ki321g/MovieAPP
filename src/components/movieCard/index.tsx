@@ -1,4 +1,4 @@
-import React, {MouseEvent, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { Box } from '@mui/material';
+import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
   card: { maxWidth: 345,
@@ -40,9 +41,17 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
-const { favourites, addToFavourites } = useContext(MoviesContext);
+  const authContext = useContext(AuthContext);
+  const userLoggedIn = !!authContext?.token;
 
-const isFavourite = favourites.find((id) => id === movie.id)? true : false;
+  const { favourites, addToFavourites, getFavourites } = useContext(MoviesContext);
+
+  const isFavourite = favourites.find((id) => id === movie.id)? true : false;
+
+  
+  useEffect(() => {
+    getFavourites(); // Fetch the favourites here and update the state
+  }, []);
 
   return (
     <>
@@ -161,7 +170,11 @@ const isFavourite = favourites.find((id) => id === movie.id)? true : false;
                 }}
               />              
               <CardActions disableSpacing>
-                {action(movie)}
+                {userLoggedIn && (
+                  <Box onClick={(e) => e.stopPropagation()}>
+                    {action(movie)}
+                  </Box>
+                )}
                 <Link to={`/movies/${movie.id}`}>
                   <Button variant="outlined" size="medium" color="primary">
                     More Info ...
