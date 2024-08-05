@@ -20,6 +20,7 @@ import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import DiscoverMoviesPage from "./pages/discoverMoviesPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
+import FantasyMoviePage from './pages/fantasyMoviePage'
 import LoginPage from "./pages/loginPage";
 import LoginTest from "./pages/loginTest";
 
@@ -47,6 +48,11 @@ const App = () => {
                 <Route path="/movies/favourites" element={
                   <ProtectedRoute>
                     <FavouriteMoviesPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/fantasymovie" element={
+                  <ProtectedRoute>
+                    <FantasyMoviePage />
                   </ProtectedRoute>
                 } />
                 <Route path="/movies/playlists" element={

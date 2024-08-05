@@ -31,7 +31,7 @@ const FavouriteMoviesPage: React.FC = () => {
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
-  
+
   useEffect(() => {
     // Fetch the favourites here and update the state
     getFavourites();

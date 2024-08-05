@@ -18,13 +18,15 @@ const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
     try {
  
       if (auth?.currentUser) {
-        const token = await auth.currentUser.getIdToken(); // Get ID token
-        setToken(token); // Set token
+        const userToken = await auth.currentUser.getIdToken(); // Get ID token
+        setToken(userToken); // Set token
         setUser(auth?.currentUser); // Set user information
       } else {
         setUser(null);
         setToken(null);
       }
+      // console.log('TOKEN: ' & token);
+      // console.log(user);
     } catch (err) {
       console.error('Failed to Set Authentication State:', (err as Error).message);
       setToken(null);
@@ -73,7 +75,7 @@ const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
         }
       });
 
-      return unsubscribe;
+      return () => unsubscribe();
     };
 
     awaitStateChange();
