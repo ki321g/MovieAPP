@@ -190,6 +190,8 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 productionCompany: {movie.productionCompany} 
                 <br />
                 receivedAnOscar: {movie.receivedAnOscar ? 'True' : 'False'}
+                <br />
+                MovieID: {movie.id}
               </CardContent>
             </Card>
           </Box>

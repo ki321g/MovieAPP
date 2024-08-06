@@ -9,7 +9,8 @@ import {
     addDoc, 
     deleteDoc, 
     updateDoc,
-    doc 
+    doc,
+    DocumentReference, 
 } from 'firebase/firestore';
 import { 
     ref, 
@@ -72,15 +73,15 @@ const FantasyMoviePage: React.FC = () => {
     const [newMovieDate, setNewMovieDate] = React.useState<Dayjs | null>(null);
     const [newMovieTitle, setNewMovieTitle] = useState('');
     const [newMovieOverview, setNewMovieOverview] = useState<string>('');
-    const [newMovieGenre, setNewMovieGenre] = useState<string>('');
-    const [newMovieReleaseDate, setNewMovieReleaseDate] = useState<string>('');
+    const [newMovieGenre, setNewMovieGenre] = useState<string>('' | null);
+    const [newMovieReleaseDate, setNewMovieReleaseDate] = useState<string>('' | null);
     const [newMovieRunTime, setNewMovieRunTime] = useState<string>('');
     const [newMovieProductionCompany, setNewMovieProductionCompany] = useState<string>('');
     const [newMovieReceivedAnOscar, setNewMovieReceivedAnOscar] = useState(false);
     const [newMovieImageUrl, setNewMovieImageUrl] = useState<string>(''); 
     // const [newMovieImageUrl, setNewMovieImageUrl] = useState([]); 
     const [newMovieImageUpload, setNewMovieImageUpload] = useState<File | null>(null);  
-    
+    const [inputKey, setInputKey] = useState(Date.now());
     const [testWait, setTestWait] = useState(true);
 
     // Update Title State
@@ -150,7 +151,7 @@ const FantasyMoviePage: React.FC = () => {
         };
     };   
     
-    const uploadMovieImage = async () => {
+    const uploadMovieImage = async (docRef: DocumentReference) => {
         if (!newMovieImageUpload) return;
         // movieImages
         console.log('uploadMovieImage');
@@ -170,12 +171,26 @@ const FantasyMoviePage: React.FC = () => {
         const newFileName = `${tempFileName}_${dateTimeFormat}.${extension}`;
         const movieImagesRef = ref(storage, `movieImages/${newFileName}`);
         console.log(newFileName);
+
+        const metadata = {
+            contentType: 'image/jpeg',
+            customMetadata: {
+                'userId': auth?.currentUser?.uid,
+                'docId': docRef.id,
+                'title': newMovieTitle
+            }
+        };
         
         try {
             // await uploadBytes(movieImagesRef, fileUpload);
-            const snapshot = await uploadBytes(movieImagesRef, newMovieImageUpload);
+            const snapshot = await uploadBytes(movieImagesRef, newMovieImageUpload, metadata);
             const url = await getDownloadURL(snapshot.ref);            
             console.log(url);
+
+            await updateDoc(docRef, {
+                poster_path: url
+            });
+
             setNewMovieImageUrl(url);
             setTestWait(false);
         } catch (err) {
@@ -185,6 +200,7 @@ const FantasyMoviePage: React.FC = () => {
 
     const onSubmitMovie = async () => {
         try {
+           
             const date = newMovieDate.toDate();
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
@@ -192,7 +208,7 @@ const FantasyMoviePage: React.FC = () => {
 
             const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
-            await addDoc(moviesCollectionRef, {
+            const docRef: DocumentReference = await addDoc(moviesCollectionRef, {
                 title: newMovieTitle,
                 overview: newMovieOverview,
                 genre: newMovieGenre,
@@ -204,12 +220,21 @@ const FantasyMoviePage: React.FC = () => {
                 poster_path: 'https://firebasestorage.googleapis.com/v0/b/movieapp-c93cf.appspot.com/o/movieImages%2Fnomovieposter.webp?alt=media&token=d2554b9e-73e3-402b-a332-cfc1ff5e1cbc',
                 userId: auth?.currentUser?.uid,
             });
+            
+            if (newMovieImageUpload) {
+                await uploadMovieImage(docRef);
+            };
+
             setNewMovieTitle('');
             setNewMovieOverview('');
+            setNewMovieGenre('');
+            setNewMovieReleaseDate('');
             setNewMovieRunTime('');
             setNewMovieProductionCompany('');
-            setNewMovieReceivedAnOscar(false);
+            setNewMovieReceivedAnOscar('');
+            setNewMovieDate('');
             setNewMovieImageUrl('');
+            setInputKey(Date.now());
             getMovieList();
         } catch (err) {
             console.error(err);
@@ -403,6 +428,7 @@ const FantasyMoviePage: React.FC = () => {
                     </Box>
                     <Box sx={{ mb: 2 }}> 
                         <TextField
+                            key={inputKey}
                             type="file"
                             label="Movie Image"
                             InputLabelProps={{
