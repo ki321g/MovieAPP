@@ -207,7 +207,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     }, []);
     const getPlaylists = async () => {
         const playlistMovies = await getPlaylistsMovies();
-        retrun(playlistMovies);
+        return(playlistMovies);
     };
     const getPlaylistsMovies = async () => {
         try {

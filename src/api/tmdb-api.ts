@@ -81,3 +81,65 @@ export const getUpcomingMovies = () => {
 	  });
 };
 
+export const getTVShow = (id: string) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	).then((response) => {
+	  if (!response.ok) {
+		throw new Error(`Failed to get  TV Show  data. Response status: ${response.status}`);
+	  }
+	  return response.json();
+	})
+	.catch((error) => {
+	  throw error
+   });
+  };
+
+export const getTVShows = () => {
+	return fetch(
+		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+	).then((response) => {
+		if (!response.ok)
+		throw new Error(`Unable to fetch TV Shows. Response status: ${response.status}`);
+		return response.json();
+	})
+		.catch((error) => {
+		throw error;
+		});
+};
+
+
+export const getTVShowReviews = (id: string | number) => { //movie id can be string or number
+	return fetch(
+	  `https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+	  .then((res) => res.json())
+	  .then((json) => {
+		return json.results;
+	  });
+  };
+
+  export const getSimilarTvShows = (id: string | number) => {
+	return fetch(
+	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`
+	)
+	  .then((res) => res.json())
+	  .catch((error) => {
+		throw error;
+	  });
+  };
+
+
+  export const getTVShowImages = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	).then((response) => {
+	  if (!response.ok) {
+		throw new Error("failed to fetch images");
+	  }
+	  return response.json();
+	}).then((json) => json.posters)
+	  .catch((error) => {
+		throw error
+	  });
+  };
