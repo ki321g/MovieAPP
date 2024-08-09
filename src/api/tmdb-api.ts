@@ -119,16 +119,28 @@ export const getTVShowReviews = (id: string | number) => { //movie id can be str
 	  });
   };
 
-  export const getSimilarTvShows = (id: string | number) => {
+//   export const getSimilarTvShows = (id: string | number) => {
+// 	return fetch(
+// 	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`
+// 	)
+// 	  .then((res) => res.json())
+// 	  .catch((error) => {
+// 		throw error;
+// 	  });
+//   };
+
+  
+
+  export const getTvShowsAiringToday = () => {
 	return fetch(
-	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`
+		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
 	)
 	  .then((res) => res.json())
-	  .catch((error) => {
-		throw error;
-	  });
+	  .then((json) => {
+		console.log(json.results);
+	  	return json.results;
+	});
   };
-
 
   export const getTVShowImages = (id: string | number) => {
 	return fetch(

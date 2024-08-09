@@ -37,7 +37,7 @@ const initialContextState: MovieContextInterface = {
     addToPlaylist: () => {},
 };
 
-export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);;
+export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);

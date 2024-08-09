@@ -1,13 +1,13 @@
 import React, { useContext, useEffect }  from 'react';
 import PageTemplate from '../components/templateTVShowListPage';
-import { getTVShows } from '../api/tmdb-api';
+import { getTvShowsAiringToday } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
 import AddToTVShowFavouritesIcon from '../components/cardIcons/addToTVShowFavourites';
 import TVShowFilterUI, {
 	titleFilter,
 	genreFilter,
 } from '../components/tvShowFilterUI';
-import { DiscoverTvShows } from '../types/interfaces';
+import { AiringTodayTvShows } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseTvShowProps } from '../types/interfaces';
@@ -23,18 +23,14 @@ const genreFiltering = {
 	condition: genreFilter,
 };
 
-const TVShows: React.FC = () => {
-	const { data, error, isLoading, isError } = useQuery<DiscoverTvShows, Error>(
-		'discoverTvShows',
-		getTVShows
-	);
-	
-	const { filterValues, setFilterValues, filterFunction } = useFiltering(
-		[titleFiltering, genreFiltering]
+const AiringTodayTVShows: React.FC = () => {
+	const { data, error, isLoading, isError } = useQuery<AiringTodayTvShows, Error>(
+		'airingTodayTvShows',
+		getTvShowsAiringToday
 	);
 
 	if (isLoading) {
-											return <Spinner />;
+		return <Spinner />;
 	}
 
 	if (isError) {
@@ -52,22 +48,23 @@ const TVShows: React.FC = () => {
 
 	const tvShows = data ? data.results : [];
 	const displayedTVShows = filterFunction(tvShows);	
+	
 
 	return (
 		<>
 			<PageTemplate
-				title='Discover TV Shows'
+				title='TV Shows Airing Today'
 				tvShows={displayedTVShows}
 				action={(tvShow: BaseTvShowProps) => {
 					return <AddToTVShowFavouritesIcon {...tvShow} />;
 				}}
 			/>
-			<TVShowFilterUI
+			{/* <TVShowFilterUI
 				onFilterValuesChange={changeFilterValues}
 				titleFilter={filterValues[0].value}
 				genreFilter={filterValues[1].value}
-			/>
+			/> */}
 		</>
 	);
 };
-export default TVShows;
+export default AiringTodayTVShows;

@@ -24,6 +24,7 @@ import FantasyMoviePage from './pages/fantasyMoviePage';
 import TVShows from './pages/tvShowPage';
 import TVShowDetailsPage from './pages/tvShowDetailsPage';
 import TVShowReviewPage from './pages/tvShowReviewPage';
+import AiringTodayTVShows from './pages/tvShowAiringTodayPage';
 import LoginPage from "./pages/loginPage";
 import LoginTest from "./pages/loginTest";
 
@@ -68,6 +69,7 @@ const App = () => {
                 {/* TV Show Routes */}
                 <Route path="/tv/:id" element={<TVShowDetailsPage />} />
                 <Route path="/tv" element={<TVShows />} />
+                <Route path="/tv/airing-today" element={<AiringTodayTVShows />} />
                 {/* Review Routes */}                
                 <Route path="/reviews/movie/:id" element={<MovieReviewPage/>} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage/>} />

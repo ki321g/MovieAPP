@@ -37,15 +37,15 @@ const initialContextState: TVShowContextInterface = {
     addToPlaylist: () => {},
 };
 
-export const TVShowContext = React.createContext<TVShowContextInterface>(initialContextState);;
+export const TVShowContext = React.createContext<TVShowContextInterface>(initialContextState);
 
 const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
     const [playlists, setPlaylists] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
-    const favouriteTVShowsRef = collection(db, 'tvShowFavourites');
-    const tvShowsPlaylistRef = collection(db, 'tvShowPlaylists');
+    const favouriteTVShowsRef = collection(db, 'tv_favourites');
+    const tvShowsPlaylistRef = collection(db, 'tv_playlists');
 
     const getFavourites = async () => {
         try {
@@ -80,6 +80,7 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
     const addToFavourites = useCallback(async (tvShow: BaseTvShowProps) => {
         try {
+            console.log('addToFavourites hope i get here');
             console.log("tvShow.id")
             console.log(tvShow.id)
             const tvShowIdToCheck = tvShow.id;
@@ -90,13 +91,13 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             console.log(isFavourite);
 
             if (isFavourite) {
-                console.log('The movie is in the favourites list');
+                console.log('The TV Show is in the favourites list');
                 const favouriteTVShowsIds = favouriteTVShows.map(tvShow => tvShow.tvshow_id);
                 setFavourites(favouriteTVShowsIds);
                 return favourites;
                 
             } else {
-                console.log('The movie is not in the favourites list');
+                console.log('The TV Show is not in the favourites list');
                 // Add the movie to favourites
                 await addDoc(favouriteTVShowsRef, {
                     tvshow_id: tvShow.id,
@@ -106,7 +107,7 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
                 const latestfavouriteTVShows = await getFavouritesTVShowsList();
                 const favouriteTVShowsIds = latestfavouriteTVShows.map(tvShow => tvShow.tvshow_id);
-                setFavourites(favouriteTVShowsIds);
+                setTVFavourites(favouriteTVShowsIds);
                 return favourites;
             }
         } catch (error) {
@@ -187,8 +188,7 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 addToPlaylist,
                 removeFromFavourites,
                 clearFavourites,
-                addReview,
-                getPlaylists,
+                addReview,                
             }}
         >
             {children}

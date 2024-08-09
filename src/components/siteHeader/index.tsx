@@ -58,7 +58,7 @@ const SiteHeader: React.FC = () => {
       label: "TV Shows", 
       subMenu: [
         { label: "Discover", path: "/tv/" },
-        { label: "Upcoming", path: "/tv/upcoming" },
+        // { label: "Airing Today", path: "/tv/airing-today" },
       ]
     },
   ];

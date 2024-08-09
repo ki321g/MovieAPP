@@ -132,7 +132,7 @@ export interface BaseTvShowProps {
   genre_ids?: number[];
   favourite?: boolean;
   playlist?: boolean;
-  cast?: TvShowCastMember[];
+  // cast?: TvShowCastMember[];
 }
 export interface TvShowDetailsProps extends BaseTvShowProps {
   genres: {
@@ -145,6 +145,13 @@ export interface TvShowDetailsProps extends BaseTvShowProps {
 }
 
 export interface DiscoverTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
+export interface AiringTodayTvShows {
   page: number;
   total_pages: number;
   total_results: number;

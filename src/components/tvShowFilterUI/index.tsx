@@ -35,7 +35,7 @@ interface TvShowFilterUIProps {
 }
 
 
-const MovieFilterUI: React.FC<TvShowFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
+const TVShowFilterUI: React.FC<TvShowFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
@@ -63,4 +63,4 @@ const MovieFilterUI: React.FC<TvShowFilterUIProps> = ({ onFilterValuesChange, ti
     );
 };
 
-export default MovieFilterUI;
+export default TVShowFilterUI;

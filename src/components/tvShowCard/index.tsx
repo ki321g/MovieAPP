@@ -42,7 +42,7 @@ const TVShowCard: React.FC<TVShowCardProps> = ({tvShow, action}) => {
   const authContext = useContext(AuthContext);
   const userLoggedIn = !!authContext?.token;
 
-  const { favourites, addToFavourites, getFavourites } = useContext(TVShowContext);
+  const { favourites, getFavourites } = useContext(TVShowContext);
 
   const isFavourite = favourites.find((id) => id === tvShow.id)? true : false;
   
