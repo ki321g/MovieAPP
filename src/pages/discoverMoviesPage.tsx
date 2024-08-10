@@ -11,16 +11,13 @@ import { DiscoverMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseMovieProps } from '../types/interfaces';
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
 import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+
 import SortMoviesUI from "../components/sortMoviesUi";
 
 const styles = {
@@ -29,7 +26,6 @@ const styles = {
         justifyContent: "space-around",
         alignItems: "center",
         flexWrap: "wrap",
-        // marginBottom: 1.5,
         background: "#141414",
         boxShadow: 'none',
         paddingBottom: '20px',
@@ -56,10 +52,7 @@ const HomePage: React.FC = () => {
 		queryFn: () => getMovies(page),
 		keepPreviousData: true
 	});
-	// const { data, error, isLoading, isError, isPreviousData } = useQuery<DiscoverMovies, Error>(
-		// 'discover',
-		// getMovies
-	// );
+
 	const { filterValues, setFilterValues, filterFunction } = useFiltering(
 		// [],
 		[titleFiltering, genreFiltering]
@@ -109,30 +102,8 @@ const HomePage: React.FC = () => {
 
 	return (
 		<>
-			{/* <Paper component="div" sx={styles.root}>            
-				<IconButton onClick={prevPage} disabled={isPreviousData || page === 1}
-					aria-label="go back"
-				>
-					<KeyboardDoubleArrowLeftSharpIcon 
-						color={isPreviousData || page === 1 ? "disabled" : "secondary"} 
-						style={{ fontSize: 50, fontWeight: 'bold' }}
-					/>
-				</IconButton>
-
-				<Typography variant="h4" component="h3">
-					Discover Movies
-				</Typography>
-				<IconButton onClick={nextPage} disabled={isPreviousData || page === data?.total_pages}
-					aria-label="go forward"
-				>
-					<KeyboardDoubleArrowRightSharpIcon 
-						color={isPreviousData || page === data?.total_pages ? "disabled" : "secondary"}  
-						style={{ fontSize: 50, fontWeight: 'bold' }}
-					/>
-				</IconButton>
-			</Paper> */}
 			<Paper component="div" sx={styles.root}>
-  				<Grid container justify="space-between" alignItems="center" sx={{ paddingX: 60 }}>
+  				<Grid container sx={{ paddingX: 60 }}>
 					<Grid item>
 						<IconButton onClick={prevPage} disabled={isPreviousData || page === 1}
 							aria-label="go back"
@@ -170,7 +141,7 @@ const HomePage: React.FC = () => {
 			</Paper>
 
 			<PageTemplate
-				title='Discover Movies'
+				// title='Discover Movies'
 				movies={sortedMovies}
 				action={(movie: BaseMovieProps) => {
 					return <AddToFavouritesIcon {...movie} />;

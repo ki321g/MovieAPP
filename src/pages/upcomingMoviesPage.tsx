@@ -19,7 +19,7 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import SortMoviesUI from "../components/sortMoviesUi";
 
@@ -106,31 +106,9 @@ const UpcomingMoviesPage: React.FC = () => {
 
   return (
     <>
-      {/* <Paper component="div" sx={styles.root}>            
-        <IconButton onClick={prevPage} disabled={isPreviousData || page === 1}
-          aria-label="go back"
-        >
-          <KeyboardDoubleArrowLeftSharpIcon 
-            color={isPreviousData || page === 1 ? "disabled" : "secondary"} 
-            style={{ fontSize: 50, fontWeight: 'bold' }} 
-          />
-        </IconButton>
-
-        <Typography variant="h4" component="h3">
-          Upcoming Movies
-        </Typography>
-        <IconButton onClick={nextPage} disabled={isPreviousData || page === data?.total_pages}
-          aria-label="go forward"
-        >
-          <KeyboardDoubleArrowRightSharpIcon 
-            color={isPreviousData || page === data?.total_pages ? "disabled" : "secondary"}
-            style={{ fontSize: 50, fontWeight: 'bold' }}
-          />
-        </IconButton>
-      </Paper> */}
       
 			<Paper component="div" sx={styles.root}>
-  				<Grid container component="div" justify="space-between" alignItems="center" sx={{ paddingX: 60 }}>
+  				<Grid container sx={{ paddingX: 60 }}>
             <Grid item>
               <IconButton onClick={prevPage} disabled={isPreviousData || page === 1}
                 aria-label="go back"
@@ -156,7 +134,8 @@ const UpcomingMoviesPage: React.FC = () => {
               <Select
                 color="secondary"
                 value={page}
-                onChange={(event) => setPage(event.target.value)}
+                // onChange={(event) => setPage(event.target.value)}
+                onChange={(event) => setPage(Number(event.target.value))}
               >
                 {[...Array(data?.total_pages).keys()].map((pageNumber) => (
                   <MenuItem key={pageNumber + 1} value={pageNumber + 1}>
@@ -179,7 +158,7 @@ const UpcomingMoviesPage: React.FC = () => {
 				  </Grid>
 			</Paper>
       <PageTemplate
-        title='Upcoming Movies'
+        
         movies={sortedMovies}
         action={(movie: BaseMovieProps) => {
           return <AddToPlaylistIcon {...movie} />

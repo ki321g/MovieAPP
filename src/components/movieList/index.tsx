@@ -3,7 +3,7 @@ import Movie from "../movieCard/";
 import Grid from "@mui/material/Grid";
 import { BaseMovieListProps } from "../../types/interfaces";
 import { Box } from "@mui/material"
-import { useLocation } from 'react-router-dom';
+
 
 const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
   

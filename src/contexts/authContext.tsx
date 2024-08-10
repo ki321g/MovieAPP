@@ -1,8 +1,9 @@
 import React, { useEffect, useState, createContext} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";
-import { signOut, onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth } from '../config/firebase';
+import { signOut } from "firebase/auth";
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
@@ -15,8 +16,7 @@ const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
   const navigate = useNavigate();
 
   const setAuthState = async () => {
-    try {
- 
+    try { 
       if (auth?.currentUser) {
         const userToken = await auth.currentUser.getIdToken(); // Get ID token
         setToken(userToken); // Set token

@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import palette from "./theme/palette";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter, Route, Navigate, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 // Contexts
 import AuthProvider from "./contexts/authContext";
 import MoviesContextProvider from "./contexts/moviesContext";
@@ -26,7 +26,7 @@ import TVShowDetailsPage from './pages/tvShowDetailsPage';
 import TVShowReviewPage from './pages/tvShowReviewPage';
 import AiringTodayTVShows from './pages/tvShowAiringTodayPage';
 import LoginPage from "./pages/loginPage";
-import LoginTest from "./pages/loginTest";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,7 +77,7 @@ const App = () => {
                 {/* Other Routes */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/logintest" element={<LoginTest />} />
+                
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </MoviesContextProvider>

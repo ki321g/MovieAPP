@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -73,13 +72,6 @@ interface FilterMoviesCardProps {
 							FILTER MOVIES.
 						</Typography>
 					</Box>
-					{/* <Typography variant='h5' component='h1'>
-						<FilterAltIcon  
-							color="secondary" 
-							style={{ fontSize: 40, fontWeight: 'bold' }}
-						/>
-						Filter Movies.
-					</Typography> */}
 					<TextField
 						sx={styles.formControl}
 						id='filled-search'

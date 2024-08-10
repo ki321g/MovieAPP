@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -11,9 +11,28 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
-import { auth } from '../config/firebase';
+// import { auth } from '../config/firebase';
 import { BaseMovieProps } from '../types/interfaces';
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
+import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
+import SortMoviesUI from "../components/sortMoviesUi";
 
+const styles = {
+  root: {
+      display: "flex",
+      justifyContent: "space-around",
+      alignItems: "center",
+      flexWrap: "wrap",
+      // marginBottom: 1.5,
+      background: "#141414",
+      boxShadow: 'none',
+      paddingBottom: '20px',
+  },
+};
 
 const titleFiltering = {
   name: "title",
@@ -26,7 +45,9 @@ const genreFiltering = {
   condition: genreFilter,
 };
 
-const FavouriteMoviesPage: React.FC = () => {
+const FavouriteMoviesPage: React.FC = () => {  
+  const [page, setPage] = useState(1);
+  const [sortOption, setSortOption] = useState<string>("none");
   const { favourites: movieIds, getFavourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
@@ -73,13 +94,63 @@ const FavouriteMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  
+  const prevPage = () => setPage((prev) => prev - 1);
+	const nextPage = () => setPage((next) => next + 1);// Sort movies
+  console.log(page);
+  const sortedMovies = [...displayedMovies].sort((a, b) => {
+    switch (sortOption) {
+      case "none":
+        return 0;
+      case 'date':
+        return new Date(b.release_date).getTime() - new Date(a.release_date).getTime();
+      case 'rating':
+        return b.vote_average - a.vote_average;
+      case 'popularity':
+        return b.popularity - a.popularity;
+      default:
+        return 0;
+    }
+  });
+
+  const changeSortOption = (sort: string) => {
+    setSortOption(sort);
+  };
 
   return (
     <>
-      <PageTemplate
-        title="Favourite Movies"
-        movies={displayedMovies}
+      <Paper component="div" sx={styles.root}>
+  				<Grid container sx={{ paddingX: 60 }}>
+					<Grid item>
+						<IconButton onClick={prevPage} disabled
+							aria-label="go back"
+						>
+							<KeyboardDoubleArrowLeftSharpIcon 
+							color="secondary" 
+							style={{ fontSize: 50, fontWeight: 'bold' }}
+							/>
+						</IconButton>
+					</Grid>
+
+					<Grid item xs>
+						<Typography variant="h4" component="h3" align="center">
+						Favourite Movies
+						</Typography>
+					</Grid>					
+
+					<Grid item>
+						<IconButton onClick={nextPage} disabled
+							aria-label="go forward"
+						>
+							<KeyboardDoubleArrowRightSharpIcon 
+							color="secondary"
+							style={{ fontSize: 50, fontWeight: 'bold' }}
+							/>
+						</IconButton>
+					</Grid>
+				</Grid>
+			</Paper>
+      <PageTemplate        
+        movies={sortedMovies}
         action={(movie: BaseMovieProps) => {
           return (
             <>
@@ -94,6 +165,7 @@ const FavouriteMoviesPage: React.FC = () => {
         titleFilter={filterValues[0].value}
         genreFilter={filterValues[1].value}
       />
+      <SortMoviesUI onSortChange={changeSortOption} />
     </>
   );
 };

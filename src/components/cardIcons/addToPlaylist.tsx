@@ -1,8 +1,8 @@
-import React, {MouseEvent, useContext, useState, useEffect} from "react";
-import { MoviesContext } from "../../contexts/moviesContext";
+import React, { useState} from "react";
+// import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import {BaseMovieProps, Playlist} from "../../types/interfaces"
+import {BaseMovieProps, Playlist, UserPlaylist} from "../../types/interfaces"
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
 import CreatableSelect from 'react-select/creatable';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
+
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { db, auth } from '../../config/firebase';
-import { ref } from 'firebase/storage';
+
 import { 
     getDocs, 
     query, 
@@ -21,29 +21,43 @@ import {
     collection, 
     addDoc, 
     deleteDoc, 
-    updateDoc,
-    doc 
 } from 'firebase/firestore';
 
 interface Option {
-  readonly label: string;
-  readonly value: string;
-}
+  label: string;
+  value: string;
+};
+
+// interface UserPlaylist {
+//   id: string;
+//   playlist: string;
+//   userId: string;
+// }
+
+// interface Playlist {
+//   id: string;
+//   movie_id: number;
+//   movie_title: string;
+//   playlist_id: string;
+//   playlist_name: string;
+//   userId: string;
+// }
 
 const createOption = (label: string) => ({
   label,
   value: label.toLowerCase().replace(/\W/g, ''),
 });
 
-const defaultOptions = [];
+const defaultOptions: Option[] = [];
+
 
 const customStyles = {
-    control: (provided) => ({
+    control: (provided: any) => ({
         ...provided,
         fontSize: '1.5em',
         padding: '6px 8px',
       }),
-    option: (provided, state) => ({
+    option: (provided: any, state: any) => ({
       ...provided,
       fontSize: '1.5em',
       color: state.isSelected ? 'white' : 'black',
@@ -55,7 +69,7 @@ const customStyles = {
   };
   
 const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
-  const context = useContext(MoviesContext);
+  // const context = useContext(MoviesContext);
   const [alert, setAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState<"error" | "warning" | "info" | "success">("success");
   const [alertMessage, setAlertMessage] = useState("");
@@ -67,21 +81,6 @@ const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
 
   const userPlaylistRef = collection(db, 'user_playlists');
   const moviePlaylistRef = collection(db, 'playlists');
-
-  // const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  //   context.addToPlaylist(movie);
-    
-  // };
-
-  // useEffect(() => {
-  //   console.log('Value');
-  //   console.log(value);
-  // }, [value]);
-
-  // const handleAlert = () => {
-  //   setAlert(true);
-  // };
 
   const handleAlert = async (severity: "error" | "warning" | "info" | "success", message: string, toggle: boolean) => {
     setAlertSeverity(severity);
@@ -103,9 +102,6 @@ const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
           label: inputValue,
           value: inputValue.toLowerCase().replace(/\W/g, '')
         };
-        // console.log(inputValue);
-        // console.log(value);
-        // console.log(newValue);
         setValue((prev) => [...prev, newValue]);        
       };
     }, 1000);
@@ -118,19 +114,32 @@ const getMoviePlaylists = async () => {
         where("userId", "==", auth?.currentUser?.uid),
         where("movie_id", "==", movie.id)
       );
+      // const moviePlaylists: Playlist[] = result.docs.map((doc) => ({
+      //   id: doc.id,
+      //   ...doc.data(),
+      // }));
       const moviePlaylists = await getDocs(result);
-      const filteredMoviePlaylists = moviePlaylists.docs.map((doc) => ({                    
-          id: doc.id,
-          ...doc.data(),
+      const filteredMoviePlaylists: Playlist[] = moviePlaylists.docs.map((doc) => ({
+        id: doc.id,
+        movie_id: doc.data().movie_id,
+        movie_title: doc.data().movie_title,
+        playlist_id: doc.data().playlist_id,
+        playlist_name: doc.data().playlist_name,
+        userId: doc.data().userId,
       }));
+      //     id: doc.id,
+      //     ...doc.data(),
+      // }));
       // console.log(moviePlaylists);
-      console.log(filteredMoviePlaylists);
-
-      const latestMoviePlaylists = filteredMoviePlaylists.map(playlist => playlist.playlist_name);
+      // console.log(filteredMoviePlaylists);
+      // const latestMoviePlaylists: Playlist[] = filteredMoviePlaylists.map(playlist => ({
+      //   playlist_name: playlist.playlist_name,
+      // }));
+      const latestMoviePlaylists: any = filteredMoviePlaylists.map(playlist => playlist.playlist_name);
       
-      // console.log('latestMoviePlaylists');
-      console.log(latestMoviePlaylists);
-      latestMoviePlaylists.forEach(item => {
+      // // console.log('latestMoviePlaylists');
+      // console.log(latestMoviePlaylists);
+      latestMoviePlaylists.forEach((item: string) => {
         const found = value.find(val => val.label === item);
         if (!found) {
           handleValueLoad(item, true)
@@ -145,17 +154,18 @@ const getUserPlaylists = async () => {
   try {
       const result = query(userPlaylistRef, where("userId", "==", auth?.currentUser?.uid));
       const userPlaylists = await getDocs(result);
-      const filteredUserPlaylists = userPlaylists.docs.map((doc) => ({                    
-          id: doc.id,
-          ...doc.data(),
+      const filteredUserPlaylists: UserPlaylist[] = userPlaylists.docs.map((doc) => ({
+        id: doc.id,
+        playlist: doc.data().playlist,
+        userId: doc.data().userId,
+          // id: doc.id,
+          // ...doc.data(),
       }));
-      // console.log('filteredUserPlaylists');
-      // console.log(filteredUserPlaylists);
-      const latestUserPlaylists = filteredUserPlaylists.map(playlist => playlist.playlist);
       
-      // console.log('latestUserPlaylists');
-      // console.log(latestUserPlaylists);
-      latestUserPlaylists.forEach(item => {
+      const latestUserPlaylists: any = filteredUserPlaylists.map(playlist => playlist.playlist);
+      
+      
+      latestUserPlaylists.forEach((item: string) => {
         handleCreate(item, false);
       });
       
@@ -168,17 +178,21 @@ const updateUserPlaylists = async (newPlaylist: string) => {
     try {
         const result = query(userPlaylistRef, where("userId", "==", auth?.currentUser?.uid));
         const userPlaylists = await getDocs(result);
-        const filteredUserPlaylists = userPlaylists.docs.map((doc) => ({                    
-            id: doc.id,
-            ...doc.data(),
+        const filteredUserPlaylists: UserPlaylist[] = userPlaylists.docs.map((doc) => ({
+          id: doc.id,
+          playlist: doc.data().playlist,
+          userId: doc.data().userId,
+          // id: doc.id,
+          //   ...doc.data(),
         }));
         
-        const currentuserPlaylists = filteredUserPlaylists.map(playlist => playlist.playlist);
+        const currentuserPlaylists: any = filteredUserPlaylists.map(playlist => playlist.playlist);
         
         // console.log('currentuserPlaylists');
         // console.log(currentuserPlaylists);
 
-        if (currentuserPlaylists.find(playlist => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
+        if (currentuserPlaylists.find((playlist: string) => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
+        // if (currentuserPlaylists.find(playlist => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
             
           handleAlert("error", "Playlist already exists. Please try a different name.", true);
 
@@ -218,15 +232,7 @@ const handleCreate = async (inputValue: string, updateValue: Boolean) => {
   };
   
 
-const toggleDrawer = (newOpen: boolean) => async () => {
-    // if(newOpen === false) {
-    //     setOpen(newOpen);
-    // } else {	
-    //     await setOptions(defaultOptions);
-    //     await getMoviePlaylists();        
-    //     await getUserPlaylists();
-    //     setOpen(newOpen);
-    // }
+const toggleDrawer = (newOpen: boolean) => async () => {    
     if(newOpen) {
       await setOptions(defaultOptions);
       await getMoviePlaylists();        
@@ -246,16 +252,31 @@ const toggleDrawer = (newOpen: boolean) => async () => {
         id: doc.id,
         ...doc.data(),
     }));
+    console.log(filteredUserPlaylists);
+    const playlists: UserPlaylist[] = [];
 
-    const playlists: Playlist[] = [];
-
-    filteredUserPlaylists.forEach(doc => {
+    // filteredUserPlaylists.forEach(doc => {
+    //   value.forEach(val => {
+    //     if (val.label.includes(doc.playlist)) {
+    //       playlists.push(doc);
+    //     }
+    //   });
+    // });
+    filteredUserPlaylists.forEach((doc: any) => {
       value.forEach(val => {
         if (val.label.includes(doc.playlist)) {
           playlists.push(doc);
         }
       });
     });
+
+    // filteredUserPlaylists.forEach(doc => {
+    //   value.forEach(val => {
+    //     if (val.label.includes(doc.playlist)) {
+    //       playlists.push(doc);
+    //     }
+    //   });
+    // });
       
 
     // Delete Currtent Playlists for Movie
@@ -323,7 +344,7 @@ const DrawerList = (
                     isClearable
                     isDisabled={isLoading}
                     isLoading={isLoading}
-                    onChange={(newValue) => setValue(newValue)}
+                    onChange={(newValue) => setValue(Array.from(newValue))}
                     onCreateOption={handleSelectCreate}
                     options={options}
                     value={value}

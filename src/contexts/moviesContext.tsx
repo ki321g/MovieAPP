@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { BaseMovieProps, Review } from "../types/interfaces";
 import { db, auth } from '../config/firebase';
-import { ref } from 'firebase/storage';
 import { getMovie } from '../api/tmdb-api';
 import { 
     getDocs, 
@@ -9,8 +8,7 @@ import {
     where,
     collection, 
     addDoc, 
-    deleteDoc, 
-    updateDoc,
+    deleteDoc,
     doc 
 } from 'firebase/firestore';
 
@@ -42,29 +40,21 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
-    const [playlists, setPlaylists] = useState<number[]>([]);
+    // const [playlists, setPlaylists] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
-    // const [favouritesMovieList, setFavouritesMovieList] = useState([]);
+
     const favouriteMovieRef = collection(db, 'favourites');
     const moviePlaylistRef = collection(db, 'playlists');
 
-    // Log favourites state whenever it changes
-    // useEffect(() => {
-    //     console.log("favouritesMovieList - Start");
-    //     console.log(favouritesMovieList);
-    //     console.log("favouritesMovieList - END");
-    //     }, [favouritesMovieList]);
-    // useEffect(() => {
-    //     getFavouritesMovieList();
-    // }, []);
 
     const getFavourites = async () => {
         try {
             if (auth?.currentUser?.uid) {
-                const favouriteMovies = await getFavouritesMovieList();
-                const favouriteMovieIds = favouriteMovies.map(movie => movie.movie_id);
+                const favouriteMovies: any = await getFavouritesMovieList();
+                const favouriteMovieIds: any = favouriteMovies.map((movie: any) => movie.movie_id);
+                
                 setFavourites(favouriteMovieIds);
-            //return favourites;
+            
             } else {
                 setFavourites([]); // Clear favourites when the user is not authenticated
             }
@@ -82,11 +72,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 id: doc.id,
                 ...doc.data(),
             }));
-            // setFavouritesMovieList(filteredFavouriteMovies);
-            // console.log(filteredFavouriteMovies);   
-            // const movieIds = filteredFavouriteMovies.map(movie => Number(movie.movieid));
-            // console.log(movieIds);            
-            // setFavourites(movieIds);
+            
             return(filteredFavouriteMovies);
             
         } catch (err) {
@@ -96,22 +82,15 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
     const addToFavourites = useCallback(async (movie: BaseMovieProps) => {
         try {
-            console.log("movie.id")
-            console.log(movie.id)
-            const movieIdToCheck = movie.id;
-            console.log(movieIdToCheck);
+            const movieIdToCheck = movie.id;          
             const favouriteMovies = await getFavouritesMovieList();
-            const isFavourite = favouriteMovies.find(favMovie => favMovie.movie_id === movieIdToCheck);
-
-            console.log(isFavourite);
-
+            const isFavourite: any = favouriteMovies?.find((favMovie: any) => favMovie.movie_id === movieIdToCheck);
 
             if (isFavourite) {
                 console.log('The movie is in the favourites list');
-                const favouriteMovieIds = favouriteMovies.map(movie => movie.movie_id);
+                const favouriteMovieIds: any  = favouriteMovies?.map((movie: any) => movie.movie_id);
                 setFavourites(favouriteMovieIds);
                 return favourites;
-                
               } else {
                 console.log('The movie is not in the favourites list');
                 // Add the movie to favourites
@@ -122,65 +101,21 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 });
 
                 const latestFavouriteMovies = await getFavouritesMovieList();
-                const favouriteMovieIds = latestFavouriteMovies.map(movie => movie.movie_id);
+                const favouriteMovieIds: any = latestFavouriteMovies?.map((movie: any) => movie.movie_id);
                 setFavourites(favouriteMovieIds);
                 return favourites;
-                // setFavourites((prevFavourites) => [...prevFavourites, movie.id]);
-          
               }
-          
-        //    setFavourites((prevFavourites) => {
-        //           if (!prevFavourites.includes(movie.id)) {
-        //               return [...prevFavourites, movie.id];
-        //           }
-        //           return prevFavourites;
-        //       });
-          
+
         } catch (error) {
           // Handle any errors
           console.error('Error adding to favourites:', error);
         }
       }, []);
 
-    // const addToFavourites = useCallback((movie: BaseMovieProps) => {
-
-    //     // console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
-    //     // console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
-
-    //     getFavouritesMovieList();
-    //     console.log(favouritesMovieList);
-    //     // console.log(favouritesMovieList);
-    //     // try {
-    //     //     await addDoc(moviesCollectionRef, {
-    //     //         title: newMovieTitle,
-    //     //         releaseDate: newMovieReleaseDate,
-    //     //         receivedAnOscar: newMovieReceivedAnOscar,
-    //     //         userId: auth?.currentUser?.uid,
-    //     //     });
-    //     //     getMovieList();
-    //     // } catch (err) {
-    //     //     console.error(err);
-    //     // }
-
-    //     setFavourites((prevFavourites) => {
-    //         if (!prevFavourites.includes(movie.id)) {
-    //             return [...prevFavourites, movie.id];
-    //         }
-    //         return prevFavourites;
-    //     });
-    // }, []);
-
     const removeFromFavourites = useCallback(async (movie: BaseMovieProps) => {
-        // try {
-        //     const favouriteMovieDoc = doc(db, 'favourites', movie.id);
-        //     await deleteDoc(favouriteMovieDoc);
-        //     setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== movie.id));
-        // } catch (err) {
-        //     console.error(err);
-        // };
         try {
             const favouriteMovies = await getFavouritesMovieList();
-            const movieToRemove = favouriteMovies.find(favMovie => favMovie.movie_id === movie.id);
+            const movieToRemove: any = favouriteMovies?.find((favMovie: any) => favMovie.movie_id === movie.id);
 
             if (movieToRemove) {
                 await deleteDoc(doc(favouriteMovieRef, movieToRemove.id));
@@ -206,10 +141,13 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             return prevMustWatch;
         });
     }, []);
+
     const getPlaylists = async () => {
         const playlistMovies = await getPlaylistsMovies();
+        // console.log(playlistMovies);
         return(playlistMovies);
     };
+
     const getPlaylistsMovies = async () => {
         try {
             
@@ -242,6 +180,11 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setFavourites([]); // Clear the favourites
       };
 
+       
+    // useEffect(() => {
+    //       getPlaylists();
+    //     }, []);
+
     return (
         <MoviesContext.Provider
             value={{
@@ -253,6 +196,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 removeFromFavourites,
                 clearFavourites,
                 addReview,
+                getPlaylists,
             }}
         >
             {children}

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import MonetizationIcon from "@mui/icons-material/MonetizationOn";
-import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
 import { TvShowDetailsProps } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
@@ -66,16 +63,6 @@ const TVShowDetails: React.FC<TvShowDetailsProps> = (tvShow) => {
                 ))}
             </Paper>
             <Paper component="ul" sx={styles.chipSet}>
-                {/* <Chip icon={<AccessTimeIcon />} label={`${tvShow.runtime} min.`} />
-                <Chip
-                    icon={<MonetizationIcon />}
-                    label={`${tvShow.revenue.toLocaleString()}`}
-                />
-                <Chip
-                    icon={<StarRate />}
-                    label={`${tvShow.vote_average} (${tvShow.vote_count}`}
-                />
-                <Chip label={`Released: ${tvShow.release_date}`} /> */}
                 <Chip
                     icon={<ListIcon />}
                     label={`${tvShow.number_of_episodes} episodes`}

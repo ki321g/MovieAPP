@@ -1,21 +1,24 @@
-export interface BaseMovieProps {
+export interface BaseMovieProps {  
   title: string;
   budget: number;
   homepage: string | undefined;
   id: number;
   imdb_id: string;
-  original_language: string;
+  original_language?: string;
   overview: string;
   release_date: string;
   vote_average: number;
   popularity: number;
-  poster_path?: string;
+  poster_path: string;
+  backdrop_path: string;
   tagline: string;
   runtime: number;
   revenue: number;
   vote_count: number;
   favourite?: boolean;
   genre_ids?: number[];
+  genre?: string;
+  productionCompany?: string;
   receivedAnOscar?: boolean;
 };
 
@@ -48,7 +51,7 @@ export interface MoviePageProps {
 export type FilterOption = "title" | "genre";
 
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
-  title: string;
+  
 };
 
 export interface Review{
@@ -90,8 +93,6 @@ export interface LoggedInUser {
   uid: string | null;
   email: string | null;
   displayName: string | null;
-  // firstName: string | null;
-  // lastName: string | null;
   photoUrl: string | null;
   token: string | null;
 };
@@ -103,7 +104,11 @@ export interface AuthContextInterface {
   signout: () => void;
   loading: boolean;
 };
-
+export interface UserPlaylist {
+  id?: string;
+  playlist: string;
+  userId: string;
+}
 export interface Playlist {  
   id?: string;
   movie_id: number;
@@ -134,6 +139,8 @@ export interface BaseTvShowProps {
   playlist?: boolean;
   // cast?: TvShowCastMember[];
 }
+
+
 export interface TvShowDetailsProps extends BaseTvShowProps {
   genres: {
     id: number;
@@ -143,6 +150,25 @@ export interface TvShowDetailsProps extends BaseTvShowProps {
   number_of_episodes: number;
   tagline: string;
 }
+
+
+export interface TvImage {
+  file_path: string;
+  aspect_ratio?: number;
+  height?: number;
+  iso_639_1?: string;
+  vote_average?: number;
+  vote_count?: number;
+  width?: number;
+}
+
+
+export interface TVShowPageProps {
+  tvShow: TvShowDetailsProps;
+  images: TvImage[];
+  name?: string;
+  tagline?: string;
+};
 
 export interface DiscoverTvShows {
   page: number;
@@ -176,3 +202,27 @@ export interface TvImage {
   vote_count?: number;
   width?: number;
 }
+
+export interface FantasyMovieProps {  
+  title?: string;
+  budget?: number;
+  homepage?: string | undefined;
+  id?: string;
+  imdb_id?: string;
+  original_language?: string;
+  overview?: string;
+  release_date?: string;
+  vote_average?: number;
+  popularity?: number;
+  poster_path?: string;
+  backdrop_path?: string;
+  tagline?: string;
+  runtime?: number;
+  revenue?: number;
+  vote_count?: number;
+  favourite?: boolean;
+  genre_ids?: number[];
+  genre?: string;
+  productionCompany?: string;
+  receivedAnOscar?: boolean;
+};

@@ -1,14 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from '../../../contexts/authContext';
-// import { useHistory } from 'react-router-dom';
-
-import { MoviesContext } from "../../../contexts/moviesContext";
+// import { MoviesContext } from "../../../contexts/moviesContext";
 import { auth, googleProvider } from '../../../config/firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link, } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
 import GoogleButton from 'react-google-button'
 import { Alert } from '@mui/material'; 
 
@@ -19,7 +15,7 @@ export const Auth = () => {
     const [password, setPassword] = useState('');
     const [action, setAction] = useState<string | null>('logIn');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const { clearFavourites } = useContext(MoviesContext);
+    // const { clearFavourites } = useContext(MoviesContext);
 
 
     const paperStyle={padding :50,height:'50vh',width:280, margin:"60px auto"};
@@ -28,7 +24,7 @@ export const Auth = () => {
 
     const signIn = async () => {
         try {
-            const result = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
             if (authenticate) {
                 await authenticate();
             };
@@ -42,26 +38,25 @@ export const Auth = () => {
 
     const signUp = async () => {
         try {
-            const result = await createUserWithEmailAndPassword(auth, email, password);            
+            await createUserWithEmailAndPassword(auth, email, password);            
             if (authenticate) {
                 await authenticate();
             };
             setErrorMessage(null); 
         } catch (err) {
-            console.error(err);  
-            console.error(err.message);
-            if (err.message === "Firebase: Error (auth/email-already-in-use).") {
-                // alert('email-already-in-use');                
-                setErrorMessage("Email already in use.");
-                // setErrorMessage('Email already in use.');
-            }           
+            console.log(err);
+            // if (err.message === "Firebase: Error (auth/email-already-in-use).") {
+            //     // alert('email-already-in-use');                
+            //     setErrorMessage("Email already in use.");
+            //     // setErrorMessage('Email already in use.');
+            // }           
             
         }
     };
 
     const signInWithGoogle = async () => {
         try {
-            const result = await signInWithPopup(auth, googleProvider);
+            await signInWithPopup(auth, googleProvider);
             if (authenticate) {
                 await authenticate();
             };
@@ -71,14 +66,14 @@ export const Auth = () => {
         }
     };
 
-    const logout = async () => {
-        try {
-            await signOut(auth);
-            clearFavourites(); // Clear the favourites
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    // const logout = async () => {
+    //     try {
+    //         await signOut(auth);
+    //         clearFavourites(); // Clear the favourites
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
 
     const handleActionChange = () => {
         setAction(action === 'logIn' ? 'signUp' : 'logIn');

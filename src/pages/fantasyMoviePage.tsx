@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useQueries } from 'react-query';
 import { getGenres } from "../api/tmdb-api";
-import { Auth } from '../components/auth'; 
 import { db, auth, storage } from '../config/firebase';
 import { 
     getDocs, 
     collection, 
     addDoc, 
-    deleteDoc, 
+    // deleteDoc, 
     updateDoc,
-    doc,
+    // doc,
     DocumentReference, 
 } from 'firebase/firestore';
 import { 
@@ -17,22 +16,20 @@ import {
     uploadBytes,
     getDownloadURL,
     listAll,
-    list, 
 } from 'firebase/storage';
 import Box from "@mui/material/Box"
 import { Button, Grid } from '@mui/material';
-import { TextField, Select, MenuItem, FormControl, InputLabel, Typography } from '@mui/material';
-import Spinner from '../components/spinner';
+import { TextField, MenuItem, Typography } from '@mui/material';
 import { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { PickersDay } from '@mui/x-date-pickers/PickersDay';
+// import { PickersDay } from '@mui/x-date-pickers/PickersDay';
 import EditCalendarRoundedIcon from '@mui/icons-material/EditCalendarRounded';
-import MovieList from "../components/movieList";
+// import MovieList from "../components/movieList";
 import Movie from "../components/fantasyMovieCard";
-import { BaseMovieProps } from '../types/interfaces';
+// import { BaseMovieProps } from '../types/interfaces';
 
 const styles = {
     input: {
@@ -63,40 +60,35 @@ const styles = {
 
 
 const FantasyMoviePage: React.FC = () => {
-	const [movieList, setMovieList] = useState([]);
+	// const [movieList, setMovieList] = useState([]);
+    const [movieList, setMovieList] = useState<{ id: string }[]>([]);
     const moviesCollectionRef = collection(db, 'movies');
     const [hasRun, setHasRun] = useState(false);
-    const [media, setMedia] = useState<string>('');
-    const [genre, setGenre] = useState<string>('');
-    // let url: string;
-    //New Movie States
+    // const [media, setMedia] = useState<string>('');
+    let media: string = '';
+    // const [genre, setGenre] = useState<string>('');
+
     const [newMovieDate, setNewMovieDate] = React.useState<Dayjs | null>(null);
     const [newMovieTitle, setNewMovieTitle] = useState('');
     const [newMovieOverview, setNewMovieOverview] = useState<string>('');
-    const [newMovieGenre, setNewMovieGenre] = useState<string>('' | null);
-    const [newMovieReleaseDate, setNewMovieReleaseDate] = useState<string>('' | null);
+    const [newMovieGenre, setNewMovieGenre] = useState<string>('');
     const [newMovieRunTime, setNewMovieRunTime] = useState<string>('');
     const [newMovieProductionCompany, setNewMovieProductionCompany] = useState<string>('');
     const [newMovieReceivedAnOscar, setNewMovieReceivedAnOscar] = useState(false);
     const [newMovieImageUrl, setNewMovieImageUrl] = useState<string>(''); 
     // const [newMovieImageUrl, setNewMovieImageUrl] = useState([]); 
     const [newMovieImageUpload, setNewMovieImageUpload] = useState<File | null>(null);  
-    const [inputKey, setInputKey] = useState(Date.now());
-    const [testWait, setTestWait] = useState(true);
+    const [inputKey] = useState(Date.now());
+    // const [testWait, setTestWait] = useState(true);
 
     // Update Title State
-    const [updateMovieTitle, setUpdateMovieTitle] = useState('');
+    // const [updateMovieTitle, setUpdateMovieTitle] = useState('');
 
     // File Upload State
-    const [fileUpload, setFileUpload] = useState<File | null>(null);
-    const [imageUrls, setImageUrls] = useState([]);    
+    // const [fileUpload, setFileUpload] = useState<File | null>(null);
+    const [imageUrls, setImageUrls] = useState<string[]>([]);  
     const allMovieImagesRef = ref(storage, `movieImages/`);
 
-    
-            
-    
-
-    // console.log(hasRun);
     const [{ data: movieGenresData }] = useQueries([
         {
           queryKey: ['movieGenres'],
@@ -104,18 +96,10 @@ const FantasyMoviePage: React.FC = () => {
           enabled: (media === '' || media === 'movie') && !hasRun, // Only fetch if media is movie or not set and has not run before
         }
       ]);
-      
-//   const [{ data: movieGenresData }] = useQueries([
-//     {
-//       queryKey: ['movieGenres'],
-//       queryFn: getGenres,
-//       enabled: media === '' || media === 'movie', // Only fetch if media is movie or not set
-//     }
-//   ]);
 
     const genres = movieGenresData?.genres || [];
     const genreOptions = [{ id: "", name: "Select Genre" }, ...(genres || [])];
-    const yearOptions = Array.from({ length: 105 }, (_, i) => 2024 - i);
+    // const yearOptions = Array.from({ length: 105 }, (_, i) => 2024 - i);
 
     const getMovieList = async () => {
         try {
@@ -131,25 +115,25 @@ const FantasyMoviePage: React.FC = () => {
     };
 
 
-    const deleteMovie = async (id) => {
-        try {
-            const movieDoc = doc(db, 'movies', id);
-            await deleteDoc(movieDoc);
-            getMovieList();
-        } catch (err) {
-            console.error(err);
-        };
-    };
+    // const deleteMovie = async (id: string) => {
+    //     try {
+    //         const movieDoc = doc(db, 'movies', id);
+    //         await deleteDoc(movieDoc);
+    //         getMovieList();
+    //     } catch (err) {
+    //         console.error(err);
+    //     };
+    // };
 
-    const updateMovie = async (id) => {
-        try {
-            const movieDoc = doc(db, 'movies', id);
-            await updateDoc(movieDoc, { title: updateMovieTitle });
-            getMovieList();
-        } catch (err) {
-            console.error(err);
-        };
-    };   
+    // const updateMovie = async (id: string) => {
+    //     try {
+    //         const movieDoc = doc(db, 'movies', id);
+    //         await updateDoc(movieDoc, { title: updateMovieTitle });
+    //         getMovieList();
+    //     } catch (err) {
+    //         console.error(err);
+    //     };
+    // };   
     
     const uploadMovieImage = async (docRef: DocumentReference) => {
         if (!newMovieImageUpload) return;
@@ -172,7 +156,7 @@ const FantasyMoviePage: React.FC = () => {
         const movieImagesRef = ref(storage, `movieImages/${newFileName}`);
         console.log(newFileName);
 
-        const metadata = {
+        const metadata: any = {
             contentType: 'image/jpeg',
             customMetadata: {
                 'userId': auth?.currentUser?.uid,
@@ -192,7 +176,7 @@ const FantasyMoviePage: React.FC = () => {
             });
 
             setNewMovieImageUrl(url);
-            setTestWait(false);
+            // setTestWait(false);
         } catch (err) {
             console.error(err);
         };
@@ -201,7 +185,8 @@ const FantasyMoviePage: React.FC = () => {
     const onSubmitMovie = async () => {
         try {
            
-            const date = newMovieDate.toDate();
+            // const date = newMovieDate.toDate();
+            const date = newMovieDate ? newMovieDate.toDate() : new Date();
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
             const day = date.getDate();
@@ -212,7 +197,6 @@ const FantasyMoviePage: React.FC = () => {
                 title: newMovieTitle,
                 overview: newMovieOverview,
                 genre: newMovieGenre,
-                // releaseDate: newMovieReleaseDate,
                 release_date: formattedDate,
                 runtime: newMovieRunTime,
                 productionCompany: newMovieProductionCompany,
@@ -224,50 +208,22 @@ const FantasyMoviePage: React.FC = () => {
             if (newMovieImageUpload) {
                 await uploadMovieImage(docRef);
             };
-
+            console.log(newMovieImageUrl);
+            console.log(imageUrls);
             setNewMovieTitle('');
             setNewMovieOverview('');
             setNewMovieGenre('');
-            // setNewMovieReleaseDate(null);
             setNewMovieRunTime('');
             setNewMovieProductionCompany('');
-            setNewMovieReceivedAnOscar('');
+            setNewMovieReceivedAnOscar(false);
             setNewMovieDate(null);
             setNewMovieImageUrl('');
-            // setInputKey(Date.now());
             getMovieList();
         } catch (err) {
             console.error(err);
         }
     };
-
-    const UploadFile = async () => {
-        if (!fileUpload) return;
-        // movieImages
-
-        // Edit File Name
-        const fileName = fileUpload.name.split('.');
-        const extension = fileName.pop();
-        const tempFileName = fileName.join('.');
-
-        // Get Date Time Format
-        const date = new Date();
-        const dateTimeFormat = `${date.getFullYear()}${date.getMonth()+1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
-        console.log(dateTimeFormat);
-
-        // ReCreate File Name
-        const newFileName = `${tempFileName}_${dateTimeFormat}.${extension}`;
-        const movieImagesRef = ref(storage, `movieImages/${newFileName}`);
         
-        try {
-            const snapshot = await uploadBytes(movieImagesRef, fileUpload);
-            const url = await getDownloadURL(snapshot.ref);
-            setImageUrls((prev) => [...prev, url]);
-        } catch (err) {
-            console.error(err);
-        };
-    };
-    
     useEffect(() => {
         getMovieList();
         listAll(allMovieImagesRef).then((response) => {
@@ -363,32 +319,12 @@ const FantasyMoviePage: React.FC = () => {
                             </DemoContainer>
                         </LocalizationProvider>
                     </Box>
-                    {/* <Box sx={{ mb: 2 }}>
-                        <TextField
-                            id="year-select"
-                            fullWidth
-                            select
-                            value={newMovieReleaseDate}
-                            label="Movie Release Year"
-                            onChange={(e) => setNewMovieReleaseDate(e.target.value)}
-                            variant="filled"
-                            InputLabelProps={{
-                                style: { color: '#fff' }, 
-                            }}
-                        >
-                            {yearOptions.map((year) => (
-                            <MenuItem key={year} value={year}>
-                                {year}
-                            </MenuItem>
-                            ))}
-                        </TextField>
-                    </Box> */}
                     <Box sx={{ mb: 2 }}>                        
                         <TextField
                             label="Movie Runtime"
                             type="number"
                             value={newMovieRunTime}
-                            onChange={(e) => setNewMovieRunTime(Number(e.target.value))}
+                            onChange={(e) => setNewMovieRunTime(e.target.value)}
                             variant="filled"
                             fullWidth
                             InputLabelProps={{
@@ -416,14 +352,15 @@ const FantasyMoviePage: React.FC = () => {
                             select
                             value={newMovieReceivedAnOscar}
                             label="Did Movie Win an Oscar"
-                            onChange={(e) => setNewMovieReceivedAnOscar(e.target.value)}
+                            // onChange={(e) => setNewMovieReceivedAnOscar(e.target.value)}
+                            onChange={(e) => setNewMovieReceivedAnOscar(e.target.value === 'Yes')}
                             variant="filled"
                             InputLabelProps={{
                                 style: { color: '#fff' }, 
                             }}
                         >
-                            <MenuItem value={true}>Yes</MenuItem>
-                            <MenuItem value={false}>No</MenuItem>
+                            <MenuItem value={'true'}>Yes</MenuItem>
+                            <MenuItem value={'false'}>No</MenuItem>
                         </TextField>
                     </Box>
                     <Box sx={{ mb: 2 }}> 
@@ -435,7 +372,13 @@ const FantasyMoviePage: React.FC = () => {
                                 shrink: true,
                                 style: { color: '#fff' }, 
                             }}
-                            onChange={(e) => setNewMovieImageUpload(e.target.files?.[0])}
+                            // onChange={(e) => setNewMovieImageUpload(e.target.files?.[0])}
+                            // onChange={(e) => setNewMovieImageUpload((e.target as HTMLInputElement).files?.[0])}
+                            // onChange={(e) => setNewMovieImageUpload(e.target?.files?.[0] ?? null)}
+                            onChange={(e) => {
+                                const target = e.target as HTMLInputElement;
+                                setNewMovieImageUpload(target.files?.[0] ?? null);
+                              }}
                             variant="filled"
                             fullWidth
                         />
@@ -450,14 +393,15 @@ const FantasyMoviePage: React.FC = () => {
                 </Grid>
                 <Grid item container spacing={2} xs={9} sx={{ mt: 2 }}>
                     {movieList.map((m) => (
-                    <Grid key={m.id} item >
-                    <Movie key={m.id} movie={m} 
-                        action={(movie: BaseMovieProps) => {
-                        return (
-                            <></>
-                        );
-                    }}/>
-                </Grid>
+                        <Grid key={m.id} item >
+                            <Movie key={m.id} movie={m} 
+                                // action={(movie: BaseMovieProps) => {
+                                //     return (
+                                //         <></>
+                                //     );
+                                // }}
+                            />
+                        </Grid>
                     ))}
                 </Grid>
             </Grid>

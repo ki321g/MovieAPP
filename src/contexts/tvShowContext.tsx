@@ -1,40 +1,39 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { BaseTvShowProps, Review } from "../types/interfaces";
 import { db, auth } from '../config/firebase';
-import { ref } from 'firebase/storage';
-import { getTVShow } from '../api/tmdb-api';
+
+// import { getTVShow } from '../api/tmdb-api';
 import { 
     getDocs, 
     query, 
     where,
     collection, 
     addDoc, 
-    deleteDoc, 
-    updateDoc,
+    deleteDoc,
     doc 
 } from 'firebase/firestore';
 
 interface TVShowContextInterface {
     favourites: number[];
-    mustWatch: number[],
+    // mustWatch: number[],
     addToFavourites: ((tvShow: BaseTvShowProps) => void);
     getFavourites: (() => void);
     removeFromFavourites: ((tvShow: BaseTvShowProps) => void);
     clearFavourites: (() => void);
     addReview: ((tvShow: BaseTvShowProps, review: Review) => void);
-    getPlaylists: (() => void);
-    addToPlaylist: ((tvShow: BaseTvShowProps) => void);
+    // getPlaylists: (() => void);
+    // addToPlaylist: ((tvShow: BaseTvShowProps) => void);
 }
 const initialContextState: TVShowContextInterface = {
     favourites: [],
-    mustWatch: [],
+    // mustWatch: [],
     addToFavourites: () => {},
     getFavourites: () => {},
     removeFromFavourites: () => {},
     clearFavourites: () => {},
     addReview: (tvShow, review) => { tvShow.id, review},
-    getPlaylists: () => {},
-    addToPlaylist: () => {},
+    // getPlaylists: () => {},
+    // addToPlaylist: () => {},
 };
 
 export const TVShowContext = React.createContext<TVShowContextInterface>(initialContextState);
@@ -42,16 +41,16 @@ export const TVShowContext = React.createContext<TVShowContextInterface>(initial
 const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
-    const [playlists, setPlaylists] = useState<number[]>([]);
-    const [mustWatch, setMustWatch] = useState<number[]>([]);
+    // const [playlists, setPlaylists] = useState<number[]>([]);
+    // const [mustWatch, setMustWatch] = useState<number[]>([]);
     const favouriteTVShowsRef = collection(db, 'tv_favourites');
-    const tvShowsPlaylistRef = collection(db, 'tv_playlists');
+    // const tvShowsPlaylistRef = collection(db, 'tv_playlists');
 
     const getFavourites = async () => {
         try {
             if (auth?.currentUser?.uid) {
-                const favouriteTVShows = await getFavouritesTVShowsList();
-                const favouriteTVShowsIds = favouriteTVShows.map(tvShow => tvShow.tvShow_id);
+                const favouriteTVShows = await getFavouritesTVShowsList();                
+                const favouriteTVShowsIds: any = favouriteTVShows?.map((tvShow: any) => tvShow.tvShow_id) || [];
                 setFavourites(favouriteTVShowsIds);
             } else {
                 setFavourites([]); // Clear favourites when the user is not authenticated
@@ -80,19 +79,16 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
     const addToFavourites = useCallback(async (tvShow: BaseTvShowProps) => {
         try {
-            console.log('addToFavourites hope i get here');
-            console.log("tvShow.id")
-            console.log(tvShow.id)
+            
             const tvShowIdToCheck = tvShow.id;
-            console.log(tvShowIdToCheck);
-            const favouriteTVShows = await getFavouritesTVShowsList();
-            const isFavourite = favouriteTVShows.find(favTVShow => favTVShow.tvshow_id === tvShowIdToCheck);
-
+            const favouriteTVShows = await getFavouritesTVShowsList();            
+            const isFavourite: any = favouriteTVShows?.find((favTVShow: any) => favTVShow.movie_id === tvShowIdToCheck);
             console.log(isFavourite);
 
             if (isFavourite) {
                 console.log('The TV Show is in the favourites list');
-                const favouriteTVShowsIds = favouriteTVShows.map(tvShow => tvShow.tvshow_id);
+                // const favouriteTVShowsIds: any  = favouriteTVShows?.map((tvShow: any) => tvShowIdToCheck);
+                const favouriteTVShowsIds: any = favouriteTVShows?.map(() => tvShowIdToCheck);
                 setFavourites(favouriteTVShowsIds);
                 return favourites;
                 
@@ -106,8 +102,9 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 });
 
                 const latestfavouriteTVShows = await getFavouritesTVShowsList();
-                const favouriteTVShowsIds = latestfavouriteTVShows.map(tvShow => tvShow.tvshow_id);
-                setTVFavourites(favouriteTVShowsIds);
+                const favouriteTVShowsIds: any = latestfavouriteTVShows?.map((tvShow: any) => tvShow.tvshow_id);
+                setFavourites(favouriteTVShowsIds);
+                
                 return favourites;
             }
         } catch (error) {
@@ -120,10 +117,10 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
         try {
             const favouriteTVShows = await getFavouritesTVShowsList();
-            const movieToRemove = favouriteTVShows.find(favTVShow => favTVShow.tvshow_id === tvShow.id);
+            const tvShowToRemove: any = favouriteTVShows?.find((favTVShow: any) => favTVShow.movie_id === tvShow.id);
 
-            if (movieToRemove) {
-                await deleteDoc(doc(favouriteTVShowsRef, movieToRemove.id));
+            if (tvShowToRemove) {
+                await deleteDoc(doc(favouriteTVShowsRef, tvShowToRemove.id));
                 setFavourites((prevFavourites) => prevFavourites.filter((mId) => mId !== tvShow.id));
             }
         } catch (error) {
@@ -135,43 +132,45 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         setMyReviews( {...myReviews, [tvShow.id]: review } )
     };
 
-    const addToPlaylist = useCallback((tvShow: BaseTvShowProps) => {
-        setMustWatch((prevMustWatch) => {
-            if (!prevMustWatch.includes(tvShow.id)) {
-                const newMustWatch = [...prevMustWatch, tvShow.id];
-                console.log(newMustWatch);
-                return [...prevMustWatch, tvShow.id];
-            }
-            return prevMustWatch;
-        });
-    }, []);
-    const getPlaylists = async () => {
-        const playlistTVShows = await getPlaylistsTVShows();
-        return(playlistTVShows);
-    };
-    const getPlaylistsTVShows = async () => {
-        try {
-            
-            const result = query(tvShowsPlaylistRef, where("userId", "==", auth?.currentUser?.uid));
-            const playlistTVShows = await getDocs(result);
-            const filteredPlaylistTVShows = playlistTVShows.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+    // const addToPlaylist = useCallback((tvShow: BaseTvShowProps) => {
+    //     setMustWatch((prevMustWatch) => {
+    //         if (!prevMustWatch.includes(tvShow.id)) {
+    //             const newMustWatch = [...prevMustWatch, tvShow.id];
+    //             console.log(newMustWatch);
+    //             return [...prevMustWatch, tvShow.id];
+    //         }
+    //         return prevMustWatch;
+    //     });
+    // }, []);
+    
+    // const getPlaylists = async () => {
+    //     const playlistTVShows = await getPlaylistsTVShows();
+    //     return(playlistTVShows);
+    // };
 
-            const updatedPlaylistTVShows = await Promise.all(
-                filteredPlaylistTVShows.map(async (tvShow) => {
-                  const tvShowDetails = await getTVShow(tvShow.id);
-                  return { ...tvShow, details: tvShowDetails };
-                })
-            );
+    // const getPlaylistsTVShows = async () => {
+    //     try {
             
-            console.log(updatedPlaylistTVShows);
-            return(updatedPlaylistTVShows);
-        } catch (err) {
-            console.error(err);
-        };
-    }
+    //         const result = query(tvShowsPlaylistRef, where("userId", "==", auth?.currentUser?.uid));
+    //         const playlistTVShows = await getDocs(result);
+    //         const filteredPlaylistTVShows = playlistTVShows.docs.map((doc) => ({
+    //             id: doc.id,
+    //             ...doc.data(),
+    //         }));
+
+    //         const updatedPlaylistTVShows = await Promise.all(
+    //             filteredPlaylistTVShows.map(async (tvShow) => {
+    //               const tvShowDetails = await getTVShow(tvShow.id);
+    //               return { ...tvShow, details: tvShowDetails };
+    //             })
+    //         );
+            
+    //         console.log(updatedPlaylistTVShows);
+    //         return(updatedPlaylistTVShows);
+    //     } catch (err) {
+    //         console.error(err);
+    //     };
+    // }
 
     const clearFavourites = () => {
         console.log('clearFavourites');
@@ -182,10 +181,10 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
         <TVShowContext.Provider
             value={{
                 favourites,
-                mustWatch,
+                // mustWatch,
                 addToFavourites,
                 getFavourites,
-                addToPlaylist,
+                // addToPlaylist,
                 removeFromFavourites,
                 clearFavourites,
                 addReview,                

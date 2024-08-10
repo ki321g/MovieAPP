@@ -60,8 +60,10 @@ const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
                 <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
                 <Chip
                     icon={<MonetizationIcon />}
+                    // label={`${movie.revenue ? movie.revenue.toLocaleString() : '0'}`}
                     label={`${movie.revenue.toLocaleString()}`}
                 />
+                
                 <Chip
                     icon={<StarRate />}
                     label={`${movie.vote_average} (${movie.vote_count}`}

@@ -42,7 +42,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
   const authContext = useContext(AuthContext);
   const userLoggedIn = !!authContext?.token;
 
-  const { favourites, addToFavourites, getFavourites } = useContext(MoviesContext);
+  const { favourites, getFavourites } = useContext(MoviesContext);
 
   const isFavourite = favourites.find((id) => id === movie.id)? true : false;
   

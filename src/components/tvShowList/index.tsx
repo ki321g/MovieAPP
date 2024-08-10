@@ -8,7 +8,8 @@ const TVShowList: React.FC<BaseTvShowListProps> = ({tvShows, action}) => {
   
   let tvShowCards = tvShows.map((tvShow: BaseTvShowProps) => (
     <Grid container key={tvShow.id} item xs={12} sm={6} md={4} lg={3} xl={2}>
-      <TVShow key={tvShow.id} tvShow={tvShow} action={action}/>
+      {/* <TVShow key={tvShow.id} tvShow={tvShow} action={action}/> */}
+      <TVShow key={tvShow.id} tvShow={tvShow} action={action || (() => null)}/>
     </Grid>
   ));
     console.log(location.pathname);

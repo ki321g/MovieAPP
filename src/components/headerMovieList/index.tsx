@@ -29,8 +29,9 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
         <Paper component="div" sx={styles.root}>
             <IconButton
                 aria-label="go back"
+                color="secondary"
             >
-                <ArrowBackIcon color="primary" fontSize="large" />
+                <ArrowBackIcon fontSize="large" />
             </IconButton>
 
             <Typography variant="h4" component="h3">
@@ -38,8 +39,9 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
             </Typography>
             <IconButton
                 aria-label="go forward"
+                color="secondary"
             >
-                <ArrowForwardIcon color="primary" fontSize="large" />
+                <ArrowForwardIcon fontSize="large" />
             </IconButton>
         </Paper>
     );
