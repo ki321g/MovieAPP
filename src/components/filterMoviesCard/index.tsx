@@ -14,6 +14,8 @@ import { SelectChangeEvent } from '@mui/material';
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import Box from '@mui/material/Box';
+
 const styles = {
 	root: {
 		maxWidth: 345,
@@ -64,10 +66,22 @@ interface FilterMoviesCardProps {
 		<>
 			<Card sx={styles.root} variant='outlined'>
 				<CardContent>
-					<Typography variant='h5' component='h1'>
-						<FilterAltIcon fontSize='large' />
-						Filter the movies.
-					</Typography>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Typography variant='h5' component='h1'>
+							<SortIcon 
+								color="secondary" 
+								style={{ fontSize: 40, fontWeight: 'bold' }}
+							/>
+							FILTER MOVIES.
+						</Typography>
+					</Box>
+					{/* <Typography variant='h5' component='h1'>
+						<FilterAltIcon  
+							color="secondary" 
+							style={{ fontSize: 40, fontWeight: 'bold' }}
+						/>
+						Filter Movies.
+					</Typography> */}
 					<TextField
 						sx={styles.formControl}
 						id='filled-search'
@@ -89,14 +103,6 @@ interface FilterMoviesCardProps {
 							})}
 						</Select>
 					</FormControl>
-				</CardContent>
-			</Card>
-			<Card sx={styles.root} variant='outlined'>
-				<CardContent>
-					<Typography variant='h5' component='h1'>
-						<SortIcon fontSize='large' />
-						Sort the movies.
-					</Typography>
 				</CardContent>
 			</Card>
 		</>
