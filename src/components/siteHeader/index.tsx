@@ -57,19 +57,25 @@ const SiteHeader: React.FC = () => {
     { 
       label: "TV Shows", 
       subMenu: [
-        { label: "Discover", path: "/tv/discover" },
-        { label: "Upcoming", path: "/tv/upcoming" },
+        { label: "Discover", path: "/tv/" },
+        // { label: "Airing Today", path: "/tv/airing-today" },
       ]
     },
-    { 
-      label: "Playlists", 
-      subMenu: [
-        { label: "Movie Playlists", path: "/movies/playlists" },
-        { label: "TV Playlists", path: "/tv/upcoming" },
-      ]
-    },
-    { label: "Favorites", path: "/movies/favourites" },
   ];
+
+  if (auth.currentUser) {
+    menuOptions.push(
+      { 
+        label: "Playlists", 
+        subMenu: [
+          { label: "Movie Playlists", path: "/movies/playlists" },
+          { label: "TV Playlists", path: "/tv/upcoming" },
+        ]
+      },
+      { label: "Favorites", path: "/movies/favourites" },
+      { label: "Fantasy Movie", path: "/fantasymovie" },
+    );
+  }
 
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);

@@ -24,13 +24,16 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = (headerProps) => {
     const title = headerProps.title
+    console.log('Header');
+    // console.log('page: ', page);
+        // const [page, setPage] = useState(1);)
 
     return (
-        <Paper component="div" sx={styles.root}>
+        <Paper component="div" sx={styles.root}>            
             <IconButton
                 aria-label="go back"
             >
-                <ArrowBackIcon color="primary" fontSize="large" />
+                <ArrowBackIcon color="#fff" fontSize="large" />
             </IconButton>
 
             <Typography variant="h4" component="h3">
@@ -39,7 +42,7 @@ const Header: React.FC<HeaderProps> = (headerProps) => {
             <IconButton
                 aria-label="go forward"
             >
-                <ArrowForwardIcon color="primary" fontSize="large" />
+                <ArrowForwardIcon color="#fff" fontSize="large" />
             </IconButton>
         </Paper>
     );

@@ -7,7 +7,9 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
+import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
+import StarRateIcon from "@mui/icons-material/StarRate";
+import Grid from "@mui/material/Grid";
 import img from '../../images/film-poster-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces"; 
 import { Link } from "react-router-dom";
@@ -28,10 +30,10 @@ const styles = {
   },
 };
 
-// interface MovieListProps {
-//   movie:ListedMovie,
-//   action: (m: ListedMovie) => React.ReactNode;
-// }
+interface MovieListProps {
+  movie:ListedMovie,
+  action: (m: ListedMovie) => React.ReactNode;
+}
 
 interface MovieCardProps {
   movie: BaseMovieProps;
@@ -105,7 +107,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                   component="img"
                   image={
                     movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                      ? movie.poster_path
                       : img
                   }
                   alt={movie.title}
@@ -137,7 +139,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               width: '100%',
               height: '100%',
               backfaceVisibility: 'hidden',
-              backgroundColor: '#333',
+              backgroundColor: '#303030',
               color: 'white',
               transform: 'rotateY(180deg)',
               display: 'flex',
@@ -160,28 +162,17 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                   </Typography>
                 }
               />
-              <CardMedia
-                component="img"
-                image={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                alt={movie.title}
-                sx={{
-                  // height: '100%',
-                  alignSelf: 'flex-start',
-                  width: '100%',
-                  borderRadius: '0px 0px 0 0',
-                }}
-              />              
               <CardActions disableSpacing>
                 {userLoggedIn && (
                   <Box onClick={(e) => e.stopPropagation()}>
                     {action(movie)}
                   </Box>
                 )}
-                <Link to={`/movies/${movie.id}`}>
+                {/* <Link to={`/movies/${movie.id}`}>
                   <Button variant="outlined" size="medium" color="primary">
                     More Info ...
                   </Button>
-                </Link>
+                </Link> */}
               </CardActions>
               <CardContent sx={{ textAlign: 'left', padding: '20px', }}>
                 {/* <Typography variant="h6" component="div" sx={{ margin: '10px 0' }}>
@@ -190,6 +181,17 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 <Typography variant="body2" color="white">
                 {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)}
                 </Typography>
+                Genre: {movie.genre}
+                <br />
+                Release Date: {movie.release_date}
+                <br />
+                runTime: {movie.runtime}
+                <br />
+                productionCompany: {movie.productionCompany} 
+                <br />
+                receivedAnOscar: {movie.receivedAnOscar ? 'True' : 'False'}
+                <br />
+                MovieID: {movie.id}
               </CardContent>
             </Card>
           </Box>

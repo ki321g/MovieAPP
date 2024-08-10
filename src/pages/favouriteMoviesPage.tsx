@@ -12,6 +12,7 @@ import MovieFilterUI, {
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
 import { auth } from '../config/firebase';
+import { BaseMovieProps } from '../types/interfaces';
 
 
 const titleFiltering = {
@@ -30,17 +31,17 @@ const FavouriteMoviesPage: React.FC = () => {
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
-  
+
   useEffect(() => {
     // Fetch the favourites here and update the state
     getFavourites();
   }, []);
 
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
-  console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
+  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
 
 
   // Create an array of queries and run them in parallel.
@@ -79,7 +80,7 @@ const FavouriteMoviesPage: React.FC = () => {
       <PageTemplate
         title="Favourite Movies"
         movies={displayedMovies}
-        action={(movie) => {
+        action={(movie: BaseMovieProps) => {
           return (
             <>
               <RemoveFromFavourites {...movie} />

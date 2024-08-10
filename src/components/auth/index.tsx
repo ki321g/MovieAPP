@@ -12,12 +12,12 @@ export const Auth: React.FC = () => {
     const { authenticate } = authContext || {};
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
-
+    
     console.log(auth?.currentUser?.email);
 
     const signIn = async () => {
         try {
-            const result = await signInWithEmailAndPassword(auth, email, password);
+                        const result = await signInWithEmailAndPassword(auth, email, password);
             const token = result.user.accessToken;
             authenticate && authenticate(token);
         } catch (err) {
@@ -27,7 +27,7 @@ export const Auth: React.FC = () => {
 
     const signUp = async () => {
         try {
-            const result = await createUserWithEmailAndPassword(auth, email, password);
+            const result = await createUserWithEmailAndPassword(auth, email, password);            
             const token = result.user.accessToken;
             authenticate && authenticate(token);
         } catch (err) {
@@ -37,7 +37,7 @@ export const Auth: React.FC = () => {
 
     const signInWithGoogle = async () => {
         try {
-            const result = await signInWithPopup(auth, googleProvider);
+            const result = await signInWithPopup(auth, googleProvider);            
             const token = result.user.accessToken;
             authenticate && authenticate(token);
         } catch (err) {
@@ -48,6 +48,7 @@ export const Auth: React.FC = () => {
     const logout = async () => {
         try {
             await signOut(auth);
+            setToken(null);
         } catch (err) {
             console.error(err);
         }

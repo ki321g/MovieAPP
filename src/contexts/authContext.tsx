@@ -1,47 +1,54 @@
-import React, { useState, createContext} from "react";
-// import fakeAuth from "../fakeAuth";
+import React, { useEffect, useState, createContext} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContextInterface } from "../types/interfaces";
-import { signOut } from "firebase/auth";
-import { auth, googleProvider } from '../config/firebase';
+import { signOut, onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
+import { auth } from '../config/firebase';
 
 export const AuthContext = createContext<AuthContextInterface | null>(null);
 
-const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
-  
-    const [token, setToken] = useState<string|null>(null);
-    const [uid, setUid] = useState<string|null>(null);
-    const [email, setEmail] = useState<string|null>(null);
-    const [displayName, setDisplayName] = useState<string|null>(null);
-    const [photoUrl, setPhotoUrl] = useState<string|null>(null);
+const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {  
+  const [user, setUser] = useState<any|null>(null);
+  const [token, setToken] = useState<string|null>(null);
+  const [loading, setLoading] = useState(true);
 
-    // const [loggedInUser, setLoggedInUser] = useState<LoggedInUser|null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
-//   const authenticate = async (username: string, password: string) => {
-//     const token = await fakeAuth(username, password);
+  const setAuthState = async () => {
+    try {
+ 
+      if (auth?.currentUser) {
+        const userToken = await auth.currentUser.getIdToken(); // Get ID token
+        setToken(userToken); // Set token
+        setUser(auth?.currentUser); // Set user information
+      } else {
+        setUser(null);
+        setToken(null);
+      }
+      // console.log('TOKEN: ' & token);
+      // console.log(user);
+    } catch (err) {
+      console.error('Failed to Set Authentication State:', (err as Error).message);
+      setToken(null);
+      setUser(null);
+    } finally {
+      setLoading(false); 
+    }
+  };
 
-// const authenticate = async (
-//         token: string, 
-//         uid: string,
-//         email: string,
-//         displayName: string,
-//         photoUrl: string,
-//     ) => {
-const authenticate = async ( token: string ) => {
-        setToken(token);
-        // setUid(uid);
-        // setEmail(email);
-        // setDisplayName(displayName);
-        // setPhotoUrl(photoUrl);
+
+  // const authenticate = async ( token: string ) => {
+  const authenticate = async () => {
+        await setAuthState();
+
         const origin = location.state?.intent?.pathname || "/";
         navigate(origin);
   };
   
   const signout = async () => {
     try {
-        await signOut(auth);
+        await signOut(auth);        
+        setUser(null);
         setToken(null);
         navigate('/')
     } catch (err) {
@@ -49,12 +56,39 @@ const authenticate = async ( token: string ) => {
     }
   };
 
+  useEffect(() => {
+    
+    const awaitStateChange = async () => {
+      await setAuthState();
+      
+      // 
+      const unsubscribe = onAuthStateChanged(auth, async (user: FirebaseUser | null) => {
+        if (user) {
+          const token = await user.getIdToken(); // Get token
+          localStorage.setItem('token', token); // Store token in localStorage
+          setToken(token); // Update token
+          setUser(user); // Update user information
+        } else {
+          localStorage.removeItem('token'); // Remove token from localStorage
+          setToken(null);
+          setUser(null);
+        }
+      });
+
+      return () => unsubscribe();
+    };
+
+    awaitStateChange();
+    }, []);
+
   return (
     <AuthContext.Provider
       value={{
+        user,
         token,
         authenticate,
         signout,
+        loading, 
       }}
     >
       {props.children}

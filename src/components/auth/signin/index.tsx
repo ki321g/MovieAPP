@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from '../../../contexts/authContext';
 // import { useHistory } from 'react-router-dom';
 
+import { MoviesContext } from "../../../contexts/moviesContext";
 import { auth, googleProvider } from '../../../config/firebase';
 import { 
         signInWithEmailAndPassword, 
@@ -18,45 +19,24 @@ import { LoggedInUser } from '../../../types/interfaces';
 export const Auth = () => {
     const authContext = useContext(AuthContext);
     const { authenticate } = authContext || {};
-    // const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { clearFavourites } = useContext(MoviesContext);
+
 
     const paperStyle={padding :50,height:'50vh',width:280, margin:"60px auto"};
     const avatarStyle={backgroundColor:'#1bbd7e'};
     const btnstyle={fontSize: '18px', height: '50px', margin:'8px 0', borderRadius: 0, backgroundColor:'#1bbd7e', };
 
-    console.log(auth?.currentUser?.email);
-
     const signIn = async () => {
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
-            console.log(result);
-            const token = result?.user.stsTokenManager.accessToken;
-            const uid = result?.user?.uid;
-            const email = result?.user?.email;
-            const displayName = result?.user?.displayName;
-            const photoUrl = result?.user?.photoURL;
-            const accessToken = result?.user?.accessToken;
-
-            // Set loggedInUser to the user object
-            const newLoggedInUser: LoggedInUser = {
-                uid: uid || '',
-                email: email || '',
-                displayName: displayName || '',
-                photoUrl: photoUrl || null,
-                token: accessToken || '',
+            // console.log(result);
+            
+            // authenticate && authenticate(token || '');
+            if (authenticate) {
+                await authenticate();
             };
-
-            console.log(newLoggedInUser);
-            authenticate && authenticate(token || '');
-            // authenticate && authenticate(
-            //     token || '', 
-            //     uid || '',
-            //     email || '',
-            //     displayName || '',
-            //     photoUrl || ''
-            // );
         } catch (err) {
             console.error(err);
         }
@@ -65,25 +45,12 @@ export const Auth = () => {
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            console.log(result);
-            const token = result?.user.stsTokenManager.accessToken;
-            const uid = result?.user?.uid;
-            const email = result?.user?.email;
-            const displayName = result?.user?.displayName;
-            const photoUrl = result?.user?.photoURL;
-            const accessToken = result?.user?.accessToken;
+            // console.log(result);
 
-            // Set loggedInUser to the user object
-            const newLoggedInUser: LoggedInUser = {
-                uid: uid || '',
-                email: email || '',
-                displayName: displayName || '',
-                photoUrl: photoUrl || null,
-                token: accessToken || '',
+            // authenticate && authenticate(token || '');
+            if (authenticate) {
+                await authenticate();
             };
-            
-            console.log(newLoggedInUser);
-            authenticate && authenticate(token, newLoggedInUser);
         } catch (err) {
             console.error(err);
         }
@@ -92,6 +59,7 @@ export const Auth = () => {
     const logout = async () => {
         try {
             await signOut(auth);
+            clearFavourites(); // Clear the favourites
         } catch (err) {
             console.error(err);
         }
