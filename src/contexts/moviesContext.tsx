@@ -192,7 +192,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     }, []);
 
     const addReview = (movie:BaseMovieProps, review: Review) => {   // NEW
-        setMyReviews( {...myReviews, [movie.id]: review } )
+        setMyReviews( {...myReviews, [movie.id]: review } );
+        console.log(myReviews);
       };
 
     const addToPlaylist = useCallback((movie: BaseMovieProps) => {
