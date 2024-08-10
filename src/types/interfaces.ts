@@ -117,3 +117,62 @@ export interface PlaylistMovies {
   playlist_name: string;	
   results: BaseMovieProps[];
 };
+
+
+export interface BaseTvShowProps {
+  name: string;
+  id: number;
+  original_language: string;
+  overview: string;
+  first_air_date: string;
+  vote_average: number;
+  popularity: number;
+  poster_path?: string;
+  backdrop_path?: string;
+  genre_ids?: number[];
+  favourite?: boolean;
+  playlist?: boolean;
+  // cast?: TvShowCastMember[];
+}
+export interface TvShowDetailsProps extends BaseTvShowProps {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  number_of_seasons: number;
+  number_of_episodes: number;
+  tagline: string;
+}
+
+export interface DiscoverTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
+export interface AiringTodayTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
+export interface BaseTvShowListProps {
+  tvShows: BaseTvShowProps[];
+  action?: (tvShow: BaseTvShowProps) => React.ReactNode;
+}
+
+export interface TVShowListPageTemplateProps extends BaseTvShowListProps {
+  title: string;
+}
+
+export interface TvImage {
+  file_path: string;
+  aspect_ratio?: number;
+  height?: number;
+  iso_639_1?: string;
+  vote_average?: number;
+  vote_count?: number;
+  width?: number;
+}

@@ -228,13 +228,13 @@ const FantasyMoviePage: React.FC = () => {
             setNewMovieTitle('');
             setNewMovieOverview('');
             setNewMovieGenre('');
-            setNewMovieReleaseDate('');
+            // setNewMovieReleaseDate(null);
             setNewMovieRunTime('');
             setNewMovieProductionCompany('');
             setNewMovieReceivedAnOscar('');
-            setNewMovieDate('');
+            setNewMovieDate(null);
             setNewMovieImageUrl('');
-            setInputKey(Date.now());
+            // setInputKey(Date.now());
             getMovieList();
         } catch (err) {
             console.error(err);

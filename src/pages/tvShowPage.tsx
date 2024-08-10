@@ -1,16 +1,16 @@
-import React, { useState }  from 'react';
-import PageTemplate from '../components/templateMovieListPage';
-import { getMovies } from '../api/tmdb-api';
+import React, { useState, useContext, useEffect }  from 'react';
+import PageTemplate from '../components/templateTVShowListPage';
+import { getTVShows } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
-import MovieFilterUI, {
+import AddToTVShowFavouritesIcon from '../components/cardIcons/addToTVShowFavourites';
+import TVShowFilterUI, {
 	titleFilter,
 	genreFilter,
-} from '../components/movieFilterUI';
-import { DiscoverMovies } from '../types/interfaces';
+} from '../components/tvShowFilterUI';
+import { DiscoverTvShows } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
-import { BaseMovieProps } from '../types/interfaces';
+import { BaseTvShowProps } from '../types/interfaces';
 // import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 // import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
@@ -44,20 +44,16 @@ const genreFiltering = {
 	condition: genreFilter,
 };
 
-const HomePage: React.FC = () => {
+const TVShows: React.FC = () => {
 	const [page, setPage] = useState(1);
 	
-	const { data, error, isLoading, isError, isPreviousData } = useQuery<DiscoverMovies, Error>({
-		queryKey: ["discover", page],
-		queryFn: () => getMovies(page),
+	const { data, error, isLoading, isError, isPreviousData } = useQuery<DiscoverTvShows, Error>({
+		queryKey: ["/tv/discoverTvShows", page],
+		queryFn: () => getTVShows(page),
 		keepPreviousData: true
 	});
-	// const { data, error, isLoading, isError, isPreviousData } = useQuery<DiscoverMovies, Error>(
-		// 'discover',
-		// getMovies
-	// );
+	
 	const { filterValues, setFilterValues, filterFunction } = useFiltering(
-		// [],
 		[titleFiltering, genreFiltering]
 	);
 
@@ -78,8 +74,10 @@ const HomePage: React.FC = () => {
 		setFilterValues(updatedFilterSet);
 	};
 
-	const movies = data ? data.results : [];
-	const displayedMovies = filterFunction(movies);
+	const tvShows = data ? data.results : [];
+	// const numberPages = data ? data.total_pages : (0);
+	const displayedTVShows = filterFunction(tvShows);	
+
 	const prevPage = () => setPage((prev) => prev - 1);
 	const nextPage = () => setPage((next) => next + 1);
 
@@ -96,14 +94,18 @@ const HomePage: React.FC = () => {
 				</IconButton>
 
 				<Typography variant="h4" component="h3">
-					Discover Movies
+					Discover TV Shows
 				</Typography>
+				
+				<Typography >
+					{page} of {data?.total_pages}
+				</Typography>
+				
 				<IconButton onClick={nextPage} disabled={isPreviousData || page === data?.total_pages}
 					aria-label="go forward"
 				>
 					<KeyboardDoubleArrowRightSharpIcon 
-						color={isPreviousData || page === data?.total_pages ? "disabled" : "secondary"}  
-						style={{ fontSize: 50, fontWeight: 'bold' }}
+						color={isPreviousData || page === data?.total_pages ? "disabled" : "secondary"}  style={{ fontSize: 50, fontWeight: 'bold' }}
 					/>
 				</IconButton>
 			</Paper> */}
@@ -122,7 +124,7 @@ const HomePage: React.FC = () => {
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center">
-						Discover Movies
+							Discover TV Shows
 						</Typography>
 					</Grid>
 
@@ -144,15 +146,14 @@ const HomePage: React.FC = () => {
 					</Grid>
 				</Grid>
 			</Paper>
-
 			<PageTemplate
-				title='Discover Movies'
-				movies={displayedMovies}
-				action={(movie: BaseMovieProps) => {
-					return <AddToFavouritesIcon {...movie} />;
+				title='Discover TV Shows'
+				tvShows={displayedTVShows}
+				action={(tvShow: BaseTvShowProps) => {
+					return <AddToTVShowFavouritesIcon {...tvShow} />;
 				}}
 			/>
-			<MovieFilterUI
+			<TVShowFilterUI
 				onFilterValuesChange={changeFilterValues}
 				titleFilter={filterValues[0].value}
 				genreFilter={filterValues[1].value}
@@ -160,4 +161,4 @@ const HomePage: React.FC = () => {
 		</>
 	);
 };
-export default HomePage;
+export default TVShows;

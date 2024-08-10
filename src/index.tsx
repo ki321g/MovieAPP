@@ -20,7 +20,11 @@ import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
 import DiscoverMoviesPage from "./pages/discoverMoviesPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
-import FantasyMoviePage from './pages/fantasyMoviePage'
+import FantasyMoviePage from './pages/fantasyMoviePage';
+import TVShows from './pages/tvShowPage';
+import TVShowDetailsPage from './pages/tvShowDetailsPage';
+import TVShowReviewPage from './pages/tvShowReviewPage';
+import AiringTodayTVShows from './pages/tvShowAiringTodayPage';
 import LoginPage from "./pages/loginPage";
 import LoginTest from "./pages/loginTest";
 
@@ -43,6 +47,8 @@ const App = () => {
             <SiteHeader /> 
             <MoviesContextProvider>
               <Routes>
+                {/* Movie Routes */}
+                <Route path="/movies/:id" element={<MoviePage />} />
                 <Route path="/movies/discover" element={<DiscoverMoviesPage />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
                 <Route path="/movies/favourites" element={
@@ -50,19 +56,25 @@ const App = () => {
                     <FavouriteMoviesPage />
                   </ProtectedRoute>
                 } />
+                <Route path="/movies/playlists" element={
+                  <ProtectedRoute>
+                    <PlaylistMoviesPage />
+                  </ProtectedRoute>
+                } />
                 <Route path="/fantasymovie" element={
                   <ProtectedRoute>
                     <FantasyMoviePage />
                   </ProtectedRoute>
                 } />
-                <Route path="/movies/playlists" element={
-                  <ProtectedRoute>
-                    <PlaylistMoviesPage />
-                  </ProtectedRoute>
-                } />                
-                <Route path="/movies/:id" element={<MoviePage />} />
-                <Route path="/reviews/:id" element={<MovieReviewPage/>} />
+                {/* TV Show Routes */}
+                <Route path="/tv/:id" element={<TVShowDetailsPage />} />
+                <Route path="/tv" element={<TVShows />} />
+                <Route path="/tv/airing-today" element={<AiringTodayTVShows />} />
+                {/* Review Routes */}                
+                <Route path="/reviews/movie/:id" element={<MovieReviewPage/>} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
+                <Route path="/reviews/tv/:id" element={<TVShowReviewPage />} />
+                {/* Other Routes */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/logintest" element={<LoginTest />} />

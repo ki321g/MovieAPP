@@ -9,10 +9,10 @@ import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import img from '../../images/film-poster-placeholder.png';
-import { BaseMovieProps } from "../../types/interfaces"; 
+import { BaseTvShowProps } from "../../types/interfaces"; 
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import { MoviesContext } from "../../contexts/moviesContext";
+import { TVShowContext } from "../../contexts/tvShowContext";
 import { Box } from '@mui/material';
 import { AuthContext } from "../../contexts/authContext";
 
@@ -28,23 +28,23 @@ const styles = {
   },
 };
 
-// interface MovieListProps {
-//   movie:ListedMovie,
-//   action: (m: ListedMovie) => React.ReactNode;
+// interface TvShowListProps {
+//   tvShow:ListedTVShow,
+//   action: (m: ListedTVShow) => React.ReactNode;
 // }
 
-interface MovieCardProps {
-  movie: BaseMovieProps;
-  action: (m: BaseMovieProps) => React.ReactNode;
+interface TVShowCardProps {
+  tvShow: BaseTvShowProps;
+  action: (m: BaseTvShowProps) => React.ReactNode;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
+const TVShowCard: React.FC<TVShowCardProps> = ({tvShow, action}) => {
   const authContext = useContext(AuthContext);
   const userLoggedIn = !!authContext?.token;
 
-  const { favourites, addToFavourites, getFavourites } = useContext(MoviesContext);
+  const { favourites, getFavourites } = useContext(TVShowContext);
 
-  const isFavourite = favourites.find((id) => id === movie.id)? true : false;
+  const isFavourite = favourites.find((id) => id === tvShow.id)? true : false;
   
   useEffect(() => {
     // Fetch the favourites here and update the state
@@ -67,7 +67,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
         },
       }}
     >
-      {movie && (
+      {tvShow && (
         <Box
           className="innerCard"
           sx={{
@@ -104,11 +104,11 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 <CardMedia
                   component="img"
                   image={
-                    movie.poster_path
-                      ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                    tvShow.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`
                       : img
                   }
-                  alt={movie.title}
+                  alt={tvShow.name}
                   sx={{
                     height: '100%',
                     width: '100%',
@@ -144,7 +144,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               flexDirection: 'column',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              // padding: '20px',
               boxSizing: 'border-box',
               border: 'none',
               backgroundImage: 'none',
@@ -156,14 +155,14 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               <CardHeader
                 title={
                   <Typography variant="h6" component="p">
-                    {movie.title}{" "}
+                    {tvShow.name}{" "}
                   </Typography>
                 }
               />
               <CardMedia
                 component="img"
-                image={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
-                alt={movie.title}
+                image={`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`}
+                alt={tvShow.name}
                 sx={{
                   // height: '100%',
                   alignSelf: 'flex-start',
@@ -174,21 +173,18 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               <CardActions disableSpacing>
                 {userLoggedIn && (
                   <Box onClick={(e) => e.stopPropagation()}>
-                    {action(movie)}
+                    {action(tvShow)}
                   </Box>
                 )}
-                <Link to={`/movies/${movie.id}`}>
+                <Link to={`/tv/${tvShow.id}`}>
                   <Button variant="outlined" size="medium" color="primary">
                     More Info ...
                   </Button>
                 </Link>
               </CardActions>
               <CardContent sx={{ textAlign: 'left', padding: '20px', }}>
-                {/* <Typography variant="h6" component="div" sx={{ margin: '10px 0' }}>
-                  {movie.title}
-                </Typography> */}
                 <Typography variant="body2" color="white">
-                {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)}
+                {tvShow.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)}
                 </Typography>
               </CardContent>
             </Card>
@@ -200,4 +196,4 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
   );
 }
 
-export default MovieCard;
+export default TVShowCard;
