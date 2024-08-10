@@ -402,7 +402,10 @@ const DrawerList = (
     <>
     {/* <IconButton aria-label="add to playlist" onClick={onUserSelect}> */}
       <IconButton aria-label="add to playlist" onClick={toggleDrawer(true)}>
-        <PlaylistAddIcon color="primary" fontSize="large" />
+        <PlaylistAddIcon 
+          color="secondary" 
+          style={{ fontSize: 40, fontWeight: 'bold' }}
+        />
       </IconButton>
       <Drawer open={open} onClose={toggleDrawer(false)}>
           {DrawerList}
