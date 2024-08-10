@@ -119,6 +119,20 @@ export const getTVShowReviews = (id: string | number) => { //movie id can be str
 	  });
   };
 
+
+export const getTVShowGenres = () => {
+	return fetch(
+		`https://api.themoviedb.org/3/genre/tv/list?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false`
+	).then( (response) => {
+	  if (!response.ok)
+		throw new Error(`Unable to fetch genres. Response status: ${response.status}`);
+	  return response.json();
+	})
+	.catch((error) => {
+	  throw error
+   });
+  };
+
 //   export const getSimilarTvShows = (id: string | number) => {
 // 	return fetch(
 // 	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`

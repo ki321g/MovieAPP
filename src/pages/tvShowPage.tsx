@@ -19,6 +19,9 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import SortTVShowsUI from "../components/sortTVShowsUi";
 
 const styles = {
     root: {
@@ -46,6 +49,7 @@ const genreFiltering = {
 
 const TVShows: React.FC = () => {
 	const [page, setPage] = useState(1);
+	const [sortOption, setSortOption] = useState<string>("none");
 	
 	const { data, error, isLoading, isError, isPreviousData } = useQuery<DiscoverTvShows, Error>({
 		queryKey: ["/tv/discoverTvShows", page],
@@ -80,6 +84,26 @@ const TVShows: React.FC = () => {
 
 	const prevPage = () => setPage((prev) => prev - 1);
 	const nextPage = () => setPage((next) => next + 1);
+
+	// Sort movies
+	const sortedTVShows = [...displayedTVShows].sort((a, b) => {
+		switch (sortOption) {
+		  case "none":
+			return 0;
+		  case 'date':
+			return new Date(b.release_date).getTime() - new Date(a.release_date).getTime();
+		  case 'rating':
+			return b.vote_average - a.vote_average;
+		  case 'popularity':
+			return b.popularity - a.popularity;
+		  default:
+			return 0;
+		}
+	  });
+	
+	  const changeSortOption = (sort: string) => {
+		setSortOption(sort);
+	  };
 
 	return (
 		<>
@@ -128,10 +152,10 @@ const TVShows: React.FC = () => {
 						</Typography>
 					</Grid>
 
-					<Grid item>
+					<Grid item>					
 						<Typography align="right" sx={{ paddingRight: 2 }}>
 							{page} of {data?.total_pages}
-						</Typography>
+						</Typography>						
 					</Grid>
 
 					<Grid item>
@@ -148,7 +172,7 @@ const TVShows: React.FC = () => {
 			</Paper>
 			<PageTemplate
 				title='Discover TV Shows'
-				tvShows={displayedTVShows}
+				tvShows={sortedTVShows}
 				action={(tvShow: BaseTvShowProps) => {
 					return <AddToTVShowFavouritesIcon {...tvShow} />;
 				}}
@@ -158,6 +182,7 @@ const TVShows: React.FC = () => {
 				titleFilter={filterValues[0].value}
 				genreFilter={filterValues[1].value}
 			/>
+			<SortTVShowsUI onSortChange={changeSortOption} />
 		</>
 	);
 };

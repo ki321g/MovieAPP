@@ -5,25 +5,23 @@ import Typography from '@mui/material/Typography';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import SortIcon from '@mui/icons-material/Sort';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { FilterOption, GenreData  } from '../../types/interfaces';
 import { SelectChangeEvent } from '@mui/material';
-import { getGenres } from "../../api/tmdb-api";
+import { getTVShowGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import Box from '@mui/material/Box';
+
 const styles = {
 	root: {
-		maxWidth: 345,
+		maxWidth: 280,
 	},
-	media: { height: 300 },
-
 	formControl: {
 		margin: 1,
 		minWidth: 220,
-		// backgroundColor: 'rgb(255, 255, 255)',
 	},
 };
 
@@ -34,7 +32,7 @@ interface FilterTVShowsCardProps {
   }
 
   const FilterTVShowCard: React.FC<FilterTVShowsCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
-	const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
+	const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getTVShowGenres);
   
 	if (isLoading) {
 	  return <Spinner />;
@@ -64,10 +62,19 @@ interface FilterTVShowsCardProps {
 		<>
 			<Card sx={styles.root} variant='outlined'>
 				<CardContent>
-					<Typography variant='h5' component='h1'>
+					<Box >
+						<Typography variant='h5' component='h1'>
+							<FilterListIcon 
+								color="secondary" 
+								style={{ fontSize: 40, fontWeight: 'bold' }}
+							/>
+							FILTER TV SHOWS
+						</Typography>
+					</Box>
+					{/* <Typography variant='h5' component='h1'>
 						<FilterAltIcon fontSize='large' />
 						Filter the TV Shows.
-					</Typography>
+					</Typography> */}
 					<TextField
 						sx={styles.formControl}
 						id='filled-search'
@@ -91,14 +98,14 @@ interface FilterTVShowsCardProps {
 					</FormControl>
 				</CardContent>
 			</Card>
-			<Card sx={styles.root} variant='outlined'>
+			{/* <Card sx={styles.root} variant='outlined'>
 				<CardContent>
 					<Typography variant='h5' component='h1'>
 						<SortIcon fontSize='large' />
 						Sort the TV Shows.
 					</Typography>
 				</CardContent>
-			</Card>
+			</Card> */}
 		</>
 	);
 };

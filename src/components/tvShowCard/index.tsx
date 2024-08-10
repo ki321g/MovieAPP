@@ -177,14 +177,27 @@ const TVShowCard: React.FC<TVShowCardProps> = ({tvShow, action}) => {
                   </Box>
                 )}
                 <Link to={`/tv/${tvShow.id}`}>
-                  <Button variant="outlined" size="medium" color="primary">
+                  <Button  
+                    variant="outlined"
+                    color="secondary" 
+                    style={{ fontSize: 16, fontWeight: 'bold' }}
+                  >
                     More Info ...
                   </Button>
                 </Link>
               </CardActions>
               <CardContent sx={{ textAlign: 'left', padding: '20px', }}>
                 <Typography variant="body2" color="white">
-                {tvShow.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)}
+                {/* {tvShow.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)} */}
+                {
+                  tvShow.overview.split(" ").reduce((prev, curr) => 
+                    prev.length + curr.length <= 180 
+                      ? prev + " " + curr 
+                      : prev.length <= 180 && prev.length + "...".length > 180
+                        ? prev + "..."
+                        : prev
+                  )
+                }
                 </Typography>
               </CardContent>
             </Card>

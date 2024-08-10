@@ -178,17 +178,30 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                   </Box>
                 )}
                 <Link to={`/movies/${movie.id}`}>
-                  <Button variant="outlined" size="medium" color="primary">
+                  <Button 
+                    variant="outlined"
+                    color="secondary" 
+                    style={{ fontSize: 16, fontWeight: 'bold' }}
+                  >
                     More Info ...
                   </Button>
                 </Link>
               </CardActions>
-              <CardContent sx={{ textAlign: 'left', padding: '20px', }}>
+              <CardContent sx={{ textAlign: 'left', paddingY: '2px',paddingX: '20px', }}>
                 {/* <Typography variant="h6" component="div" sx={{ margin: '10px 0' }}>
                   {movie.title}
                 </Typography> */}
                 <Typography variant="body2" color="white">
-                {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)}
+                {/* {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 180 ? prev + " " + curr : prev)} */}
+                {
+                  movie.overview.split(" ").reduce((prev, curr) => 
+                    prev.length + curr.length <= 180 
+                      ? prev + " " + curr 
+                      : prev.length <= 180 && prev.length + "...".length > 180
+                        ? prev + "..."
+                        : prev
+                  )
+                }
                 </Typography>
               </CardContent>
             </Card>

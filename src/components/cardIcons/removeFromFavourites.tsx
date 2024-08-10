@@ -17,7 +17,10 @@ return (
     aria-label="remove from favorites"
     onClick={onUserRequest}
   >
-    <DeleteIcon color="primary" fontSize="large" />
+    <DeleteIcon 
+      color="secondary" 
+      style={{ fontSize: 40, fontWeight: 'bold' }}
+    />
   </IconButton>
 );
 };

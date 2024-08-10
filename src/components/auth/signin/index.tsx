@@ -4,23 +4,21 @@ import { AuthContext } from '../../../contexts/authContext';
 
 import { MoviesContext } from "../../../contexts/moviesContext";
 import { auth, googleProvider } from '../../../config/firebase';
-import { 
-        signInWithEmailAndPassword, 
-        signInWithPopup,
-        signOut, 
-    } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link, } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import GoogleButton from 'react-google-button'
-import { LoggedInUser } from '../../../types/interfaces'; 
+import { Alert } from '@mui/material'; 
 
 export const Auth = () => {
     const authContext = useContext(AuthContext);
     const { authenticate } = authContext || {};
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [action, setAction] = useState<string | null>('logIn');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { clearFavourites } = useContext(MoviesContext);
 
 
@@ -31,26 +29,43 @@ export const Auth = () => {
     const signIn = async () => {
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
-            // console.log(result);
-            
-            // authenticate && authenticate(token || '');
             if (authenticate) {
                 await authenticate();
             };
-        } catch (err) {
+            setErrorMessage(null); 
+        } catch (err) {            
+            setErrorMessage("Email or Password Incorrect Please Try Again");
             console.error(err);
+        }
+    };
+    
+
+    const signUp = async () => {
+        try {
+            const result = await createUserWithEmailAndPassword(auth, email, password);            
+            if (authenticate) {
+                await authenticate();
+            };
+            setErrorMessage(null); 
+        } catch (err) {
+            console.error(err);  
+            console.error(err.message);
+            if (err.message === "Firebase: Error (auth/email-already-in-use).") {
+                // alert('email-already-in-use');                
+                setErrorMessage("Email already in use.");
+                // setErrorMessage('Email already in use.');
+            }           
+            
         }
     };
 
     const signInWithGoogle = async () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
-            // console.log(result);
-
-            // authenticate && authenticate(token || '');
             if (authenticate) {
                 await authenticate();
             };
+            setErrorMessage(null); 
         } catch (err) {
             console.error(err);
         }
@@ -65,14 +80,34 @@ export const Auth = () => {
         }
     };
 
+    const handleActionChange = () => {
+        setAction(action === 'logIn' ? 'signUp' : 'logIn');
+        setErrorMessage(null); 
+    };
+
+    const handleSubmit = async () => {
+        if (action === 'logIn') {
+            await signIn();
+        } else {
+            await signUp();
+        }
+    };
+
     return (
         <>
         <Grid>
             <Paper elevation={10} style={paperStyle}>
                 <Grid sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
                      <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
-                    <h2>SIGN IN</h2>
+                    <h2>
+                     {action === 'signUp' ? 'SIGN UP' : 'SIGN IN'}
+                    </h2>                    
                 </Grid>
+                {action === 'logIn' && errorMessage && (
+                            <Alert severity="error" sx={{ mb: 1 }}>
+                                {errorMessage}
+                            </Alert>
+                        )}
                 <TextField 
                     label='Email' 
                     variant="outlined" 
@@ -90,10 +125,21 @@ export const Auth = () => {
                     variant="outlined" 
                     fullWidth required
                 />                
-                <Button type='submit' color='primary' variant="contained" style={btnstyle} onClick={signIn} fullWidth>Sign in</Button>
-                <Typography > Don't have an account? &nbsp;
-                     <Link href="#" >
-                        Sign Up 
+                <Button type='submit' color='primary' variant="contained" style={btnstyle} onClick={handleSubmit} fullWidth>
+                    {action === 'signUp' ? 'Sign Up' : 'Sign In'}
+                </Button>
+                <Typography > 
+                    {action === 'signUp' ? 'Already have an account? ' : 'Dont have an account? '}
+                    <Link 
+                        href="#" 
+                        style={{ 
+                            color: '#CC90D7', 
+                            fontWeight: 'bold',
+                            // borderBottom: '1px solid #CC90D7' 
+                        }} 
+                        onClick={handleActionChange} 
+                    >
+                        {action === 'signUp' ? 'Login' : 'Sign Up '}
                     </Link>
                 </Typography>
                 {/* Sign in with google */}                
@@ -105,9 +151,7 @@ export const Auth = () => {
                     // style={{ margin: 2 , width: '100%' }}                    
                     style={{ marginTop: '1em', width: '100%' }}
                     />
-                    
-                    
-                <Button type='submit' color='primary' variant="contained" style={{ ...btnstyle, backgroundColor: 'red' }} onClick={logout} fullWidth> Logout </Button>
+                {/* <Button type='submit' color='primary' variant="contained" style={{ ...btnstyle, backgroundColor: 'red' }} onClick={logout} fullWidth> Logout </Button> */}
             </Paper>
         </Grid>
         </>

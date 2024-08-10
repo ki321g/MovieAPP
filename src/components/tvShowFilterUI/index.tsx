@@ -23,8 +23,9 @@ const styles = {
     fab: {
         marginTop: 8,
         position: "fixed",
+        borderRadius: "10px",
         top: 20,
-        right: 2,
+        right: 20,
     },
 };
 
