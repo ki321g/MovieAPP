@@ -19,6 +19,8 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const styles = {
   root: {
@@ -125,9 +127,21 @@ const UpcomingMoviesPage: React.FC = () => {
             </Grid>
 
             <Grid item>
-              <Typography align="right" sx={{ paddingRight: 2 }}>
+              {/* <Typography align="right" sx={{ paddingRight: 2 }}>
                 {page} of {data?.total_pages}
-              </Typography>
+              </Typography> */}
+
+              <Select
+                color="secondary"
+                value={page}
+                onChange={(event) => setPage(event.target.value)}
+              >
+                {[...Array(data?.total_pages).keys()].map((pageNumber) => (
+                  <MenuItem key={pageNumber + 1} value={pageNumber + 1}>
+                    {pageNumber + 1}
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
 
             <Grid item>

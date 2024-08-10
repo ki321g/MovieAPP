@@ -19,6 +19,9 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+
 
 const styles = {
     root: {
@@ -128,10 +131,10 @@ const TVShows: React.FC = () => {
 						</Typography>
 					</Grid>
 
-					<Grid item>
+					<Grid item>					
 						<Typography align="right" sx={{ paddingRight: 2 }}>
 							{page} of {data?.total_pages}
-						</Typography>
+						</Typography>						
 					</Grid>
 
 					<Grid item>
