@@ -1,6 +1,6 @@
-export const getMovies = () => {
+export const getMovies = (page: string | number) => {
 	return fetch(
-	  `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+	  `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
 	).then((response) => {
 	  if (!response.ok)
 		throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -66,9 +66,9 @@ export const getMovieReviews = (id: string | number) => {
 		});
 };
 
-export const getUpcomingMovies = () => {
+export const getUpcomingMovies = (page: string | number) => {
 	return fetch(
-		`https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+		`https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
 	).then((response) => {
 		if (!response.ok)
 		  throw new Error(`Unable to fetch movies. Response status: ${response.status}`);
@@ -95,9 +95,9 @@ export const getTVShow = (id: string) => {
    });
   };
 
-export const getTVShows = () => {
+export const getTVShows = (page: string | number) => {
 	return fetch(
-		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=1`
+		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
 	).then((response) => {
 		if (!response.ok)
 		throw new Error(`Unable to fetch TV Shows. Response status: ${response.status}`);
