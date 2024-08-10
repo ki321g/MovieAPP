@@ -18,10 +18,8 @@ import Box from '@mui/material/Box';
 
 const styles = {
 	root: {
-		maxWidth: 345,
+		maxWidth: 280,
 	},
-	media: { height: 300 },
-
 	formControl: {
 		margin: 1,
 		minWidth: 220,
@@ -66,7 +64,7 @@ interface FilterMoviesCardProps {
 		<>
 			<Card sx={styles.root} variant='outlined'>
 				<CardContent>
-					<Box display="flex" alignItems="center" justifyContent="center">
+					<Box >
 						<Typography variant='h5' component='h1'>
 							<SortIcon 
 								color="secondary" 
