@@ -1,13 +1,13 @@
 import React, { useState }  from 'react';
 import PageTemplate from '../components/templateTVShowListPage';
-import { getTvShowsAiringToday } from '../api/tmdb-api';
+import { getTvShowsPopular } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
 import AddToTVShowFavouritesIcon from '../components/cardIcons/addToTVShowFavourites';
 import TVShowFilterUI, {
 	titleFilter,
 	genreFilter,
 } from '../components/tvShowFilterUI';
-import { AiringTodayTvShows } from '../types/interfaces';
+import { PopularTvShows } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseTvShowProps } from '../types/interfaces';
@@ -45,13 +45,13 @@ const genreFiltering = {
 	condition: genreFilter,
 };
 
-const AiringTodayTVShows: React.FC = () => {
+const PopularTVShows: React.FC = () => {
 	const [page, setPage] = useState(1);
 	const [sortOption, setSortOption] = useState<string>("none");
 	
-	const { data, error, isLoading, isError, isPreviousData } = useQuery<AiringTodayTvShows, Error>({
-		queryKey: ["/tv/airingTodayTvShows", page],
-		queryFn: () => getTvShowsAiringToday(page),
+	const { data, error, isLoading, isError, isPreviousData } = useQuery<PopularTvShows, Error>({
+		queryKey: ["/tv/popularTvShows", page],
+		queryFn: () => getTvShowsPopular(page),
 		keepPreviousData: true
 	});
 
@@ -126,7 +126,7 @@ const AiringTodayTVShows: React.FC = () => {
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center">
-							Airing Today TV Shows
+                            Popular TV Shows
 						</Typography>
 					</Grid>
 
@@ -161,7 +161,7 @@ const AiringTodayTVShows: React.FC = () => {
 				</Grid>
 			</Paper>
 			<PageTemplate
-				title='Airing Today TV Shows'
+				title='Popular TV Shows'
 				tvShows={sortedTVShows}
 				action={(tvShow: BaseTvShowProps) => {
 					return <AddToTVShowFavouritesIcon {...tvShow} />;
@@ -176,4 +176,4 @@ const AiringTodayTVShows: React.FC = () => {
 		</>
 	);
 };
-export default AiringTodayTVShows;
+export default PopularTVShows;

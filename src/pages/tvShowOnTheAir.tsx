@@ -1,13 +1,13 @@
 import React, { useState }  from 'react';
 import PageTemplate from '../components/templateTVShowListPage';
-import { getTvShowsAiringToday } from '../api/tmdb-api';
+import { getTvShowsOnTheAir } from '../api/tmdb-api';
 import useFiltering from '../hooks/useFiltering';
 import AddToTVShowFavouritesIcon from '../components/cardIcons/addToTVShowFavourites';
 import TVShowFilterUI, {
 	titleFilter,
 	genreFilter,
 } from '../components/tvShowFilterUI';
-import { AiringTodayTvShows } from '../types/interfaces';
+import { OnTheAirTvShows } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseTvShowProps } from '../types/interfaces';
@@ -45,13 +45,13 @@ const genreFiltering = {
 	condition: genreFilter,
 };
 
-const AiringTodayTVShows: React.FC = () => {
+const OnTheAirTVShows: React.FC = () => {
 	const [page, setPage] = useState(1);
 	const [sortOption, setSortOption] = useState<string>("none");
 	
-	const { data, error, isLoading, isError, isPreviousData } = useQuery<AiringTodayTvShows, Error>({
-		queryKey: ["/tv/airingTodayTvShows", page],
-		queryFn: () => getTvShowsAiringToday(page),
+	const { data, error, isLoading, isError, isPreviousData } = useQuery<OnTheAirTvShows, Error>({
+		queryKey: ["/tv/onTheAirTvShows", page],
+		queryFn: () => getTvShowsOnTheAir(page),
 		keepPreviousData: true
 	});
 
@@ -126,7 +126,7 @@ const AiringTodayTVShows: React.FC = () => {
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center">
-							Airing Today TV Shows
+							On The Air TV Shows
 						</Typography>
 					</Grid>
 
@@ -145,7 +145,7 @@ const AiringTodayTVShows: React.FC = () => {
 								{pageNumber + 1}
 							</MenuItem>
 							))}
-						</Select>
+						</Select>					
 					</Grid>
 
 					<Grid item>
@@ -176,4 +176,4 @@ const AiringTodayTVShows: React.FC = () => {
 		</>
 	);
 };
-export default AiringTodayTVShows;
+export default OnTheAirTVShows;

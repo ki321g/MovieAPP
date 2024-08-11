@@ -205,6 +205,27 @@ export interface AiringTodayTvShows {
   results: BaseTvShowProps[];
 }
 
+export interface OnTheAirTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
+export interface PopularTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
+export interface TopRatedTvShows {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: BaseTvShowProps[];
+}
+
 export interface BaseTvShowListProps {
   tvShows: BaseTvShowProps[];
   action?: (tvShow: BaseTvShowProps) => React.ReactNode;
