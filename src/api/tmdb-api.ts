@@ -221,14 +221,86 @@ export const getTVShowGenres = () => {
 // 	  });
 //   };
 
-export const getTvShowsAiringToday = () => {
+//   export const getTvShowsAiringToday = (page: string | number) => {
+// 	return fetch(
+// 		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
+// 	)
+// 	  .then((res) => res.json())
+// 	  .then((json) => {
+// 		console.log(json.results);
+// 	  	return json.results;
+// 	});
+//   };
+
+export const getTvShowsAiringToday = (page: string | number) => {
 	return fetch(
-		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
 	)
-		.then((res) => res.json())
-		.then((json) => {
-			console.log(json.results);
-			return json.results;
+		.then((response) => {
+			if (!response.ok)
+				throw new Error(
+					`Unable to fetch Tv Shows. Response status: ${response.status}`
+				);
+			const getTvShowsAiringTodayResults = response.json();
+			
+			
+			//console.log(getMoviesResults);
+			return getTvShowsAiringTodayResults;
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
+export const getTvShowsOnTheAir = (page: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
+	)
+		.then((response) => {
+			if (!response.ok)
+				throw new Error(
+					`Unable to fetch Tv Shows. Response status: ${response.status}`
+				);
+			const TvShowsOnTheAirResults = response.json();
+			return TvShowsOnTheAirResults;
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
+
+export const getTvShowsPopular = (page: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
+	)
+		.then((response) => {
+			if (!response.ok)
+				throw new Error(
+					`Unable to fetch Tv Shows. Response status: ${response.status}`
+				);
+			const TvShowsPopularResults = response.json();
+			return TvShowsPopularResults;
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
+export const getTvShowsTopRated = (page: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
+	)
+		.then((response) => {
+			if (!response.ok)
+				throw new Error(
+					`Unable to fetch Tv Shows. Response status: ${response.status}`
+				);
+			const TvShowsTopRatedResults = response.json();
+			return TvShowsTopRatedResults;
+		})
+		.catch((error) => {
+			throw error;
 		});
 };
 

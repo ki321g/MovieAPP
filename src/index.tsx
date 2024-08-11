@@ -28,6 +28,9 @@ import TVShows from './pages/tvShowPage';
 import TVShowDetailsPage from './pages/tvShowDetailsPage';
 import TVShowReviewPage from './pages/tvShowReviewPage';
 import AiringTodayTVShows from './pages/tvShowAiringTodayPage';
+import OnTheAirTVShows from './pages/tvShowOnTheAir';
+import PopularTVShows from './pages/tvShowPopular';
+import TopRatedTVShows from './pages/tvShowTopRated';
 import LoginPage from "./pages/loginPage";
 
 
@@ -75,7 +78,10 @@ const App = () => {
                 {/* TV Show Routes */}
                 <Route path="/tv/:id" element={<TVShowDetailsPage />} />
                 <Route path="/tv" element={<TVShows />} />
-                <Route path="/tv/airing-today" element={<AiringTodayTVShows />} />
+                <Route path="/tv/airing-today" element={<AiringTodayTVShows />} /> 
+                <Route path="/tv/on-the-air" element={<OnTheAirTVShows />} />
+                <Route path="/tv/popular" element={<PopularTVShows />} /> 
+                <Route path="/tv/top-rated" element={<TopRatedTVShows />} /> 
                 {/* Review Routes */}                
                 <Route path="/reviews/movie/:id" element={<MovieReviewPage/>} />
                 <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
