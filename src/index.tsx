@@ -18,6 +18,9 @@ import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import PlaylistMoviesPage from "./pages/playlistMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import UpcomingMoviesPage from "./pages/upcomingMoviesPage";
+import NowPlayingMoviesPage from './pages/nowPlayingMoviesPage' 
+import TopRatedMoviesPage from './pages/topRatedMoviesPage' 
+import PopularMoviesPage from './pages/popularMoviesPage' 
 import DiscoverMoviesPage from "./pages/discoverMoviesPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
 import FantasyMoviePage from './pages/fantasyMoviePage';
@@ -51,6 +54,9 @@ const App = () => {
                 <Route path="/movies/:id" element={<MoviePage />} />
                 <Route path="/movies/discover" element={<DiscoverMoviesPage />} />
                 <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+                <Route path="/movies/nowplaying" element={<NowPlayingMoviesPage />} /> 
+                <Route path="/movies/toprated" element={<TopRatedMoviesPage />} /> 
+                <Route path="/movies/popular" element={<PopularMoviesPage />} />
                 <Route path="/movies/favourites" element={
                   <ProtectedRoute>
                     <FavouriteMoviesPage />

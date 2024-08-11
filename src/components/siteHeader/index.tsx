@@ -42,7 +42,10 @@ const SiteHeader: React.FC = () => {
       label: "Movies", 
       subMenu: [
         { label: "Discover", path: "/movies/discover" },
-        { label: "Upcoming", path: "/movies/upcoming" },
+        { label: "Popular", path: "/movies/popular" },
+        { label: "Upcoming", path: "/movies/upcoming" }, 
+        { label: "Top Rated", path: "/movies/toprated" }, 
+        { label: "Now Playing", path: "/movies/nowplaying" },
       ]
     },
     { 

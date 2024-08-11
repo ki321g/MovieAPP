@@ -81,6 +81,27 @@ export interface UpcommingMovies {
   results: BaseMovieProps[];
 };
 
+export interface NowPlayingMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
+
+export interface PopularMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
+
+export interface TopRatedMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
+
 export interface Review {
   author: string,
   content: string,
