@@ -18,8 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import SortTVShowsUI from "../components/sortTVShowsUi";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+
 
 const styles = {
     root: {
@@ -131,21 +130,9 @@ const PopularTVShows: React.FC = () => {
 					</Grid>
 
 					<Grid item>					
-						{/* <Typography align="right" sx={{ paddingRight: 2 }}>
+						<Typography align="right" sx={{ paddingRight: 2 }}>
 							{page} of {data?.total_pages}						
-						</Typography>						 */}
-						<Select
-							color="secondary"
-							value={page}
-							// onChange={(event) => setPage(event.target.value)}
-							onChange={(event) => setPage(Number(event.target.value))}
-						>
-							{[...Array(data?.total_pages).keys()].map((pageNumber) => (
-							<MenuItem key={pageNumber + 1} value={pageNumber + 1}>
-								{pageNumber + 1}
-							</MenuItem>
-							))}
-						</Select>
+						</Typography>
 					</Grid>
 
 					<Grid item>
