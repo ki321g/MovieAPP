@@ -17,7 +17,7 @@ import { Box } from '@mui/material';
 import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
-  card: { maxWidth: 345,
+  card: { maxWidth: '450',
           height: '100%',
           background: "#303030",
           boxShadow: 'none',
@@ -60,8 +60,8 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
     <Box
       sx={{
         perspective: '1000px', // Creates a 3D space
-        width: '300px',
-        height: '450px',
+        width: '450px',
+        height: '650px',
         '&:hover .innerCard': {
           transform: 'rotateY(180deg)',
         },
@@ -193,7 +193,8 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 </Typography> */}
                 <Typography variant="body2" color="white">
                 {/* {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 180 ? prev + " " + curr : prev)} */}
-                {
+                {movie.overview}
+                {/* {
                   movie.overview.split(" ").reduce((prev, curr) => 
                     prev.length + curr.length <= 180 
                       ? prev + " " + curr 
@@ -201,7 +202,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                         ? prev + "..."
                         : prev
                   )
-                }
+                } */}
                 </Typography>
               </CardContent>
             </Card>
