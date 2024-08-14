@@ -144,7 +144,7 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
     const handleClose = () => setOpen(false);
 
     
-  console.log('trailer2: ', trailerVideo.key)
+  // console.log('trailer2: ', trailerVideo.key)
 
   return (
     <>
@@ -214,7 +214,7 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
         />  
         <Chip
         icon={<MonetizationIcon />}
-        label={`$${movie.revenue.toLocaleString()}`}
+        label={`Revenue: $${movie.revenue.toLocaleString()}`}
         sx={styles.chip}
         />  
         <Chip 
