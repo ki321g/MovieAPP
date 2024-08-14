@@ -28,6 +28,9 @@ const COMMON = {
     hoverOpacity: 0.08,
     disabledOpacity: 0.48,
   },
+  typography: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+  },
 };
 
 const palette = {
@@ -35,6 +38,9 @@ const palette = {
   text: { primary: "#fff", secondary: GREY[500], disabled: GREY[600] },
   background: { default: PRIMARY.main, paper: PRIMARY.main, test: GREY[900] },
   mode: "dark" as PaletteMode,
+  typography: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+  },
 };
 
 export default palette;

@@ -61,11 +61,36 @@ export const getMovieImages = (id: string | number) => {
 			}
 			return response.json();
 		})
-		.then((json) => json.posters)
+		// .then((json) => json.posters)
+		.then((json) => {
+			const posters = json.posters || [];
+			const backdrops = json.backdrops || [];	
+			return { posters, backdrops };
+		  })
 		.catch((error) => {
 			throw error;
 		});
 };
+
+export const getMovieVideos = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch images');
+			}
+			return response.json();
+		})
+		.then((json) => {
+		  const videos = json.results || [];
+		  return { videos };
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
 
 export const getMovieReviews = (id: string | number) => {
 	//movie id can be string or number

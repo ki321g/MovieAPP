@@ -20,6 +20,7 @@ export interface BaseMovieProps {
   genre?: string;
   productionCompany?: string;
   receivedAnOscar?: boolean;
+  
 };
 
 export interface BaseMovieListProps {
@@ -41,6 +42,19 @@ export interface MovieImage {
   vote_average?: number;
   vote_count?: number;
   width?: number;
+};
+
+export interface MovieTrailerVideoProps {
+  id: string;
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  key?: string;
+  name?: string;
+  official: boolean;
+  published_at?: string;
+  site?: string;
+  size: number
+  type?: string;
 };
   
 export interface MoviePageProps {
