@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { getMovieImages, getSimilarMovies } from "../../api/tmdb-api";
-import { MovieImage, MovieDetailsProps, DiscoverMovies } from "../../types/interfaces";
+import { MovieImage, MovieDetailsProps, DiscoverMovies, BaseMovieProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import Box from "@mui/material/Box";
@@ -99,8 +99,8 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     if (isSimilarMoviesError) {
         return <h1>{similarMoviesError.message}</h1>;
     }
-    console.log("similarMoviesData");
-    console.log(similarMoviesData);
+    // console.log("similarMoviesData");
+    // console.log(similarMoviesData);
     const similarMovies = similarMoviesData?.results || [];
 
     // Destructure the imageData into backdrops & posters
