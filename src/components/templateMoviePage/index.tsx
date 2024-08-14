@@ -3,8 +3,8 @@ import React, { useState }  from 'react';
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages, getSimilarMovies, BaseMovieProps, DiscoverMovies } from "../../api/tmdb-api";
-import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
+import { getMovieImages, getSimilarMovies } from "../../api/tmdb-api";
+import { MovieImage, MovieDetailsProps, DiscoverMovies } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
 import Box from "@mui/material/Box";
@@ -82,7 +82,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
             () => getMovieImages(movie.id)
         );
         
-    const { data: similarMoviesData, error: similarMoviesError, isLoading: similarMoviesLoading, isError: isSimilarMoviesError, isPreviousData } = useQuery<BaseMovieProps, Error>({
+    const { data: similarMoviesData, error: similarMoviesError, isLoading: similarMoviesLoading, isError: isSimilarMoviesError, isPreviousData } = useQuery<DiscoverMovies, Error>({
         queryKey: ["similarMovies", page],
         queryFn: () => getSimilarMovies(movie.id, page),
         keepPreviousData: true
@@ -99,7 +99,8 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     if (isSimilarMoviesError) {
         return <h1>{similarMoviesError.message}</h1>;
     }
-
+    console.log("similarMoviesData");
+    console.log(similarMoviesData);
     const similarMovies = similarMoviesData?.results || [];
 
     // Destructure the imageData into backdrops & posters
