@@ -18,8 +18,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import SortTVShowsUI from "../components/sortTVShowsUi";
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 
 const styles = {
     root: {

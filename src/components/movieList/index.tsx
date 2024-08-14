@@ -6,7 +6,7 @@ import { Box } from "@mui/material"
 
 
 const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
-  
+
   let movieCards = movies.map((m) => (
     <Grid container key={m.id} item xs={12} sm={6} md={4} lg={3} xl={3}>
       <Movie key={m.id} movie={m} action={action}/>
@@ -15,6 +15,8 @@ const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
     console.log(location.pathname);
   if (location.pathname === '/movies/favourites') {
     return movieCards;
+  } else if (location.pathname === '/movies/playlists') {
+    return movieCards
   } else {
      return (
     <Box pt={5} pb={2} pl={6} pr={2}>

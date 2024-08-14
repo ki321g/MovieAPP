@@ -268,3 +268,14 @@ export interface FantasyMovieProps {
   productionCompany?: string;
   receivedAnOscar?: boolean;
 };
+
+
+export interface PlaylistProps {
+  id: string;
+  movie_title: string;
+  playlist_id: string;
+  userId: string;
+  playlist_name: string;
+  movie_id: number;
+  results: BaseMovieProps[];
+}

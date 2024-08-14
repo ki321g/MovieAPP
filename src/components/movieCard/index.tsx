@@ -8,7 +8,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import img from '../../images/film-poster-placeholder.png';
+import imgPoster from '../../images/film-poster-placeholder.png';
+import imgBackdrop from '../../images/film-backdrop-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces"; 
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
@@ -106,7 +107,7 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                   image={
                     movie.poster_path
                       ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                      : img
+                      : imgPoster
                   }
                   alt={movie.title}
                   sx={{
@@ -162,7 +163,12 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               />
               <CardMedia
                 component="img"
-                image={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                // image={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+                image={
+                  movie.backdrop_path
+                    ? `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`
+                    : imgBackdrop
+                }
                 alt={movie.title}
                 sx={{
                   // height: '100%',
