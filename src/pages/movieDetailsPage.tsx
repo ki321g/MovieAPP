@@ -5,7 +5,7 @@ import PageTemplate from "../components/templateMoviePage";
 import { getMovie, getMovieVideos } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner';
-import { MovieDetailsProps, MovieTrailerVideoProps } from "../types/interfaces";
+import { MovieDetailsProps } from "../types/interfaces";
 
 const MovieDetailsPage: React.FC= () => {
   const { id } = useParams();
