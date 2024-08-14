@@ -3,7 +3,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages, getMovieVideos } from "../../api/tmdb-api";
+import { getMovieImages } from "../../api/tmdb-api";
 import { MovieImage, MovieDetailsProps } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
