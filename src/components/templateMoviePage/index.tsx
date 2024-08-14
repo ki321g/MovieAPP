@@ -1,5 +1,5 @@
 import React from "react"; 
-import MovieHeader from "../headerMovie";
+// import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -49,12 +49,12 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
         );
         
     // Get Images with useQuery
-    const { data: videoData, error: videoError, isLoading: videoLoading, isError: isVideoError } = useQuery<{ videos: { key: string; site: string; type: string }[] },
-    Error
-     >(["videos", movie.id], () => getMovieVideos(movie.id));
+    // const { data: videoData, error: videoError, isLoading: videoLoading, isError: isVideoError } = useQuery<{ videos: { key: string; site: string; type: string }[] },
+    // Error
+    //  >(["videos", movie.id], () => getMovieVideos(movie.id));
 
     // Display a spinner when data is loading
-    if (imageLoading || videoLoading ) {
+    if (imageLoading ) {
         return <Spinner />;
     }
 
@@ -62,12 +62,12 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
         return <h1>{imageError.message}</h1>;
     }
 
-    if (isVideoError) {
-        return <h1>{videoError.message}</h1>;
-    }
+    // if (isVideoError) {
+    //     return <h1>{videoError.message}</h1>;
+    // }
 
     // Find the trailer video
-    const trailerVideo = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+    // const trailerVideo = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube');
 
     // Destructure the imageData into backdrops & posters
     const { backdrops, posters } = imageData as { 

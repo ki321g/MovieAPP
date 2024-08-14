@@ -128,7 +128,6 @@ interface MovieDetailsComponentProps {
 
 const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo}) => {
     const [reviewDrawerOpen, setReviewDrawerOpen] = useState(false);
-    const [trailerDrawerOpen, setTrailerDrawerOpen] = useState(false);
     const [open, setOpen] = React.useState(false);
 
   const releaseYear = new Date(movie.release_date).getFullYear(); // Year Released
@@ -301,8 +300,6 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
     </Box>
     </Modal>
 
-
-    
 
     <Drawer anchor="top" open={reviewDrawerOpen} onClose={() => setReviewDrawerOpen(false)}>
         <MovieReviews {...movie} />

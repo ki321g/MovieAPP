@@ -5,7 +5,7 @@ import PageTemplate from "../components/templateMoviePage";
 import { getMovie, getMovieVideos } from '../api/tmdb-api'
 import { useQuery } from "react-query";
 import Spinner from '../components/spinner';
-import { MovieDetailsProps, MovieTrailerVideoProps } from "../../types/interfaces";
+import { MovieDetailsProps, MovieTrailerVideoProps } from "../types/interfaces";
 
 const MovieDetailsPage: React.FC= () => {
   const { id } = useParams();
@@ -37,7 +37,7 @@ const MovieDetailsPage: React.FC= () => {
 
   // Find the trailer video
   const trailerVideo: MovieTrailerVideoProps = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-  console.log('trailer: ', trailerVideo.key)
+  console.log('trailer: ', trailerVideo)
   // console.log(movie);
 
   return (

@@ -50,7 +50,7 @@ export interface MovieTrailerVideoProps {
   iso_3166_1?: string;
   key?: string;
   name?: string;
-  official: boolean;
+  official?: string;
   published_at?: string;
   site?: string;
   size: number
