@@ -36,7 +36,8 @@ const MovieDetailsPage: React.FC= () => {
   }
 
   // Find the trailer video
-  const trailerVideo: MovieTrailerVideoProps = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+  // const trailerVideo: MovieTrailerVideoProps | undefined = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube') ?? undefined;
+  const trailerVideo: any = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube') ?? undefined;
   console.log('trailer: ', trailerVideo)
   // console.log(movie);
 
@@ -45,7 +46,7 @@ const MovieDetailsPage: React.FC= () => {
       {movie ? (
         <>
         <PageTemplate movie={movie}> 
-            <MovieDetails movie={movie} trailerVideo={trailerVideo} />
+            <MovieDetails movie={movie} trailerVideo={trailerVideo as MovieTrailerVideoProps | undefined} />
         </PageTemplate>
       </>
     ) : (

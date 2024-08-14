@@ -72,7 +72,7 @@ export const getMovieImages = (id: string | number) => {
 		});
 };
 
-export const getMovieVideos = (id: string | number) => {
+export const getMovieVideos = (id?: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
 	)
