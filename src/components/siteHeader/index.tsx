@@ -10,19 +10,33 @@ import { styled } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-
-// import { useTheme } from "@mui/material/styles";
-
+import MovieIcon from "@mui/icons-material/Movie";
 import { NestedMenuItem } from 'mui-nested-menu';
 import { AuthContext } from '../../contexts/authContext';
 import { auth } from '../../config/firebase';
 // import { Link } from 'react-router-dom';
 
 const styles = {
-    title: {
-      flexGrow: 1,
-      fontWeight: 'bold',
-    },
+  title: {
+    flexGrow: 1,
+    fontWeight: 'bold',      
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    fontSize: '3rem',
+    // color: "#35B8D8",
+    background: 'linear-gradient(180deg, #35B8D8, #06203E)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    letterSpacing: 'normal',
+    margin: '0',
+    padding: '0',
+  },
+  movieIcon: {
+    flexGrow: 1,
+    fontWeight: 'bold',      
+    fontSize: '2rem',    
+    margin: '0',
+    padding: '0',
+  },
   };
 
 
@@ -127,6 +141,7 @@ const SiteHeader: React.FC = () => {
                 ))}
             </Menu>
           <Typography variant="h4" sx={styles.title}>
+            KGMDB <MovieIcon sx={styles.movieIcon} />  
           </Typography>
           { auth.currentUser ? (
             <Button color="inherit" size="large" sx={{ fontSize: '1.2rem', py: 1, px: 2 }} onClick={() => signout && signout()}>Sign out</Button>
