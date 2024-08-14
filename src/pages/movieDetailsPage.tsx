@@ -46,7 +46,7 @@ const MovieDetailsPage: React.FC= () => {
       {movie ? (
         <>
         <PageTemplate movie={movie}> 
-            <MovieDetails movie={movie} trailerVideo={trailerVideo as MovieTrailerVideoProps | undefined} />
+            <MovieDetails movie={movie} trailerVideo={trailerVideo} />
         </PageTemplate>
       </>
     ) : (
