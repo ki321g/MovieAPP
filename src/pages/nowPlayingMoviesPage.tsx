@@ -127,7 +127,7 @@ const NowPlayingMoviesPage: React.FC = () => {
                 {page} of {data?.total_pages}
               </Typography> */}
 
-<Select
+			<Select
                 color="secondary"
                 value={page}
                 // onChange={(event) => setPage(event.target.value)}
