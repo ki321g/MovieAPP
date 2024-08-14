@@ -260,7 +260,7 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
                 sx={styles.fab}
             >
             <HomeIcon fontSize="large" />
-                Open Link
+                Movie Home
             </Fab>
         </Box>
         
