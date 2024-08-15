@@ -38,7 +38,7 @@ const styles = {
   fabContainer: {
     display: "flex",
     justifyContent: "center",
-    marginTop: "1rem",
+    marginTop: "0.5rem",
   },
   fab: {
     backgroundColor: "transparent",
@@ -164,7 +164,7 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
     <Typography variant="h5" component="h3" sx={styles.taglineText}>
         {movie.tagline}
     </Typography>   
-    <Box display="flex" alignItems="center" sx={{ mt: 3, mb: 3 }}>
+    <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 2 }}>
         <Box position="relative" display="inline-flex" width={60} height={60}>
             <CircularProgress 
                 variant="determinate" 
