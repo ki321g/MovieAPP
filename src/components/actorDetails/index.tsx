@@ -15,8 +15,8 @@ const styles = {
     color: "#ffffff",
     textAlign: "start",
     letterSpacing: 'normal',
-    fontSize: "2rem",
-    fontWeight: 'bold',
+    fontSize: "2.5rem",
+    fontWeight: '700',
     margin: '10px',
     opacity: '.7',
   },
@@ -33,14 +33,14 @@ const styles = {
   },
   actorNameText: {
     fontFamily: '"Source Sans Pro", Arial, sans-serif',
-    fontSize: '2.8rem',
+    fontSize: '3.25rem',
     color: "#ffffff",
     textAlign: 'start',
     letterSpacing: 'normal',
     width:'100%',
     margin: '0',
     padding: '0',
-    fontWeight: 'bold',
+    fontWeight: '900',
     marginTop: '25px',
   },
 };
@@ -65,13 +65,7 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
   return (
     <>
         <Typography variant="h4" component="h3" sx={styles.actorNameText}>
-            {actor.name}
-        </Typography>
-        <Typography variant="h5" component="h3" sx={styles.headerText}>            
-            BIOGRAPHY
-        </Typography> 
-        <Typography variant="h6" component="p" sx={styles.contentText}>
-            {actor.biography}
+            {actor.name.toUpperCase()}
         </Typography>
         <Typography variant="h5" component="h3" sx={styles.headerText}>            
             PERSONAL INFORMATION
@@ -104,6 +98,13 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
                 <Typography variant="h6" component="p" sx={styles.contentText}>{actor.place_of_birth}</Typography>
             </Grid>
         </Grid>
+        
+        <Typography variant="h5" component="h3" sx={styles.headerText}>            
+            BIOGRAPHY
+        </Typography> 
+        <Typography variant="h6" component="p" sx={styles.contentText}>
+            {actor.biography}
+        </Typography>
     </>
   );
 };
