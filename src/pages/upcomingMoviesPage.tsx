@@ -11,8 +11,6 @@ import { UpcommingMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseMovieProps } from '../types/interfaces';
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
 import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
 import Paper from "@mui/material/Paper";
@@ -68,8 +66,7 @@ const UpcomingMoviesPage: React.FC = () => {
 		queryFn: () => getUpcomingMovies(page),
 		keepPreviousData: true
 	});
-  // const { data, error, isLoading, isError } = useQuery<UpcommingMovies, Error>('upcomming',getUpcomingMovies);
-  
+ 
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
