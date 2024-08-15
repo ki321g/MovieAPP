@@ -42,7 +42,7 @@ const styles = {
         height: "100%",
       },
       imageListItem: {
-        marginTop: "100px",
+        marginTop: "25px",
         marginLeft: "auto",
         width: 425,
         height: '100vh',
