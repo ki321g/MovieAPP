@@ -249,15 +249,7 @@ export interface TVShowListPageTemplateProps extends BaseTvShowListProps {
   title: string;
 }
 
-export interface TvImage {
-  file_path: string;
-  aspect_ratio?: number;
-  height?: number;
-  iso_639_1?: string;
-  vote_average?: number;
-  vote_count?: number;
-  width?: number;
-}
+
 
 export interface FantasyMovieProps {  
   title?: string;

@@ -63,7 +63,8 @@ export const getMovieImages = (id: string | number) => {
 		})
 		// .then((json) => json.posters)
 		.then((json) => {
-			const posters = json.posters || [];
+			//Filter out images that are not in English. Cant do it in call as it i loose the backdrop images
+			const posters = (json.posters || []).filter((poster: any) => poster.iso_639_1 === 'en');
 			const backdrops = json.backdrops || [];	
 			return { posters, backdrops };
 		  })
@@ -78,7 +79,7 @@ export const getMovieVideos = (id?: string | number) => {
 	)
 		.then((response) => {
 			if (!response.ok) {
-				throw new Error('failed to fetch images');
+				throw new Error('failed to fetch videos');
 			}
 			return response.json();
 		})
@@ -452,3 +453,47 @@ export const getActor = (id: string | number) => {
 		throw error;
 	  });
   };
+
+  export const getActorMovieCredits = (id: string | number) => {
+	  return fetch(
+		`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	  )
+		.then((response) => {
+		  if (!response.ok) {
+			throw new Error("failed to fetch actor Movie credits");
+		  }
+		  return response.json();
+		})	
+		.then((data) => {
+			if (Array.isArray(data.cast)) {
+				data.cast = data.cast.filter((movie: any) => movie.poster_path != null);
+				data.cast.sort((a: any, b: any) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+			}
+			return data ; // Return an object with the cast array
+		  })
+		.catch((error) => {
+		  throw error;
+		});
+	};
+
+	export const getActorTVShowCredits = (id: string | number) => {
+		return fetch(
+		  `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+		)
+		  .then((response) => {
+			if (!response.ok) {
+			  throw new Error("failed to fetch actor TV Show credits");
+			}
+			return response.json();
+		  })	
+		  .then((data) => {
+			if (Array.isArray(data.cast)) {
+				data.cast = data.cast.filter((tvshow: any) => tvshow.poster_path != null);
+				data.cast.sort((a: any, b: any) => new Date(b.first_air_date).getTime() - new Date(a.first_air_date).getTime());
+			  }
+			  return data ; // Return an object with the cast array
+			})
+		  .catch((error) => {
+			throw error;
+		  });
+	  };
