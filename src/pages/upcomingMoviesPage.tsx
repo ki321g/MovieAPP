@@ -34,6 +34,18 @@ const styles = {
       boxShadow: 'none',
       paddingBottom: '20px',
   },
+	titleText: {
+		fontFamily: '"Source Sans Pro", Arial, sans-serif',
+		fontSize: '2.8rem',
+		color: "#ffffff",
+		textAlign: 'center',
+		letterSpacing: 'normal',
+		width:'100%',
+		margin: '0',
+		padding: '0',
+		fontWeight: 'bold',
+		textTransform: 'uppercase',
+	},
 };
 
 const titleFiltering = {
@@ -121,7 +133,7 @@ const UpcomingMoviesPage: React.FC = () => {
 					  </Grid>
 
             <Grid item xs>
-              <Typography variant="h4" component="h3" align="center">
+              <Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
               Upcoming Movies
               </Typography>
             </Grid>

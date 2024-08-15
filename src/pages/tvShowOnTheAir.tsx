@@ -32,6 +32,19 @@ const styles = {
         boxShadow: 'none',
         paddingBottom: '20px',
     },
+	titleText: {
+		fontFamily: '"Source Sans Pro", Arial, sans-serif',
+		fontSize: '2.8rem',
+		color: "#ffffff",
+		textAlign: 'center',
+		letterSpacing: 'normal',
+		width:'100%',
+		margin: '0',
+		padding: '0',
+		fontWeight: 'bold',
+		textTransform: 'uppercase',
+	},
+	
 };
 
 const titleFiltering = {
@@ -77,13 +90,7 @@ const OnTheAirTVShows: React.FC = () => {
 	};
 
 	const tvShows = data ? data.results : [];
-	// const numberPages = data ? data.total_pages : (0);
-	// let displayedTVShows: any = '';
-	// if (tvShows) {
-		const displayedTVShows = filterFunction(tvShows);	
-	// }
-
-
+	const displayedTVShows = filterFunction(tvShows);	
 
 	// Sort movies
 	const sortedTVShows = [...displayedTVShows].sort((a, b) => {
@@ -103,8 +110,7 @@ const OnTheAirTVShows: React.FC = () => {
 	
 	  const changeSortOption = (sort: string) => {
 		setSortOption(sort);
-	  };
-	
+	  };	
 
 	const prevPage = () => setPage((prev) => prev - 1);
 	const nextPage = () => setPage((next) => next + 1);
@@ -125,19 +131,15 @@ const OnTheAirTVShows: React.FC = () => {
 					</Grid>
 
 					<Grid item xs>
-						<Typography variant="h4" component="h3" align="center">
+						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
 							On The Air TV Shows
 						</Typography>
 					</Grid>
 
-					<Grid item>					
-						{/* <Typography align="right" sx={{ paddingRight: 2 }}>
-							{page} of {data?.total_pages}						
-						</Typography>						 */}
+					<Grid item>
 						<Select
 							color="secondary"
 							value={page}
-							// onChange={(event) => setPage(event.target.value)}
 							onChange={(event) => setPage(Number(event.target.value))}
 						>
 							{[...Array(data?.total_pages).keys()].map((pageNumber) => (
@@ -145,7 +147,7 @@ const OnTheAirTVShows: React.FC = () => {
 								{pageNumber + 1}
 							</MenuItem>
 							))}
-						</Select>					
+						</Select>
 					</Grid>
 
 					<Grid item>

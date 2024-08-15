@@ -30,6 +30,19 @@ const styles = {
         boxShadow: 'none',
         paddingBottom: '20px',
     },
+	titleText: {
+		fontFamily: '"Source Sans Pro", Arial, sans-serif',
+		fontSize: '2.8rem',
+		color: "#ffffff",
+		textAlign: 'center',
+		letterSpacing: 'normal',
+		width:'100%',
+		margin: '0',
+		padding: '0',
+		fontWeight: 'bold',
+		textTransform: 'uppercase',
+	},
+	
 };
 
 const titleFiltering = {
@@ -75,13 +88,7 @@ const TopRatedTVShows: React.FC = () => {
 	};
 
 	const tvShows = data ? data.results : [];
-	// const numberPages = data ? data.total_pages : (0);
-	// let displayedTVShows: any = '';
-	// if (tvShows) {
-		const displayedTVShows = filterFunction(tvShows);	
-	// }
-
-
+	const displayedTVShows = filterFunction(tvShows);	
 
 	// Sort movies
 	const sortedTVShows = [...displayedTVShows].sort((a, b) => {
@@ -123,7 +130,7 @@ const TopRatedTVShows: React.FC = () => {
 					</Grid>
 
 					<Grid item xs>
-						<Typography variant="h4" component="h3" align="center">
+						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
                             Top Rated TV Shows
 						</Typography>
 					</Grid>
@@ -131,19 +138,7 @@ const TopRatedTVShows: React.FC = () => {
 					<Grid item>					
 						<Typography align="right" sx={{ paddingRight: 2 }}>
 							{page} of {data?.total_pages}						
-						</Typography>						
-						{/* <Select
-							color="secondary"
-							value={page}
-							// onChange={(event) => setPage(event.target.value)}
-							onChange={(event) => setPage(Number(event.target.value))}
-						>
-							{[...Array(data?.total_pages).keys()].map((pageNumber) => (
-							<MenuItem key={pageNumber + 1} value={pageNumber + 1}>
-								{pageNumber + 1}
-							</MenuItem>
-							))}
-						</Select> */}
+						</Typography>
 					</Grid>
 
 					<Grid item>

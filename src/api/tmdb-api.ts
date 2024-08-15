@@ -153,25 +153,23 @@ export const getUpcomingMovies = (page: string | number) => {
 };
 
 export const getNowPlayingMovies = (page: string | number) => {
-	// Get the current date
-	let todaysDate = new Date()
-	let toDate = new Date();
+	// // Get the current date
+	// let todaysDate = new Date()
+	// let toDate = new Date();
 
-	// Add 6 months to the current date
-	toDate.setMonth(todaysDate.getMonth() + 1);
+	// // Add 6 months to the current date
+	// toDate.setMonth(todaysDate.getMonth() + 1);
   
-	// Format the date as YYYY-MM-DD
-	let minDate = todaysDate.toISOString().slice(0, 10);
-	let maxDate = toDate.toISOString().slice(0, 10);
+	// // Format the date as YYYY-MM-DD
+	// let minDate = todaysDate.toISOString().slice(0, 10);
+	// let maxDate = toDate.toISOString().slice(0, 10);
 
-	console.log('Date minDate: ', minDate)
+	// console.log('Date minDate: ', minDate)
 	
-	console.log('Date maxDate: ', maxDate)
+	// console.log('Date maxDate: ', maxDate)
 
 	return fetch(
 		`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
-		// `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_release_type=2|3&sort_by=primary_release_date.asc&release_date.gte=${minDate}&release_date.lte=${maxDate}` 
-
 	)
 		.then((response) => {
 			if (!response.ok)
@@ -283,27 +281,6 @@ export const getTVShowGenres = () => {
 		});
 };
 
-//   export const getSimilarTvShows = (id: string | number) => {
-// 	return fetch(
-// 	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`
-// 	)
-// 	  .then((res) => res.json())
-// 	  .catch((error) => {
-// 		throw error;
-// 	  });
-//   };
-
-//   export const getTvShowsAiringToday = (page: string | number) => {
-// 	return fetch(
-// 		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
-// 	)
-// 	  .then((res) => res.json())
-// 	  .then((json) => {
-// 		console.log(json.results);
-// 	  	return json.results;
-// 	});
-//   };
-
 export const getTvShowsAiringToday = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
@@ -373,9 +350,14 @@ export const getTvShowsTopRated = (page: string | number) => {
 				throw new Error(
 					`Unable to fetch Tv Shows. Response status: ${response.status}`
 				);
-			const TvShowsTopRatedResults = response.json();
-			return TvShowsTopRatedResults;
+			return response.json();
 		})
+		.then((data) => {
+		  if (Array.isArray(data.results)) {
+			  data.results.sort((a: any, b: any) => new Date(b.vote_average).getTime() - new Date(a.vote_average).getTime());
+			}
+			return data ; // Return an object with the cast array
+		  })
 		.catch((error) => {
 			throw error;
 		});
