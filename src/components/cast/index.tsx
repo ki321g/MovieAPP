@@ -74,33 +74,7 @@ const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
     if(castLoading) return <div>Loading...</div>;
     if(isCastError) return <div>Error Loading: {castError?.message}</div>;
 
-    const castMembers = castData?.cast || [];
-
-    // console.log(castMembers);
-    useEffect(() => {
-        const styleElement = document.createElement('style');
-        styleElement.innerHTML = `
-          .castBox::-webkit-scrollbar {
-            width: 1em;
-          }
-          .castBox::-webkit-scrollbar-track {
-            boxShadow: inset 0 0 6px rgba(0,0,0,0.1);
-            backgroundColor: #F5F5F5;
-          }
-          .castBox::-webkit-scrollbar-thumb {
-            backgroundColor: '#888';
-            borderRadius: '10px';
-            &:hover {
-              backgroundColor: '#555';
-            }
-          }
-        `;
-        document.head.appendChild(styleElement);
-    
-        return () => {
-          document.head.removeChild(styleElement);
-        };
-    }, []);
+    const castMembers = castData?.cast || [];  
 
     return (
         <>
