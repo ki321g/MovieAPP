@@ -8,11 +8,38 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardMedia } from '@mui/material';
 
 const styles = {
-    castContainer: {
+    castBox: {
       maxWidth: "100%", // May seem a bit arbitrary but it results in an exact number of cast members
       overflowX: "auto",
       whiteSpace: "nowrap" as const,
-      padding: "20px",
+      paddingY: "20px",
+      '&::-webkit-scrollbar': {
+        width: '1em', // Make the scrollbar thicker
+        height: '1.8em'
+      },
+      '&::-webkit-scrollbar-track': {
+        boxShadow: 'inset 0 0 6px rgba(0,0,0,0.1)', // Add a subtle shadow to the track
+        borderRadius: '10px', // Add rounded corners 
+        backgroundColor: '#F5F5F5' // Change the track color to a light gray
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#888', // Change the thumb color to a dark gray
+        borderRadius: '10px', // Add rounded corners to the thumb
+        '&:hover': {
+          backgroundColor: '#555', // Change the thumb color to a darker gray when hovered
+        }
+      }
+    //   '&::-webkit-scrollbar': {
+    //     width: '0.4em'
+    //   },
+    //   '&::-webkit-scrollbar-track': {
+    //     boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+    //     webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+    //   },
+    //   '&::-webkit-scrollbar-thumb': {
+    //     backgroundColor: 'rgba(0,0,0,.1)',
+    //     outline: '1px solid slategrey'
+    //   }
     },
     castCard: {
       display: "inline-block",
@@ -64,7 +91,7 @@ const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
 
     return (
         <>
-        <Box sx={styles.castContainer}>
+        <Box sx={styles.castBox}>
         {castMembers.filter(castMember => castMember.profile_path).map((castMember) => (
             <Link
             key={castMember.id}
