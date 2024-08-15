@@ -1,4 +1,4 @@
-import React, { useEffect }  from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { getMovieCast, getTVShowCast } from "../../api/tmdb-api";
 import { MovieCastMember } from "../../types/interfaces";
