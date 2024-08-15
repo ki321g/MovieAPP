@@ -83,10 +83,10 @@ const ActorDetailsPage: React.FC = () => {
     const { data: actor, error: errorData, isLoading: isLoadingData, isError: isErrorData } = useQuery<ActorDetailsProps, Error>(["actor", id], () => getActor(id || ""));
 
     // Fetch The Actor Movie Credits
-    const { data: movieCredits, error: errorMovieCredits, isLoading: isLoadingMovieCredits, isError: isErrorMovieCredits, isPreviousData: isPreviousDataMovieCredits } = useQuery< { cast: BaseMovieProps[] }, Error>(["actorMovieCredits", id], () => getActorMovieCredits(id || ""));
+    const { data: movieCredits, error: errorMovieCredits, isLoading: isLoadingMovieCredits, isError: isErrorMovieCredits } = useQuery< { cast: BaseMovieProps[] }, Error>(["actorMovieCredits", id], () => getActorMovieCredits(id || ""));
 
     // Fetch The Actor TV Show Credits
-    const { data: tvShowCredits, error: errorTVShowCredits, isLoading: isLoadingTVShowCredits, isError: isErrorTVShowCredits, isPreviousData: isPreviousTVShowCredits } = useQuery<{ cast: BaseTvShowProps[] }, Error>(["actorTVShowCredits", id], () => getActorTVShowCredits(id || ""));
+    const { data: tvShowCredits, error: errorTVShowCredits, isLoading: isLoadingTVShowCredits, isError: isErrorTVShowCredits } = useQuery<{ cast: BaseTvShowProps[] }, Error>(["actorTVShowCredits", id], () => getActorTVShowCredits(id || ""));
 
     // Handle Loading State
     if (isLoadingData || isLoadingMovieCredits || isLoadingTVShowCredits) {
