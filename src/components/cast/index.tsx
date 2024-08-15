@@ -78,7 +78,7 @@ const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
 
     // console.log(castMembers);
     useEffect(() => {
-        const styleElement = document.createElement('styles');
+        const styleElement = document.createElement('style');
         styleElement.innerHTML = `
           .castBox::-webkit-scrollbar {
             width: 1em;
