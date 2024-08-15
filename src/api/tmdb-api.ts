@@ -395,3 +395,45 @@ export const getTVShowImages = (id: string | number) => {
 			throw error;
 		});
 };
+
+// Actors/Cast
+
+export const getMovieCast = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch cast');
+			}
+			return response.json();
+		})		
+		.then((json) => {
+			const cast = json.cast || [];
+			return { cast }; // Return an object with the cast array
+		  })
+		.catch((error) => {
+			throw error;
+		});
+};
+
+
+
+export const getTVShowCast = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch cast');
+			}
+			return response.json();
+		})		
+		.then((json) => {
+			const cast = json.cast || [];
+			return { cast }; // Return an object with the cast array
+		  })
+		.catch((error) => {
+			throw error;
+		});
+};

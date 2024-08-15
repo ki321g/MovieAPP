@@ -19,8 +19,8 @@ export interface BaseMovieProps {
   genre_ids?: number[];
   genre?: string;
   productionCompany?: string;
-  receivedAnOscar?: boolean;
-  
+  receivedAnOscar?: boolean;  
+  cast?: MovieCastMember[];
 };
 
 export interface BaseMovieListProps {
@@ -172,7 +172,7 @@ export interface BaseTvShowProps {
   genre_ids?: number[];
   favourite?: boolean;
   playlist?: boolean;
-  // cast?: TvShowCastMember[];
+  cast?: TvShowCastMember[];
 }
 
 
@@ -292,4 +292,18 @@ export interface PlaylistProps {
   playlist_name: string;
   movie_id: number;
   results: BaseMovieProps[];
+}
+
+export interface MovieCastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+}
+
+export interface TvShowCastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
 }

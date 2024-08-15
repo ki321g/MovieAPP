@@ -14,8 +14,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import Modal from '@mui/material/Modal';
-import HomeIcon from "@mui/icons-material/Home";`
-`
+import HomeIcon from "@mui/icons-material/Home";
+import Cast from "../cast";
 // Styling for the movie details section
 const styles = {
   chipSet: {
@@ -53,7 +53,7 @@ const styles = {
     padding: "0.5rem 1rem",
     margin: "0.5rem",
     fontFamily: '"Source Sans Pro", Arial, sans-serif',
-    fontSize: '1.8em',
+    fontSize: '1.4em',
     fontWeight: '800',
   },
   taglineText: {
@@ -265,6 +265,11 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
         </Box>
         
     </Box>
+    
+    {/* Review Drawer  */}
+    <Drawer anchor="top" open={reviewDrawerOpen} onClose={() => setReviewDrawerOpen(false)}>
+        <MovieReviews {...movie} />
+    </Drawer>
     {/* Trailer Modal */}
     <Modal
     open={open}
@@ -300,10 +305,8 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
     </Box>
     </Modal>
 
-
-    <Drawer anchor="top" open={reviewDrawerOpen} onClose={() => setReviewDrawerOpen(false)}>
-        <MovieReviews {...movie} />
-    </Drawer>
+    <Cast movieId={movie.id} />
+    
     </>
   );
 };

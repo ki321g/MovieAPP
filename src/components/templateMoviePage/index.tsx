@@ -34,10 +34,12 @@ const styles = {
         justifyContent: "space-around",
     },
     gridListTile: {
-        width: 450,
+        marginTop: "100px",
+        marginLeft: "auto",
+        width: 425,
         height: '100vh',
     },
-    contentContainer: {
+    contentBox: {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
@@ -116,8 +118,8 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     
 
     // Style for the content container
-    const contentContainerStyle = {
-        ...styles.contentContainer,
+    const contentBoxStyle = {
+        ...styles.contentBox,
          backgroundImage: backdropUrl,  
     };
 
@@ -127,28 +129,28 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     return (
         <>
             {/* <MovieHeader {...movie} /> */}
-            <Box sx={contentContainerStyle}>
-            <Grid container spacing={5} style={{ padding: "10px" }}>
-                <Grid item xs={3}>
-                    <div>
-                        <ImageList cols={1} style={{ overflow: 'hidden' }}>
-                                <ImageListItem
-                                    key={posters[0].file_path}
-                                    sx={styles.gridListTile}
-                                    cols={1}
-                                >
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w500/${posters[0].file_path}`}
-                                        alt={movie.title}
-                                    />
-                                </ImageListItem>
-                        </ImageList>
-                    </div>
-                </Grid>
-                <Grid item xs={8}>
-                    {children}
-                </Grid>
-            </Grid>            
+            <Box sx={contentBoxStyle}>
+                <Grid container spacing={5} style={{ padding: "10px" }}>
+                    <Grid item xs={3}>
+                        <div>
+                            <ImageList cols={1} style={{ overflow: 'hidden' }}>
+                                    <ImageListItem
+                                        key={posters[0].file_path}
+                                        sx={styles.gridListTile}
+                                        cols={1}
+                                    >
+                                        <img
+                                            src={`https://image.tmdb.org/t/p/w500/${posters[0].file_path}`}
+                                            alt={movie.title}
+                                        />
+                                    </ImageListItem>
+                            </ImageList>
+                        </div>
+                    </Grid>
+                    <Grid item xs={8}>
+                        {children}
+                    </Grid>                    
+                </Grid>            
             </Box>
             <Box sx={styles.similarMovies}>
 
