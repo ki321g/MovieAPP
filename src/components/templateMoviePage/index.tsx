@@ -98,6 +98,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     if (isImageError) {
         return <h1>{imageError.message}</h1>;
     }
+
     if (isSimilarMoviesError) {
         return <h1>{similarMoviesError.message}</h1>;
     }
@@ -147,7 +148,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
                             </ImageList>
                         </div>
                     </Grid>
-                    <Grid item xs={8}>
+                    <Grid item xs={8.5}>
                         {children}
                     </Grid>                    
                 </Grid>            

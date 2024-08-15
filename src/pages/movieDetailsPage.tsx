@@ -15,13 +15,7 @@ const MovieDetailsPage: React.FC= () => {
   );
 
   // Check if movie is defined and has an id before running useQuery
-   const { data: videoData, error: videoError, isLoading: videoLoading, isError: isVideoError } = useQuery<{ videos: { key: string; site: string; type: string }[] },
-    Error
-    >(["videos", movie?.id], () => getMovieVideos(movie?.id), { enabled: !!movie });
-
-    // const { data: videoData, error: videoError, isLoading: videoLoading, isError: isVideoError } = useQuery<{ videos: { key: string; site: string; type: string }[] },
-    // Error
-    // >(["videos", movie?.id], () => getMovieVideos(movie?.id), { enabled: !!movie });
+   const { data: videoData, error: videoError, isLoading: videoLoading, isError: isVideoError } = useQuery<{ videos: { key: string; site: string; type: string }[] }, Error >(["videos", movie?.id], () => getMovieVideos(movie?.id), { enabled: !!movie });
   
   if (movieLoading || videoLoading) {
     return <Spinner />;
@@ -36,10 +30,8 @@ const MovieDetailsPage: React.FC= () => {
   }
 
   // Find the trailer video
-  // const trailerVideo: MovieTrailerVideoProps | undefined = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube') ?? undefined;
   const trailerVideo: any = videoData?.videos.find(video => video.type === 'Trailer' && video.site === 'YouTube') ?? undefined;
   console.log('trailer: ', trailerVideo)
-  // console.log(movie);
 
   return (
     <>

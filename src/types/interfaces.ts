@@ -56,7 +56,21 @@ export interface MovieTrailerVideoProps {
   size: number
   type?: string;
 };
+
+export interface TvShowTrailerVideoProps {
+  id: string;
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  key?: string;
+  name?: string;
+  official?: boolean;
+  published_at?: string;
+  site?: string;
+  size: number
+  type?: string;
+};
   
+
 export interface MoviePageProps {
   movie: MovieDetailsProps;
   images: MovieImage[];
@@ -167,6 +181,9 @@ export interface BaseTvShowProps {
   first_air_date: string;
   vote_average: number;
   popularity: number;
+  vote_count: number;
+  homepage: string;
+  status?: string;
   poster_path?: string;
   backdrop_path?: string;
   genre_ids?: number[];

@@ -373,11 +373,55 @@ export const getTVShowImages = (id: string | number) => {
 			}
 			return response.json();
 		})
-		.then((json) => json.posters)
+		// .then((json) => json.posters)
+		.then((json) => {
+			//Filter out images that are not in English. Cant do it in call as it i loose the backdrop images
+			const posters = (json.posters || []).filter((poster: any) => poster.iso_639_1 === 'en');
+			const backdrops = json.backdrops || [];	
+			return { posters, backdrops };
+		  })
 		.catch((error) => {
 			throw error;
 		});
 };
+
+export const getSimilarTVShows = (id: string | number, page: string | number) => {
+	return fetch(
+	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+	)
+	.then((response) => {
+		if (!response.ok) {
+			throw new Error(
+				`Failed to get similar movie data. Response status: ${response.status}`
+			);
+		}
+		return response.json();
+	})
+	.catch((error) => {
+		throw error;
+	});
+};
+  
+
+export const getTVShowVideos = (id?: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch videos');
+			}
+			return response.json();
+		})
+		.then((json) => {
+		  const tvShows = json.results || [];
+		  return { tvShows };
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
 
 // Actors/Cast
 
