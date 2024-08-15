@@ -30,9 +30,10 @@ const styles = {
         height: "100%",
       },
       imageListItem: {
-          marginLeft: "auto",
-          width: 425,
-          height: '100vh',
+        marginTop: "100px",
+        marginLeft: "auto",
+        width: 425,
+        height: '100vh',
       },
 };
 
