@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect }  from "react";
 import { useQuery } from "react-query";
 import { getMovieCast, getTVShowCast } from "../../api/tmdb-api";
 import { MovieCastMember } from "../../types/interfaces";
@@ -28,18 +28,7 @@ const styles = {
         '&:hover': {
           backgroundColor: '#555', // Change the thumb color to a darker gray when hovered
         }
-      }
-    //   '&::-webkit-scrollbar': {
-    //     width: '0.4em'
-    //   },
-    //   '&::-webkit-scrollbar-track': {
-    //     boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
-    //     webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
-    //   },
-    //   '&::-webkit-scrollbar-thumb': {
-    //     backgroundColor: 'rgba(0,0,0,.1)',
-    //     outline: '1px solid slategrey'
-    //   }
+      },
     },
     castCard: {
       display: "inline-block",
@@ -87,8 +76,32 @@ const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
 
     const castMembers = castData?.cast || [];
 
-    console.log(castMembers);
-{/* <Link to={`/movies/${movie.id}`}></Link> */}
+    // console.log(castMembers);
+    useEffect(() => {
+        const styleElement = document.createElement('styles');
+        styleElement.innerHTML = `
+          .castBox::-webkit-scrollbar {
+            width: 1em;
+          }
+          .castBox::-webkit-scrollbar-track {
+            boxShadow: inset 0 0 6px rgba(0,0,0,0.1);
+            backgroundColor: #F5F5F5;
+          }
+          .castBox::-webkit-scrollbar-thumb {
+            backgroundColor: '#888';
+            borderRadius: '10px';
+            &:hover {
+              backgroundColor: '#555';
+            }
+          }
+        `;
+        document.head.appendChild(styleElement);
+    
+        return () => {
+          document.head.removeChild(styleElement);
+        };
+    }, []);
+
     return (
         <>
         <Box sx={styles.castBox}>

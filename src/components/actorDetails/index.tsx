@@ -4,17 +4,6 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
 const styles = {
-  subHeadingText: {
-    fontFamily: '"Source Sans Pro", Arial, sans-serif',
-    color: "#ffffff",
-    textAlign: 'start',
-    letterSpacing: 'normal',
-    marginBottom: '0',
-    fontSize: '1.8em',
-    fontWeight: '400',
-    fontStyle: 'italic',
-    opacity: '.7',
-  },
   contentText: {
     fontFamily: '"Source Sans Pro", Arial, sans-serif',
     color: "#ffffff",
@@ -29,6 +18,19 @@ const styles = {
     fontSize: "2rem",
     fontWeight: 'bold',
     margin: '10px',
+    opacity: '.7',
+  },
+  subHeadingText: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    color: "#ffffff",
+    textAlign: 'start',
+    letterSpacing: 'normal',
+    marginBottom: '0',
+    fontSize: '1.8em',
+    fontWeight: '400',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    opacity: '.7',
   },
   actorNameText: {
     fontFamily: '"Source Sans Pro", Arial, sans-serif',
@@ -67,28 +69,38 @@ const ActorDetails: React.FC<ActorDetailsComponentProps> = ({ actor }) => {
             {actor.name}
         </Typography>
         <Typography variant="h5" component="h3" sx={styles.headerText}>            
-            Biography
+            BIOGRAPHY
         </Typography> 
         <Typography variant="h6" component="p" sx={styles.contentText}>
             {actor.biography}
         </Typography>
         <Typography variant="h5" component="h3" sx={styles.headerText}>            
-            Personal Info
+            PERSONAL INFORMATION
         </Typography>
         <Grid container spacing={3}>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
                 <Typography variant="h6" sx={styles.subHeadingText}>KNOWN FOR</Typography>
                 <Typography variant="h6" component="p"  sx={styles.contentText}>{actor.known_for_department}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
                 <Typography variant="h6" sx={styles.subHeadingText}>GENDER</Typography>
                 <Typography variant="h6" component="p" sx={styles.contentText}>{mapGender(actor.gender)}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
+                <Typography variant="h6" sx={styles.subHeadingText}>POPULARITY</Typography>
+                <Typography variant="h6" component="p" sx={styles.contentText}>{actor.popularity}</Typography>
+            </Grid>
+            <Grid item xs={4}>
                 <Typography variant="h6" sx={styles.subHeadingText}>DATE OF BIRTH</Typography>
                 <Typography variant="h6" component="p" sx={styles.contentText}>{actor.birthday}</Typography>
             </Grid>
-            <Grid item xs={6}>
+            {actor.deathday && (
+            <Grid item xs={4}>
+                <Typography variant="h6" sx={styles.subHeadingText}>DATE OF DEATH</Typography>
+                <Typography variant="h6" component="p" sx={styles.contentText}>{actor.deathday}</Typography>
+            </Grid>
+            )}
+            <Grid item xs={4}>
                 <Typography variant="h6" sx={styles.subHeadingText}>PLACE OF BIRTH</Typography>
                 <Typography variant="h6" component="p" sx={styles.contentText}>{actor.place_of_birth}</Typography>
             </Grid>
