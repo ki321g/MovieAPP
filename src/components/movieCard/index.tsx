@@ -163,7 +163,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               />
               <CardMedia
                 component="img"
-                // image={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
                 image={
                   movie.backdrop_path
                     ? `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`
@@ -171,7 +170,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 }
                 alt={movie.title}
                 sx={{
-                  // height: '100%',
                   alignSelf: 'flex-start',
                   width: '100%',
                   borderRadius: '0px 0px 0 0',
@@ -194,21 +192,8 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
                 </Link>
               </CardActions>
               <CardContent sx={{ textAlign: 'left', paddingY: '2px',paddingX: '20px', }}>
-                {/* <Typography variant="h6" component="div" sx={{ margin: '10px 0' }}>
-                  {movie.title}
-                </Typography> */}
                 <Typography variant="body2" color="white">
-                {/* {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 180 ? prev + " " + curr : prev)} */}
                 {movie.overview}
-                {/* {
-                  movie.overview.split(" ").reduce((prev, curr) => 
-                    prev.length + curr.length <= 180 
-                      ? prev + " " + curr 
-                      : prev.length <= 180 && prev.length + "...".length > 180
-                        ? prev + "..."
-                        : prev
-                  )
-                } */}
                 </Typography>
               </CardContent>
             </Card>

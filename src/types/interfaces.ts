@@ -307,3 +307,17 @@ export interface TvShowCastMember {
   character: string;
   profile_path?: string;
 }
+
+export interface ActorDetailsProps {
+  id: number;
+  name: string;
+  biography: string;
+  profile_path?: string;
+  gender: number;
+  birthday?: string;
+  deathday?: string;
+  known_for_department: string;
+  popularity: number;
+  place_of_birth?: string;
+  also_known_as?: string[];
+}

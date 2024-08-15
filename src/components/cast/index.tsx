@@ -88,14 +88,14 @@ const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
     const castMembers = castData?.cast || [];
 
     console.log(castMembers);
-
+{/* <Link to={`/movies/${movie.id}`}></Link> */}
     return (
         <>
         <Box sx={styles.castBox}>
         {castMembers.filter(castMember => castMember.profile_path).map((castMember) => (
             <Link
             key={castMember.id}
-            to={`/actors/${castMember.id}`}
+            to={`/actor/${castMember.id}`}
             style={{ textDecoration: 'none' }}
             >
             <Card sx={{ ...styles.castCard, width: 200 }}> {/* Set a fixed width for the Card */}
