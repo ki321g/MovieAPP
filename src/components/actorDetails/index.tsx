@@ -27,9 +27,8 @@ const styles = {
     letterSpacing: 'normal',
     marginBottom: '0',
     fontSize: '1.8em',
-    fontWeight: '400',
+    fontWeight: '700',
     fontStyle: 'italic',
-    fontWeight: 'bold',
     opacity: '.7',
   },
   actorNameText: {
