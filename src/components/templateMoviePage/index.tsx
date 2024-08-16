@@ -85,7 +85,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
         );
         
     const { data: similarMoviesData, error: similarMoviesError, isLoading: similarMoviesLoading, isError: isSimilarMoviesError, isPreviousData } = useQuery<DiscoverMovies, Error>({
-        queryKey: ["similarMovies", page],
+        queryKey: ["similarMovies", movie.id],
         queryFn: () => getSimilarMovies(movie.id, page),
         keepPreviousData: true
     });
