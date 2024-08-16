@@ -125,7 +125,7 @@ const TVShowPageTemplate: React.FC<TVShowPageTemplateProps> = ({tvShow, children
 
     return (
         <>
-            <Box sx={contentBoxStyle}>
+        <Box sx={contentBoxStyle}>
             <Grid container spacing={5} style={{ padding: "10px" }}>
                 <Grid item xs={3}>
                     <div>
@@ -147,9 +147,10 @@ const TVShowPageTemplate: React.FC<TVShowPageTemplateProps> = ({tvShow, children
                     {children}
                 </Grid>
             </Grid>
-        </Box>
-
+        </Box>        
         <Box sx={styles.similarMovies}>
+            {similarTVShows.length > 0 && (
+                <>
                 <Paper component="div" sx={styles.root}>
                     <Grid container sx={{ paddingX: 60 }}>
                         <Grid item>
@@ -188,19 +189,20 @@ const TVShowPageTemplate: React.FC<TVShowPageTemplateProps> = ({tvShow, children
                     </Grid>
                 </Paper>
 
-            {similarTVShows.length > 0 && (
-            <SimilarTVShows
-                tvShows={similarTVShows}
-                action={(tvShow: BaseTvShowProps) => <AddToTVShowFavouritesIcon {...tvShow} />}
-            />
-                )}
-            </Box>
-
-
-
-
-
-
+            
+                <SimilarTVShows
+                    tvShows={similarTVShows}
+                    action={(tvShow: BaseTvShowProps) => <AddToTVShowFavouritesIcon {...tvShow} />}
+                /> 
+                </>  
+            )} : {
+                <>
+                <Typography variant="h4" component="div" sx={styles.similarMoviesText} >
+                    NO SIMILAR TV SHOWS FOUND
+                </Typography>
+                </>
+            }             
+        </Box>
         </>
     );
 };
