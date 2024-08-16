@@ -240,7 +240,7 @@ export const getTVShow = (id: string) => {
 
 export const getTVShows = (page: string | number) => {
 	return fetch(
-		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}&with_original_language=en`
 	)
 		.then((response) => {
 			if (!response.ok)
