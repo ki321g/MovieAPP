@@ -567,7 +567,7 @@ const HomePage: React.FC = () => {
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
-							MOVIE RESULTS
+							MOVIES
 						</Typography>
 					</Grid>
 
@@ -608,7 +608,7 @@ const HomePage: React.FC = () => {
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
-							TV SHOW RESULTS
+							TV SHOWS
 						</Typography>
 					</Grid>
 
