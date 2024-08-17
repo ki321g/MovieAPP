@@ -27,7 +27,6 @@ const styles = {
       justifyContent: "space-around",
       alignItems: "center",
       flexWrap: "wrap",
-      // marginBottom: 1.5,
       background: "#141414",
       boxShadow: 'none',
       paddingBottom: '20px',
@@ -136,14 +135,9 @@ const UpcomingMoviesPage: React.FC = () => {
             </Grid>
 
             <Grid item>
-              {/* <Typography align="right" sx={{ paddingRight: 2 }}>
-                {page} of {data?.total_pages}
-              </Typography> */}
-
               <Select
                 color="secondary"
                 value={page}
-                // onChange={(event) => setPage(event.target.value)}
                 onChange={(event) => setPage(Number(event.target.value))}
               >
                 {[...Array(data?.total_pages).keys()].map((pageNumber) => (

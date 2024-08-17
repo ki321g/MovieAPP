@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import {BaseMovieProps, Playlist, UserPlaylist} from "../../types/interfaces"
@@ -34,7 +33,6 @@ const createOption = (label: string) => ({
 
 const defaultOptions: Option[] = [];
 
-
 const customStyles = {
     control: (provided: any) => ({
         ...provided,
@@ -46,15 +44,15 @@ const customStyles = {
       fontSize: '1.5em',
       color: state.isSelected ? 'white' : 'black',
       backgroundColor: state.isFocused ? 'lightgray' : null,
-    //   fontSize: state.isSelected ? '1.75em' : '1.25em',
       padding: state.isSelected ? '10px 15px' : '10px 12px',
   
     }),
   };
-  
-const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
-  // const context = useContext(MoviesContext);
 
+/* AddToPlaylistIcon component
+ * This component is used to add a movie to the user's playlists
+ */
+const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
   const [alert, setAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState<"error" | "warning" | "info" | "success">("success");
   const [alertMessage, setAlertMessage] = useState("");

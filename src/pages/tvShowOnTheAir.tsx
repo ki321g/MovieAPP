@@ -27,7 +27,6 @@ const styles = {
         justifyContent: "space-around",
         alignItems: "center",
         flexWrap: "wrap",
-        // marginBottom: 1.5,
         background: "#141414",
         boxShadow: 'none',
         paddingBottom: '20px',

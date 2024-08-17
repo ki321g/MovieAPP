@@ -45,6 +45,9 @@ const styles = {
   },
 };
 
+/* ActorDetailsComponentProps interface 
+ * This interface is used to define the props for the ActorDetails component
+ */
 interface ActorDetailsComponentProps {
     actor: ActorDetailsProps;
   }

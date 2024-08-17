@@ -152,7 +152,6 @@ const HomePage: React.FC = () => {
 			</Paper>
 
 			<PageTemplate
-				// title='Discover Movies'
 				movies={sortedMovies}
 				action={(movie: BaseMovieProps) => {
 					return <AddToFavouritesIcon {...movie} />;

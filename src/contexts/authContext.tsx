@@ -25,8 +25,6 @@ const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
         setUser(null);
         setToken(null);
       }
-      // console.log('TOKEN: ' & token);
-      // console.log(user);
     } catch (err) {
       console.error('Failed to Set Authentication State:', (err as Error).message);
       setToken(null);
@@ -36,8 +34,6 @@ const AuthContextProvider:React.FC<React.PropsWithChildren> = (props) => {
     }
   };
 
-
-  // const authenticate = async ( token: string ) => {
   const authenticate = async () => {
         await setAuthState();
 

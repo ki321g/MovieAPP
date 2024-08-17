@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
-// import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import Groups2Icon from '@mui/icons-material/Groups2';
 import StarRateIcon from "@mui/icons-material/StarRate";
@@ -16,6 +15,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import Modal from '@mui/material/Modal';
 import HomeIcon from "@mui/icons-material/Home";
 import Cast from "../cast";
+
 // Styling for the movie details section
 const styles = {
   chipSet: {
@@ -142,9 +142,6 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    
-  // console.log('trailer2: ', trailerVideo.key)
 
   return (
     <>
@@ -298,7 +295,7 @@ const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo
                         title="Trailer"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        style={{ border: "none" }} //this seems to be the only way I can remove the iframe border
+                        style={{ border: "none" }}
                     />
             
             )}

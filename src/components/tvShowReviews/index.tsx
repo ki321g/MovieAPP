@@ -47,7 +47,7 @@ const TVShowReviews: React.FC<TvShowDetailsProps> = (tvShow) => {
                             <TableCell >{excerpt(r.content)}</TableCell>
                             <TableCell >
                                 <Link
-                                    to={`/reviews/${r.id}`}
+                                    to={`/reviews/tv/${r.id}`}
                                     state={{
                                         review: r,
                                         tvShow: tvShow,

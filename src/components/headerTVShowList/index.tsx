@@ -11,7 +11,6 @@ const styles = {
         justifyContent: "space-around",
         alignItems: "center",
         flexWrap: "wrap",
-        // marginBottom: 1.5,
         background: "#141414",
         boxShadow: 'none',
         paddingBottom: '20px',
@@ -24,9 +23,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = (headerProps) => {
     const title = headerProps.title
-    console.log('Header');
-    // console.log('page: ', page);
-        // const [page, setPage] = useState(1);)
+    // console.log('Header');
 
     return (
         <Paper component="div" sx={styles.root}>            

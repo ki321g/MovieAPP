@@ -31,6 +31,9 @@ interface FilterTVShowsCardProps {
 	genreFilter: string;
   }
 
+/* FilterTVShowCard component
+ * This component is used to filter TV shows by title and genre
+ */
   const FilterTVShowCard: React.FC<FilterTVShowsCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
 	const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getTVShowGenres);
   
@@ -71,10 +74,6 @@ interface FilterTVShowsCardProps {
 							FILTER TV SHOWS
 						</Typography>
 					</Box>
-					{/* <Typography variant='h5' component='h1'>
-						<FilterAltIcon fontSize='large' />
-						Filter the TV Shows.
-					</Typography> */}
 					<TextField
 						sx={styles.formControl}
 						id='filled-search'
@@ -98,14 +97,6 @@ interface FilterTVShowsCardProps {
 					</FormControl>
 				</CardContent>
 			</Card>
-			{/* <Card sx={styles.root} variant='outlined'>
-				<CardContent>
-					<Typography variant='h5' component='h1'>
-						<SortIcon fontSize='large' />
-						Sort the TV Shows.
-					</Typography>
-				</CardContent>
-			</Card> */}
 		</>
 	);
 };

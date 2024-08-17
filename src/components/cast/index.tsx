@@ -9,24 +9,24 @@ import { Card, CardContent, CardMedia } from '@mui/material';
 
 const styles = {
     castBox: {
-      maxWidth: "100%", // May seem a bit arbitrary but it results in an exact number of cast members
+      maxWidth: "100%", 
       overflowX: "auto",
       whiteSpace: "nowrap" as const,
       paddingY: "20px",
       '&::-webkit-scrollbar': {
-        width: '1em', // Make the scrollbar thicker
+        width: '1em', 
         height: '1.8em'
       },
       '&::-webkit-scrollbar-track': {
-        boxShadow: 'inset 0 0 6px rgba(0,0,0,0.1)', // Add a subtle shadow to the track
-        borderRadius: '10px', // Add rounded corners 
-        backgroundColor: '#F5F5F5' // Change the track color to a light gray
+        boxShadow: 'inset 0 0 6px rgba(0,0,0,0.1)',
+        borderRadius: '10px', 
+        backgroundColor: '#F5F5F5' 
       },
       '&::-webkit-scrollbar-thumb': {
-        backgroundColor: '#888', // Change the thumb color to a dark gray
-        borderRadius: '10px', // Add rounded corners to the thumb
+        backgroundColor: '#888', 
+        borderRadius: '10px', 
         '&:hover': {
-          backgroundColor: '#555', // Change the thumb color to a darker gray when hovered
+          backgroundColor: '#555', 
         }
       },
     },
@@ -34,7 +34,7 @@ const styles = {
       display: "inline-block",
       margin: "0 10px",
       textAlign: "center" as const,
-      cursor: "pointer", // Makes the cast card clickable
+      cursor: "pointer", 
       borderRadius: "8px",
       overflow: "hidden",
       boxShadow: "0 4px 8px rgba(0, 0, 0, 0)", 
@@ -48,14 +48,13 @@ const styles = {
       width: "200px",
       height: "250px",
     },
-    // Styling for the cast member's name
     castName: {
       marginTop: "0px",    
       paddingTop: "0px",
       fontWeight: "bold",
       fontSize: "1.2rem",
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)", // Adding text shadow for better visibility
-      color: "#fff", // White text for visibility
+      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)", 
+      color: "#fff",
     },
   };
 
@@ -63,8 +62,12 @@ interface CastProps {
   movieId?: number;
   tvShowId?: number;
 }
+
+/* CastMembers component
+ * This component is used to display the cast members of a movie or TV show
+ */
 const CastMembers: React.FC<CastProps> = ({ movieId, tvShowId }) => {
-    // Determine whether to Fetch Movie or TV Show Cast fetch function
+    // Determine which fetch function to use based on the presence of a movieId
     const fetchFunction = movieId ? () => getMovieCast(movieId) : () => getTVShowCast(tvShowId!);
 
     // Get Cast with useQuery

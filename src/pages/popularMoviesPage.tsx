@@ -66,7 +66,6 @@ const PopularMoviesPage: React.FC = () => {
 	});
 
 	const { filterValues, setFilterValues, filterFunction } = useFiltering(
-		// [],
 		[titleFiltering, genreFiltering]
 	);
 

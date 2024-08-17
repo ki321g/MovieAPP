@@ -40,9 +40,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     const [myReviews, setMyReviews] = useState<Review[]>([]);
     const [favourites, setFavourites] = useState<number[]>([]);
-    // const [playlists, setPlaylists] = useState<number[]>([]);
     const [mustWatch, setMustWatch] = useState<number[]>([]);
-
     const favouriteMovieRef = collection(db, 'favourites');
     const moviePlaylistRef = collection(db, 'playlists');
 
@@ -87,12 +85,12 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             const isFavourite: any = favouriteMovies?.find((favMovie: any) => favMovie.movie_id === movieIdToCheck);
 
             if (isFavourite) {
-                console.log('The movie is in the favourites list');
+                // console.log('The movie is in the favourites list');
                 const favouriteMovieIds: any  = favouriteMovies?.map((movie: any) => movie.movie_id);
                 setFavourites(favouriteMovieIds);
                 return favourites;
               } else {
-                console.log('The movie is not in the favourites list');
+                // console.log('The movie is not in the favourites list');
                 // Add the movie to favourites
                 await addDoc(favouriteMovieRef, {
                     movie_id: movie.id,
@@ -144,7 +142,6 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
 
     const getPlaylists = async () => {
         const playlistMovies = await getPlaylistsMovies();
-        // console.log(playlistMovies);
         return(playlistMovies);
     };
 
@@ -156,10 +153,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             const filteredPlaylistMovies = playlistMovies.docs.map((doc) => ({                    
                 id: doc.id,
                 ...doc.data(),
-            }));         
-            
-            // const moviePromises = filteredPlaylistMovies.map(movieId => getMovie(movieId));
-            // const movies = await Promise.all(moviePromises);
+            }));
 
             const updatedPlaylistMovies = await Promise.all(
                 filteredPlaylistMovies.map(async (movie) => {
@@ -168,7 +162,7 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
                 })
               );
             
-            console.log(updatedPlaylistMovies);
+            // console.log(updatedPlaylistMovies);
             return(updatedPlaylistMovies);
         } catch (err) {
             console.error(err);
@@ -176,14 +170,8 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     }
 
     const clearFavourites = () => {
-        console.log('clearFavourites');
         setFavourites([]); // Clear the favourites
       };
-
-       
-    // useEffect(() => {
-    //       getPlaylists();
-    //     }, []);
 
     return (
         <MoviesContext.Provider

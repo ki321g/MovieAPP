@@ -11,15 +11,15 @@ import MovieFilterUI, {
 } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
-// import { auth } from '../config/firebase';
 import { BaseMovieProps } from '../types/interfaces';
 import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
-import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
 import SortMoviesUI from "../components/sortMoviesUi";
+// import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
+// import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
+// import IconButton from "@mui/material/IconButton";
+
 
 const styles = {
   root: {
@@ -27,7 +27,6 @@ const styles = {
       justifyContent: "space-around",
       alignItems: "center",
       flexWrap: "wrap",
-      // marginBottom: 1.5,
       background: "#141414",
       boxShadow: 'none',
       paddingBottom: '20px',
@@ -46,7 +45,7 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {  
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState<string>("none");
   const { favourites: movieIds, getFavourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -57,13 +56,6 @@ const FavouriteMoviesPage: React.FC = () => {
     // Fetch the favourites here and update the state
     getFavourites();
   }, []);
-
-  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.email);
-  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.displayName);
-  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.photoURL);
-  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.uid);
-  // console.log("FavouriteMoviesPage: ", auth?.currentUser?.accessToken);
-
 
   // Create an array of queries and run them in parallel.
   const favouriteMovieQueries = useQueries(
@@ -94,9 +86,9 @@ const FavouriteMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  const prevPage = () => setPage((prev) => prev - 1);
-	const nextPage = () => setPage((next) => next + 1);// Sort movies
-  console.log(page);
+  // const prevPage = () => setPage((prev) => prev - 1);
+	// const nextPage = () => setPage((next) => next + 1);// Sort movies
+  
   const sortedMovies = [...displayedMovies].sort((a, b) => {
     switch (sortOption) {
       case "none":
@@ -120,7 +112,7 @@ const FavouriteMoviesPage: React.FC = () => {
     <>
       <Paper component="div" sx={styles.root}>
   				<Grid container sx={{ paddingX: 60 }}>
-					<Grid item>
+					{/* <Grid item>
 						<IconButton onClick={prevPage} disabled
 							aria-label="go back"
 						>
@@ -129,15 +121,15 @@ const FavouriteMoviesPage: React.FC = () => {
 							style={{ fontSize: 50, fontWeight: 'bold' }}
 							/>
 						</IconButton>
-					</Grid>
+					</Grid> */}
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center">
-						Favourite Movies
+						  FAVOURITE MOVIES
 						</Typography>
 					</Grid>					
 
-					<Grid item>
+					{/* <Grid item>
 						<IconButton onClick={nextPage} disabled
 							aria-label="go forward"
 						>
@@ -146,7 +138,7 @@ const FavouriteMoviesPage: React.FC = () => {
 							style={{ fontSize: 50, fontWeight: 'bold' }}
 							/>
 						</IconButton>
-					</Grid>
+					</Grid> */}
 				</Grid>
 			</Paper>
       <PageTemplate        

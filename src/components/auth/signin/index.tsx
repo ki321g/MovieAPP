@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import { AuthContext } from '../../../contexts/authContext';
-// import { MoviesContext } from "../../../contexts/moviesContext";
 import { auth, googleProvider } from '../../../config/firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link, } from '@mui/material';
@@ -8,6 +7,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GoogleButton from 'react-google-button'
 import { Alert } from '@mui/material'; 
 
+/* Auth component*/
 export const Auth = () => {
     const authContext = useContext(AuthContext);
     const { authenticate } = authContext || {};
@@ -15,13 +15,12 @@ export const Auth = () => {
     const [password, setPassword] = useState('');
     const [action, setAction] = useState<string | null>('logIn');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    // const { clearFavourites } = useContext(MoviesContext);
-
 
     const paperStyle={padding :50,height:'50vh',width:280, margin:"60px auto"};
     const avatarStyle={backgroundColor:'#1bbd7e'};
     const btnstyle={fontSize: '18px', height: '50px', margin:'8px 0', borderRadius: 0, backgroundColor:'#1bbd7e', };
 
+    // Sign in with email and password
     const signIn = async () => {
         try {
             await signInWithEmailAndPassword(auth, email, password);
@@ -35,7 +34,7 @@ export const Auth = () => {
         }
     };
     
-
+    // Sign up with email and password
     const signUp = async () => {
         try {
             await createUserWithEmailAndPassword(auth, email, password);            
@@ -45,15 +44,10 @@ export const Auth = () => {
             setErrorMessage(null); 
         } catch (err) {
             console.log(err);
-            // if (err.message === "Firebase: Error (auth/email-already-in-use).") {
-            //     // alert('email-already-in-use');                
-            //     setErrorMessage("Email already in use.");
-            //     // setErrorMessage('Email already in use.');
-            // }           
-            
         }
     };
 
+    // Sign in/up with google
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
@@ -65,15 +59,6 @@ export const Auth = () => {
             console.error(err);
         }
     };
-
-    // const logout = async () => {
-    //     try {
-    //         await signOut(auth);
-    //         clearFavourites(); // Clear the favourites
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
 
     const handleActionChange = () => {
         setAction(action === 'logIn' ? 'signUp' : 'logIn');
@@ -130,7 +115,6 @@ export const Auth = () => {
                         style={{ 
                             color: '#CC90D7', 
                             fontWeight: 'bold',
-                            // borderBottom: '1px solid #CC90D7' 
                         }} 
                         onClick={handleActionChange} 
                     >
@@ -140,13 +124,14 @@ export const Auth = () => {
                 {/* Sign in with google */}                
                 {/* https://www.npmjs.com/package/react-google-button */}
                 <GoogleButton
-                    // label='Be Cool'
-                    // type="dark" // can be light or dark
+                    /* Other Optional Props
+                    label='Be Cool'
+                    type="dark" // can be light or dark
+                    style={{ margin: 2 , width: '100%' }}
+                    */
                     onClick={signInWithGoogle}
-                    // style={{ margin: 2 , width: '100%' }}                    
                     style={{ marginTop: '1em', width: '100%' }}
                     />
-                {/* <Button type='submit' color='primary' variant="contained" style={{ ...btnstyle, backgroundColor: 'red' }} onClick={logout} fullWidth> Logout </Button> */}
             </Paper>
         </Grid>
         </>

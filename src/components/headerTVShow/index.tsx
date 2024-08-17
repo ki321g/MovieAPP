@@ -42,9 +42,6 @@ const TVShowHeader: React.FC<TVShowPageProps> = (tvShow) => {
         }
       <Typography variant="h4" component="h3">
         {tvShow.name}{"   "}
-        {/* <a href={tvShow.homepage}>
-          <HomeIcon color="primary"  fontSize="large"/>
-        </a> */}
         <br />
         <span>{`${tvShow.tagline}`} </span>
       </Typography>
