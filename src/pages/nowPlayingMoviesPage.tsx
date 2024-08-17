@@ -128,32 +128,25 @@ const NowPlayingMoviesPage: React.FC = () => {
 							/>
 						</IconButton>
 					</Grid>
-
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
 						Playing Now Movies
 						</Typography>
 					</Grid>
-
 					<Grid item>
-						{/* <Typography align="right" sx={{ paddingRight: 2 }}>
-                {page} of {data?.total_pages}
-              </Typography> */}
-
-			<Select
-                color="secondary"
-                value={page}
-                // onChange={(event) => setPage(event.target.value)}
-                onChange={(event) => setPage(Number(event.target.value))}
-              >
-                {[...Array(data?.total_pages).keys()].map((pageNumber) => (
-                  <MenuItem key={pageNumber + 1} value={pageNumber + 1}>
-                    {pageNumber + 1}
-                  </MenuItem>
-                ))}
-              </Select>
+						<Select
+							color="secondary"
+							value={page}
+							// onChange={(event) => setPage(event.target.value)}
+							onChange={(event) => setPage(Number(event.target.value))}
+						>
+							{[...Array(data?.total_pages).keys()].map((pageNumber) => (
+							<MenuItem key={pageNumber + 1} value={pageNumber + 1}>
+								{pageNumber + 1}
+							</MenuItem>
+							))}
+						</Select>
 					</Grid>
-
 					<Grid item>
 						<IconButton onClick={nextPage} disabled={isPreviousData || page === data?.total_pages}
 							aria-label="go forward"
@@ -166,9 +159,7 @@ const NowPlayingMoviesPage: React.FC = () => {
 					</Grid>
 				</Grid>
 			</Paper>
-
 			<PageTemplate
-				// title='Discover Movies'
 				movies={sortedMovies}
 				action={(movie: BaseMovieProps) => {
 					return <AddToFavouritesIcon {...movie} />;

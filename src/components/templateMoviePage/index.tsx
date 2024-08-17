@@ -1,5 +1,4 @@
 import React, { useState }  from 'react';
-// import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -25,7 +24,6 @@ const styles = {
         flexWrap: "wrap",
         background: "#141414",
         boxShadow: 'none',
-        // paddingBottom: '20px',
         paddingTop: '40px',
     },
     gridListRoot: {
@@ -52,10 +50,10 @@ const styles = {
       width: "100%",
       height: "100%",
     },
-    similarMovies: {        
+    similarMovies: {
         Width: "100%;"
     },
-    similarMoviesText: {        
+    similarMoviesText: {
         fontFamily: '"Source Sans Pro", Arial, sans-serif',
         fontSize: '2.8rem',
         color: "#ffffff",
@@ -102,8 +100,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
     if (isSimilarMoviesError) {
         return <h1>{similarMoviesError.message}</h1>;
     }
-    // console.log("similarMoviesData");
-    // console.log(similarMoviesData);
+
     const similarMovies = similarMoviesData?.results || [];
 
     // Destructure the imageData into backdrops & posters
@@ -129,7 +126,6 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
 
     return (
         <>
-            {/* <MovieHeader {...movie} /> */}
             <Box sx={contentBoxStyle}>
                 <Grid container spacing={5} style={{ padding: "10px" }}>
                     <Grid item xs={3}>
@@ -198,7 +194,7 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = ({movie, children}) 
                 movies={similarMovies}
                 action={(movie: BaseMovieProps) => <AddToFavouritesIcon {...movie} />}
             />
-                )}
+            )}
             </Box>
         </>
     );

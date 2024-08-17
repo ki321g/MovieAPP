@@ -25,15 +25,14 @@ const SortTVShowsUI: React.FC<SortTVShowsUIProps> = ({ onSortChange }) => {
 
   // Function to handle the sort change
   const handleSortChange = (sortOption: string) => {
-    onSortChange(sortOption); // Call the onSortChange function with the new sort option
-    setSortOption(sortOption); // Set the sort option state to the new sort option
-    setSortOpen(false); // Close the drawer after selecting an option
+    onSortChange(sortOption);
+    setSortOption(sortOption); 
+    setSortOpen(false); 
   };
 
   return (
     <>
       <Box>
-      {/* <Box sx={styles.fabBox}> */}
         <Fab
           color="secondary"
           variant="extended"

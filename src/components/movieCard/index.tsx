@@ -7,7 +7,6 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-
 import imgPoster from '../../images/film-poster-placeholder.png';
 import imgBackdrop from '../../images/film-backdrop-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces"; 
@@ -28,11 +27,6 @@ const styles = {
     backgroundColor: "rgb(255, 0, 0)",
   },
 };
-
-// interface MovieListProps {
-//   movie:ListedMovie,
-//   action: (m: ListedMovie) => React.ReactNode;
-// }
 
 interface MovieCardProps {
   movie: BaseMovieProps;
@@ -145,7 +139,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
               flexDirection: 'column',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              // padding: '20px',
               boxSizing: 'border-box',
               border: 'none',
               backgroundImage: 'none',

@@ -24,7 +24,6 @@ const styles = {
         flexWrap: "wrap",
         background: "#141414",
         boxShadow: 'none',
-        // paddingBottom: '20px',
         paddingTop: '40px',
     },
     contentBox: {

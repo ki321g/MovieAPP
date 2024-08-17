@@ -7,14 +7,14 @@ import { Box } from "@mui/material"
 
 const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
   if (!Array.isArray(movies)) {
-    return null; // or some fallback UI
+    return null;
   }
   let movieCards = movies.map((m) => (
     <Grid container key={m.id} item xs={12} sm={6} md={4} lg={3} xl={3}>
       <Movie key={m.id} movie={m} action={action}/>
     </Grid>
   ));
-    console.log(location.pathname);
+    // console.log(location.pathname);
   if (location.pathname === '/movies/favourites') {
     return movieCards;
   } else if (location.pathname === '/movies/playlists') {
@@ -28,10 +28,6 @@ const MovieList: React.FC<BaseMovieListProps> = ({movies, action}) => {
     </Box>
   );
   }
-
-
-   
- 
 }
 
   export default MovieList;
