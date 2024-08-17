@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useQueries } from 'react-query';
-// import MovieDetails from "../components/movieDetails";
 import PageTemplate from '../components/templateMovieListPage';
 import PageTemplateTVShow from '../components/templateTVShowListPage';
 import { getGenres, getTVShowGenres, getSearchResults } from '../api/tmdb-api';
@@ -14,11 +13,16 @@ import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubl
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Spinner from '../components/spinner';
-// import Snackbar from '@mui/material/Snackbar';
-// import Alert from '@mui/material/Alert';
-// import Slide, { SlideProps } from '@mui/material/Slide';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+// import Snackbar from '@mui/material/Snackbar';
+// import Slide, { SlideProps } from '@mui/material/Slide';
+
+/* 
+ * I had handleAlert and handleAlertClose functions to handle the alert messages
+ * but there was an issue with the alert message not displaying properly after the first alert message was displayed.
+ * I have commented out the alert message code and will revisit it later.
+ */
 
 const styles = {
     root: {
@@ -33,7 +37,7 @@ const styles = {
 		height: '100vh',
 		backgroundColor: '#282828',
 		color: '#fff',
-		padding: '20px',
+		padding: '0px',
 	},
 	title: {
 	  flexGrow: 1,
@@ -83,15 +87,14 @@ const styles = {
 		WebkitTextFillColor: 'transparent',
 	  },
 	  button: {
-		backgroundColor: '#fff',
-		color: '#000',
+		fontWeight: '900',      
+		fontFamily: '"Source Sans Pro", Arial, sans-serif',
+		fontSize: '2rem',
+		padding: '20px',
+		background: 'linear-gradient(180deg, #35B8D8, #06203E)',
 		'&:hover': {
-		  backgroundColor: '#666',
-		  color: '#fff',
-		},
-		fontWeight: 'bold', // Makes the text bold
-		fontSize: '1.25rem', // Makes the font larger
-		padding: '8px 20px'
+			background: 'linear-gradient(90deg, #35B8D8, #06203E)',
+		}, 
 	  },
 	  errorText: {
 		flexGrow: 1,
@@ -109,17 +112,21 @@ const styles = {
 	  },
 };
 
-
+/*
+	HomePage component is a functional component that displays the Movies/TVShows search form and the search results.
+	
+	The component uses the 
+	1. useQueries hook to fetch Movies/TVShows.
+	2. useState hook to manage the form state.
+	3. useEffect hook to disable the main scrollbar when the component mounts and enable it when the component unmounts.
+*/
 const HomePage: React.FC = () => {
 	const theme = useTheme();
 	const [page, setPage] = useState(1);
 	const [pageTV, setPageTV] = useState(1);
-	// const [alert, setAlert] = useState(false);
-	// const [alertSeverity, setAlertSeverity] = useState<"error" | "warning" | "info" | "success">("success");
-	// const [alertMessage, setAlertMessage] = useState("");
-
 	const [formError, setFormError] = useState<string | null>(null);
-  	const [form, setForm] = useState({
+  	// form state to manage the search form
+	const [form, setForm] = useState({
 		media: 'movie',
 		with_keywords: '',
 		genre: '',
@@ -129,7 +136,7 @@ const HomePage: React.FC = () => {
 		watch_region: '',
 		sort_by: '',
 	});
-
+	// Sort By Options for Movies and TV Shows
 	const tvSort = [
 		['Popularity Ascending', 'popularity.asc'],
 		['Popularity Descending', 'popularity.desc'],
@@ -138,7 +145,7 @@ const HomePage: React.FC = () => {
 		['Vote Average Ascending', 'vote_average.asc'],
 		['Vote Average Descending', 'vote_average.desc'],
 	  ];
-	  
+
 	  const movieSort = [
 		['Popularity Ascending', 'popularity.asc'],
 		['Popularity Descending', 'popularity.desc'],
@@ -155,34 +162,21 @@ const HomePage: React.FC = () => {
 		['Vote Count Ascending', 'vote_count.asc'],
 		['Vote Count Descending', 'vote_count.desc'],
 	  ];
-	  
+
 	useEffect(() => {
 		// Disable the main scrollbar when the component mounts
 		document.body.style.overflow = 'hidden';
-	  
+
 		// Enable the main scrollbar when the component unmounts
 		return () => {
 		  document.body.style.overflow = 'auto';
 		};
 	  }, []);
 
-	//   const handleAlert = async (severity: "error" | "warning" | "info" | "success", message: string, toggle: boolean) => {		
-	// 	setAlertSeverity(severity);
-	// 	setAlertMessage(message);
-	// 	setAlert(true);
-	// 	console.log('alert:', alert);
-	//   };
-	  
-	//   const handleAlertClose = () => {
-	// 	// console.log('handleAlertClose alert:', alert);
-	// 	 setAlert(false);
-	//   };
-
-	//   function SlideTransition(props: SlideProps) {
-	// 	return <Slide {...props} direction="down" />;
-	//   }
-
-	// usequery to call getGenres or getTVShowGenres to Fetch genres based on media type 
+	/* 
+	 * Combine useQueries to call getGenres or getTVShowGenres to Fetch genres based on media type 
+	 * 	https://tanstack.com/query/latest/docs/framework/react/reference/useQueries
+	 */
 	const [{ data: movieGenres }, { data: tvShowGenres }] = useQueries([
 		{
 			queryKey: ['movieGenres'],
@@ -196,7 +190,14 @@ const HomePage: React.FC = () => {
 		}
 	]);
 
-	
+	/* 
+	 * Combine useQueries to call getSearchResults to Fetch Movies and TV Shows based on the search form
+	 * https://tanstack.com/query/latest/docs/framework/react/reference/useQueries
+	 * 1. Monitors the form element state to determine which media type to fetch
+	 * 2. Fetch Movies and TV Shows based on the search form
+	 * 3. Keep the previous data when fetching the next page
+	 * 4. Monitors Loading, Error, and Previous Data states
+	 */
 	const [{ data: movieResults, error: movieError, isLoading: movieLoading, isError: isMovieError, isPreviousData: isMoviePreviousData }, 
 		   { data: tvShowResults, error: tvShowError, isLoading: tvShowLoading, isError: istvShowError, isPreviousData: istvShowPreviousData }] = useQueries([
 		{
@@ -213,11 +214,12 @@ const HomePage: React.FC = () => {
 		}
 	]);
 
-
+	// Display a spinner when loading
 	if (movieLoading || tvShowLoading) {
 		return <Spinner />;
 	}
 
+	// Display an error message when there is an error
 	if (isMovieError) {
 		return <h1>{(movieError as Error).message}</h1>;
 	}
@@ -233,9 +235,13 @@ const HomePage: React.FC = () => {
 	// Generate Ratings from 1 to 10	
 	const ratingOptions = Array.from({ length: 10 }, (_, i) => i + 1);
 
-	// Generate yearOption which has two values from 1900 to the current year
-	const yearOptions = Array.from({ length: 2024 - 1888 + 1 }, (_, i) => 2024 - i);
-	// Declare a yearToOptions and YearFromOptions then set them to yearOptions
+	/*
+	 * Generate yearOption which has two values from 1900 to the current year
+	 * 1. yearOptions: 1888 to 2024
+	 * 2. Declare yearToOptions and yearFromOptions to be equal to yearOptions
+	 * 3 yearToOptions and yearFromOptions are used to set the release_date_from and release_date_to values
+	 * */
+	const yearOptions = Array.from({ length: 2024 - 1888 + 1 }, (_, i) => 2024 - i);	
 	let yearToOptions = yearOptions;
 	let yearFromOptions = yearOptions;
 
@@ -246,6 +252,7 @@ const HomePage: React.FC = () => {
 	const movies = movieResults ? movieResults.results : [];
 	const tvShows = tvShowResults ? tvShowResults.results : [];
 
+	// Function to make input changes
 	const makeInputChange = ({ name, value }: { name: string; value: string }) => {
 		setForm({
 			...form,
@@ -253,7 +260,13 @@ const HomePage: React.FC = () => {
 		});
 	};
 
-	// Function to handle input change
+	/* Function to handle input change
+	* 1. Extract the name and value from the event
+	* 2. If the release_date_from is greater than release_date_to, reset the search
+	* 3. If the release_date_to is less than release_date_from, reset the search
+	* 4. Make the input change
+	* 5. Reset the search if the media type is changed
+	*/
 	const handleInputChange = async (event: React.ChangeEvent<{ name?: string; value: unknown }>) => {
 	  const name = event.target.name as keyof typeof form;
 	  const value = event.target.value as string;
@@ -285,6 +298,7 @@ const HomePage: React.FC = () => {
 		setFormError('');
 		}, 5000);
 	  
+	 // Reset the search if the media type is changed
 	  if (name === 'media' && value === 'movie') {
 		resetMovieSearch();
 	  }
@@ -293,6 +307,7 @@ const HomePage: React.FC = () => {
 	  }
 	};
 
+	// Function to reset the search form
 	const resetTVShowSearch = () => {
 		setPageTV(1);
 		setForm({
@@ -308,6 +323,7 @@ const HomePage: React.FC = () => {
 		});
 	}
 
+	// Function to reset the search form
 	const resetMovieSearch = () => {
 		setPage(1);
 		setForm({
@@ -323,6 +339,7 @@ const HomePage: React.FC = () => {
 		});
 	}
 
+	// Function to handle Reset Search Button
 	const onSubmit = async () => {
         try {
 			if (form.media === 'movie') {
@@ -336,28 +353,27 @@ const HomePage: React.FC = () => {
     }; 
 	 
 
+	// Used to handle Movie and TV Show Pagination
 	const prevPage = () => setPage((prev) => prev - 1);
 	const nextPage = () => setPage((next) => next + 1);
 	const prevPageTV = () => setPageTV((prev) => prev - 1);
 	const nextPageTV = () => setPageTV((next) => next + 1);
 
-	
-
 	return (
-		<>
-		 {/* <Snackbar 
-			TransitionComponent={SlideTransition}
-			open={alert} 
-			// autoHideDuration={2500} 
-			onClose={handleAlertClose}
-			anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-		>
-			<Alert onClose={handleAlertClose} variant="filled" severity={alertSeverity}  sx={{ width: '100%' }}>
-			{alertMessage} 
-			</Alert>
-		</Snackbar> */}
-		<Grid container>
-      <Grid item xs={2.5}>
+	<>
+	{/* <Snackbar 
+		TransitionComponent={SlideTransition}
+		open={alert} 
+		// autoHideDuration={2500} 
+		onClose={handleAlertClose}
+		anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+	>
+		<Alert onClose={handleAlertClose} variant="filled" severity={alertSeverity}  sx={{ width: '100%' }}>
+		{alertMessage} 
+		</Alert>
+	</Snackbar> */}
+	<Grid container>
+      <Grid item xs={2}>
         <Box sx={styles.customBoxLeft}>
           <Typography 
 			variant="h4" 
@@ -385,20 +401,7 @@ const HomePage: React.FC = () => {
               </TextField>
             </Box>
 			<Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
-			</Box>
-            {/* <Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
-              <TextField 
-				name="with_keywords" 
-				label="SEARCH KEYWORDS" 
-				value={form.with_keywords} 
-				onChange={handleInputChange} 
-				InputLabelProps={{
-					sx: styles.labelText,
-				}}
-				fullWidth
-			  />
-            </Box> */}
-            
+			</Box>            
            	 <Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
 				<TextField 
 					name="genre" 
@@ -419,25 +422,6 @@ const HomePage: React.FC = () => {
 				))}
 				</TextField>
             </Box>
-			{/* <Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
-				<TextField 
-					name="yearFrom" 
-					label="SELECT FROM YEAR" 
-					select 
-					value={form.year} 
-					onChange={handleInputChange}
-					InputLabelProps={{
-						sx: styles.labelText,
-					}}
-					fullWidth
-			 	 >
-				{yearOptions.map((year) => (
-					<MenuItem key={year} value={year}>
-						{year}
-				  	</MenuItem>
-				))}
-				</TextField>
-            </Box> */}
 			{formError && (
 			<>
 			<Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>	
@@ -452,7 +436,7 @@ const HomePage: React.FC = () => {
 					<Box sx={{ width: '48%' }}>
 						<TextField 
 						name="release_date_from" 
-						label="RELEASE DATE FROM " 
+						label="DATE FROM" 
 						select 
 						value={form.release_date_from} 
 						onChange={handleInputChange}
@@ -472,7 +456,7 @@ const HomePage: React.FC = () => {
 					<Box sx={{ width: '48%' }}>
 						<TextField 
 						name="release_date_to" 
-						label="RELEASE DATE TO" 
+						label="DATE TO" 
 						select 
 						value={form.release_date_to} 
 						onChange={handleInputChange}
@@ -490,8 +474,6 @@ const HomePage: React.FC = () => {
 						</TextField>
 					</Box>
 			</Box>
-	
-			
 			<Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
 				<TextField 
 					name="vote_average" 
@@ -543,182 +525,119 @@ const HomePage: React.FC = () => {
 			</Box>
           </Box>
         </Box>
-      </Grid>
-      <Grid item xs={9.5}>
-        {/* Your main content here */}
-
+	</Grid>
+	<Grid item xs={10}>
+		{/* Your main content here */}
 		<Box>
-		<Box sx={{ bgcolor: 'background.paper', p: 0, position: 'sticky', top: 0, zIndex: 1 }}>
-		{form.media === 'movie' ? (
-			<>
-			{/* Header for Movies */}
-			<Paper component="div" sx={styles.root}>
-  				<Grid container sx={{ paddingX: 0 }}>
-					<Grid item>
-						<IconButton onClick={prevPage} disabled={isMoviePreviousData || page === 1}
-							aria-label="go back"
-						>
-							<KeyboardDoubleArrowLeftSharpIcon 
-							color={isMoviePreviousData || page === 1 ? "disabled" : "secondary"} 
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
-					</Grid>
+			<Box sx={{ bgcolor: 'background.paper', p: 0, position: 'sticky', top: 0, zIndex: 1 }}>
+			{form.media === 'movie' ? (
+				<>
+				{/* Header for Movies */}
+				<Paper component="div" sx={styles.root}>
+					<Grid container sx={{ paddingX: 0 }}>
+						<Grid item>
+							<IconButton onClick={prevPage} disabled={isMoviePreviousData || page === 1}
+								aria-label="go back"
+							>
+								<KeyboardDoubleArrowLeftSharpIcon 
+								color={isMoviePreviousData || page === 1 ? "disabled" : "secondary"} 
+								style={{ fontSize: 50, fontWeight: 'bold' }}
+								/>
+							</IconButton>
+						</Grid>
 
-					<Grid item xs>
-						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
-							MOVIES
-						</Typography>
-					</Grid>
+						<Grid item xs>
+							<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
+								MOVIES
+							</Typography>
+						</Grid>
 
-					<Grid item>
-						<Typography align="right" sx={styles.pageNumberText}>
-							{page} of {movieResults?.total_pages}
-						</Typography>
-					</Grid>
+						<Grid item>
+							<Typography align="right" sx={styles.pageNumberText}>
+								{page} of {movieResults?.total_pages}
+							</Typography>
+						</Grid>
 
-					<Grid item>
-						<IconButton onClick={nextPage} disabled={isMoviePreviousData || page === movieResults?.total_pages}
-							aria-label="go forward"
-						>
-							<KeyboardDoubleArrowRightSharpIcon 
-							color={isMoviePreviousData || page === movieResults?.total_pages ? "disabled" : "secondary"}  
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
+						<Grid item>
+							<IconButton onClick={nextPage} disabled={isMoviePreviousData || page === movieResults?.total_pages}
+								aria-label="go forward"
+							>
+								<KeyboardDoubleArrowRightSharpIcon 
+								color={isMoviePreviousData || page === movieResults?.total_pages ? "disabled" : "secondary"}  
+								style={{ fontSize: 50, fontWeight: 'bold' }}
+								/>
+							</IconButton>
+						</Grid>
 					</Grid>
-				</Grid>
-			</Paper> 
-			</>
-  		) : form.media === 'tvShow' ? (
-			<>
-			{/* Header for Movies */}
-            <Paper component="div" sx={styles.root}>
-  				<Grid container sx={{ paddingX: 0 }}>
-					<Grid item>
-						<IconButton onClick={prevPageTV} disabled={istvShowPreviousData || pageTV === 1}
-							aria-label="go back"
-						>
-							<KeyboardDoubleArrowLeftSharpIcon 
-							color={istvShowPreviousData || pageTV === 1 ? "disabled" : "secondary"} 
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
-					</Grid>
-
-					<Grid item xs>
-						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
-							TV SHOWS
-						</Typography>
-					</Grid>
-
-					<Grid item>						
-						<Typography align="right" sx={styles.pageNumberText}>
-							{pageTV} of {tvShowResults?.total_pages}
-						</Typography>
-					</Grid>
-
-					<Grid item>
-						<IconButton onClick={nextPageTV} disabled={istvShowPreviousData || pageTV === tvShowResults?.total_pages}
-							aria-label="go forward"
-						>
-							<KeyboardDoubleArrowRightSharpIcon 
-							color={istvShowPreviousData || pageTV === tvShowResults?.total_pages ? "disabled" : "secondary"}  
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
-					</Grid>
-				</Grid>
-			</Paper> 
-			</>
-		) : null}
-
-		</Box>
-
-		<Box sx={{ height: 'calc(100vh - 50px)', overflow: 'auto' }}>
-		{form.media === 'movie' ? (
-			// When the media type is movie, display the Movies ListPageTemplate component
-			<PageTemplate
-				movies={movies}
-				action={(movie: BaseMovieProps) => {
-					return <AddToFavouritesIcon {...movie} />;
-				}}
-			/>
+				</Paper> 
+				</>
 			) : form.media === 'tvShow' ? (
-			// When the media type is tvShow, display the TV SHow ListPageTemplate component
-			<PageTemplateTVShow
-				title=''
-				tvShows={tvShows}
-				action={(tvShow: BaseTvShowProps) => {
-					return <AddToTVShowFavouritesIcon {...tvShow} />;
-				}}
-			/>
+				<>
+				{/* Header for Movies */}
+				<Paper component="div" sx={styles.root}>
+					<Grid container sx={{ paddingX: 0 }}>
+						<Grid item>
+							<IconButton onClick={prevPageTV} disabled={istvShowPreviousData || pageTV === 1}
+								aria-label="go back"
+							>
+								<KeyboardDoubleArrowLeftSharpIcon 
+								color={istvShowPreviousData || pageTV === 1 ? "disabled" : "secondary"} 
+								style={{ fontSize: 50, fontWeight: 'bold' }}
+								/>
+							</IconButton>
+						</Grid>
+
+						<Grid item xs>
+							<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
+								TV SHOWS
+							</Typography>
+						</Grid>
+
+						<Grid item>						
+							<Typography align="right" sx={styles.pageNumberText}>
+								{pageTV} of {tvShowResults?.total_pages}
+							</Typography>
+						</Grid>
+
+						<Grid item>
+							<IconButton onClick={nextPageTV} disabled={istvShowPreviousData || pageTV === tvShowResults?.total_pages}
+								aria-label="go forward"
+							>
+								<KeyboardDoubleArrowRightSharpIcon 
+								color={istvShowPreviousData || pageTV === tvShowResults?.total_pages ? "disabled" : "secondary"}  
+								style={{ fontSize: 50, fontWeight: 'bold' }}
+								/>
+							</IconButton>
+						</Grid>
+					</Grid>
+				</Paper> 
+				</>
 			) : null}
+			</Box>
+			<Box sx={{ height: 'calc(100vh - 50px)', overflow: 'auto' }}>
+			{form.media === 'movie' ? (
+				// When the media type is movie, display the Movies ListPageTemplate component
+				<PageTemplate
+					movies={movies}
+					action={(movie: BaseMovieProps) => {
+						return <AddToFavouritesIcon {...movie} />;
+					}}
+				/>
+				) : form.media === 'tvShow' ? (
+				// When the media type is tvShow, display the TV SHow ListPageTemplate component
+				<PageTemplateTVShow
+					title=''
+					tvShows={tvShows}
+					action={(tvShow: BaseTvShowProps) => {
+						return <AddToTVShowFavouritesIcon {...tvShow} />;
+					}}
+				/>
+				) : null}
+			</Box>
 		</Box>
-
-
-		{/* {form.media === 'movie' ? (
-			<>
-			<PageTemplate
-				movies={movies}
-				action={(movie: BaseMovieProps) => {
-					return <AddToFavouritesIcon {...movie} />;
-				}}
-			/>
-			</>
-  		) : form.media === 'tvShow' ? (
-            <h1>TV Show</h1>
-		) : null} */}
-
-
-		</Box>
-
-
-{/* 
-		<Paper component="div" sx={styles.root}>
-  				<Grid container sx={{ paddingX: 60 }}>
-					<Grid item>
-						<IconButton onClick={prevPage} disabled={isPreviousData || page === 1}
-							aria-label="go back"
-						>
-							<KeyboardDoubleArrowLeftSharpIcon 
-							color={isPreviousData || page === 1 ? "disabled" : "secondary"} 
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
-					</Grid>
-
-					<Grid item xs>
-						<Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
-							DISCOVER MOVIES
-						</Typography>
-					</Grid>
-
-					<Grid item>
-						<Typography align="right" sx={{ paddingRight: 2 }}>
-							{page} of {data?.total_pages}
-						</Typography>
-					</Grid>
-
-					<Grid item>
-						<IconButton onClick={nextPage} disabled={isPreviousData || page === data?.total_pages}
-							aria-label="go forward"
-						>
-							<KeyboardDoubleArrowRightSharpIcon 
-							color={isPreviousData || page === data?.total_pages ? "disabled" : "secondary"}  
-							style={{ fontSize: 50, fontWeight: 'bold' }}
-							/>
-						</IconButton>
-					</Grid>
-				</Grid>
-			</Paper> 
-			*/}
-
-
-
       </Grid>
-    </Grid>		
-		</>
+    </Grid>
+	</>
 	);
 };
 export default HomePage;

@@ -82,8 +82,7 @@ const SiteHeader: React.FC = () => {
 				        edge="start"
                 aria-label="menu"
                 aria-controls="menu-appbar"
-                aria-haspopup="true"
-                // onClick={handleMenu} 
+                aria-haspopup="true" 
                 onClick={toggleDrawer} 
                 color="inherit"
                 size="large"

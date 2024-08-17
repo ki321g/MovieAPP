@@ -108,11 +108,6 @@ const Menu: React.FC<MenuProps> = ({ handleDrawerToggle }) => {
                                     <ListItem
                                         key={child.label}
                                         onClick={() => {
-                                            // if (child?.action) {
-                                            //     child?.action();
-                                            // } else {
-                                            //     handleMenuSelect(child.path);
-                                            // }
                                             handleMenuSelect(child.path);
                                         }}
                                         sx={{ 
