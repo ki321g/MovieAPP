@@ -1,2 +1,3 @@
-> npm install mui-nested-menu
-npm install @mui/styles --legacy-peer-deps
+Combine useQueries to call getGenres or getTVShowGenres to Fetch genres based on media type 
+	https://tanstack.com/query/latest/docs/framework/react/reference/useQueries
+
