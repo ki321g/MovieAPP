@@ -209,8 +209,8 @@ const FantasyMoviePage: React.FC = () => {
             if (newMovieImageUpload) {
                 await uploadMovieImage(docRef);
             };
-            // console.log(newMovieImageUrl);
-            // console.log(imageUrls);
+            console.log(newMovieImageUrl);
+            console.log(imageUrls);
             setNewMovieTitle('');
             setNewMovieOverview('');
             setNewMovieGenre('');
