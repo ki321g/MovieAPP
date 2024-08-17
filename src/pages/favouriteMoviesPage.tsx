@@ -44,7 +44,7 @@ const genreFiltering = {
 };
 
 const FavouriteMoviesPage: React.FC = () => {  
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState<string>("none");
   const { favourites: movieIds, getFavourites } = useContext(MoviesContext);
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
@@ -85,8 +85,8 @@ const FavouriteMoviesPage: React.FC = () => {
     setFilterValues(updatedFilterSet);
   };
 
-  const prevPage = () => setPage((prev) => prev - 1);
-	const nextPage = () => setPage((next) => next + 1);// Sort movies
+  // const prevPage = () => setPage((prev) => prev - 1);
+	// const nextPage = () => setPage((next) => next + 1);// Sort movies
   
   const sortedMovies = [...displayedMovies].sort((a, b) => {
     switch (sortOption) {
@@ -111,7 +111,7 @@ const FavouriteMoviesPage: React.FC = () => {
     <>
       <Paper component="div" sx={styles.root}>
   				<Grid container sx={{ paddingX: 60 }}>
-					<Grid item>
+					{/* <Grid item>
 						<IconButton onClick={prevPage} disabled
 							aria-label="go back"
 						>
@@ -120,15 +120,15 @@ const FavouriteMoviesPage: React.FC = () => {
 							style={{ fontSize: 50, fontWeight: 'bold' }}
 							/>
 						</IconButton>
-					</Grid>
+					</Grid> */}
 
 					<Grid item xs>
 						<Typography variant="h4" component="h3" align="center">
-						Favourite Movies
+						  FAVOURITE MOVIES
 						</Typography>
 					</Grid>					
 
-					<Grid item>
+					{/* <Grid item>
 						<IconButton onClick={nextPage} disabled
 							aria-label="go forward"
 						>
@@ -137,7 +137,7 @@ const FavouriteMoviesPage: React.FC = () => {
 							style={{ fontSize: 50, fontWeight: 'bold' }}
 							/>
 						</IconButton>
-					</Grid>
+					</Grid> */}
 				</Grid>
 			</Paper>
       <PageTemplate        
