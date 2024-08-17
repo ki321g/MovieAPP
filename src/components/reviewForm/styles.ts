@@ -23,5 +23,24 @@ const styles =  {
         width: "100%",
       },
     },
+    titleText: {
+      fontFamily: '"Source Sans Pro", Arial, sans-serif',
+      fontSize: '2.8rem',
+      color: "#ffffff",
+      textAlign: 'center',
+      letterSpacing: 'normal',
+      width:'100%',
+      margin: '0',
+      padding: '0',
+      fontWeight: 'bold',
+      textTransform: 'uppercase',
+    },    
+    labelText: {
+      fontWeight: '800',      
+      fontFamily: '"Source Sans Pro", Arial, sans-serif',
+      background: '#ffffff',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',      
+	  },
   };
   export default styles

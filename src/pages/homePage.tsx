@@ -35,9 +35,9 @@ const styles = {
     },
 	customBoxLeft: {
 		height: '100vh',
-		backgroundColor: '#282828',
+		// backgroundColor: '#282828',
 		color: '#fff',
-		padding: '0px',
+		padding: '10px 0px 0px',
 	},
 	title: {
 	  flexGrow: 1,
@@ -383,7 +383,7 @@ const HomePage: React.FC = () => {
 		  >
             SEARCH
           </Typography>
-          <Box sx={{ width: '100%', padding: theme.spacing(2) }}>
+          <Box sx={{ width: '100%', pt: 1, px: 2 }}>
             <Box sx={{ width: '90%', marginBottom: theme.spacing(2) }}>
               <TextField 
 				name="media" 
@@ -524,6 +524,9 @@ const HomePage: React.FC = () => {
 				</Button>
 			</Box>
           </Box>
+		  <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			<img src="/logo.png" alt="KGMDB Logo" style={{ width: '80%' }}/>
+		  </Box>
         </Box>
 	</Grid>
 	<Grid item xs={10}>

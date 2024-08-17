@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { TvShowDetailsProps, TvShowTrailerVideoProps } from "../../types/interfaces";
 import TVShowReviews from '../tvShowReviews';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
@@ -133,13 +132,6 @@ const TVShowDetails: React.FC<TvShowDetailsComponentProps> = ({tvShow, trailerVi
     const releaseYear = new Date(tvShow.first_air_date).getFullYear(); // Year Released
     const votePercentage = tvShow.vote_average * 10; // Convert vote average to percentage
 
-  // Function to convert runtime from minutes to hours and minutes
-    // const convertRuntime = (runtime: number) => {
-    //     const hours = Math.floor(runtime / 60);
-    //     const minutes = runtime % 60;
-    //     return `${hours}h ${minutes}m`;
-    // };
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -156,7 +148,6 @@ const TVShowDetails: React.FC<TvShowDetailsComponentProps> = ({tvShow, trailerVi
         {g.name}
         </React.Fragment>
         ))}
-    {/* {`${'\u00A0\u00A0\u00A0'}•${'\u00A0\u00A0\u00A0'}${convertRuntime(tvShow.runtime)}`} */}
     </Typography>
     <Typography variant="h5" component="h3" sx={styles.taglineText}>
         {tvShow.tagline}
@@ -295,7 +286,7 @@ const TVShowDetails: React.FC<TvShowDetailsComponentProps> = ({tvShow, trailerVi
                         title="Trailer"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
-                        style={{ border: "none" }} //this seems to be the only way I can remove the iframe border
+                        style={{ border: "none" }} 
                     />
             
             )}

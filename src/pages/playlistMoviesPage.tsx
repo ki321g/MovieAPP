@@ -43,12 +43,6 @@ const PlaylistMoviesPage: React.FC = () => {
     
   }, []);
 
-
-  // const handleChange = (event: any) => {
-  //   const playlistName = event.target.value;
-  //   const selected = updatedPlaylistMovies.find(movie => movie.playlist_name === playlistName);
-  //   setSelectedPlaylist(selected);
-  // };
   const handleChange = (event: any) => {
     setSelectedPlaylist(event.target.value);
   };
@@ -88,7 +82,6 @@ const getPlaylistsMovies = async () => {
     };
   };
 
-  // const selectedMovies = updatedPlaylistMovies.filter(movie => movie.playlist_name === selectedPlaylist);
   const selectedMovies = selectedPlaylist === 'ALL' 
   ? playlistMovies.flatMap(movie => movie.results)
   : playlistMovies.filter(movie => movie.playlist_name === selectedPlaylist).flatMap(movie => movie.results);
@@ -121,8 +114,6 @@ const getPlaylistsMovies = async () => {
       <PageTemplate
           movies={selectedPlaylist === 'All' ? displayMovies : selectedMovies}
           action={(movie: BaseMovieProps) => {
-            // return <AddToFavouritesIcon {...movie} />
-            // return <AddToPlaylistIcon {...movie} />;
             return (
               <>
                 <AddToFavouritesIcon {...movie} />

@@ -22,7 +22,6 @@ const styles = {
 	formControl: {
 		margin: 1,
 		minWidth: 220,
-		// backgroundColor: 'rgb(255, 255, 255)',
 	},
 };
 
@@ -32,6 +31,9 @@ interface FilterMoviesCardProps {
 	genreFilter: string;
   }
 
+/* FilterMoviesCard component
+ *	This component is used to filter movies by title and genre
+ */
   const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => {
 	const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
   

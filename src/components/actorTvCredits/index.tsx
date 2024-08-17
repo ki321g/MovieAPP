@@ -4,6 +4,9 @@ import Grid from "@mui/material/Grid";
 import { BaseTvShowListProps } from "../../types/interfaces";
 import TvShowList from "../tvShowList";
 
+/* ActorCredits component
+ * This component is used to display the actor's credits
+ */
 const ActorCredits: React.FC<BaseTvShowListProps> = ({ tvShows, action }) => {
   return (
     <Box >

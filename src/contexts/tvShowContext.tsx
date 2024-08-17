@@ -1,3 +1,8 @@
+/* Ran out of time to implement the context for the TV Shows full
+ * 1. Didnt get Playlists Done
+ * 2. Favourites wouldnt work for some reason spent a lot of time on it but the
+ *    function just wasnt getting called properly. Really wanted to go back to it.
+*/
 import React, { useState, useCallback } from "react";
 import { BaseTvShowProps, Review } from "../types/interfaces";
 import { db, auth } from '../config/firebase';
@@ -83,17 +88,17 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
             const tvShowIdToCheck = tvShow.id;
             const favouriteTVShows = await getFavouritesTVShowsList();            
             const isFavourite: any = favouriteTVShows?.find((favTVShow: any) => favTVShow.movie_id === tvShowIdToCheck);
-            console.log(isFavourite);
+            // console.log(isFavourite);
 
             if (isFavourite) {
-                console.log('The TV Show is in the favourites list');
+                // console.log('The TV Show is in the favourites list');
                 // const favouriteTVShowsIds: any  = favouriteTVShows?.map((tvShow: any) => tvShowIdToCheck);
                 const favouriteTVShowsIds: any = favouriteTVShows?.map(() => tvShowIdToCheck);
                 setFavourites(favouriteTVShowsIds);
                 return favourites;
                 
             } else {
-                console.log('The TV Show is not in the favourites list');
+                // console.log('The TV Show is not in the favourites list');
                 // Add the movie to favourites
                 await addDoc(favouriteTVShowsRef, {
                     tvshow_id: tvShow.id,
@@ -173,7 +178,7 @@ const TVShowContextProvider: React.FC<React.PropsWithChildren> = ({ children }) 
     // }
 
     const clearFavourites = () => {
-        console.log('clearFavourites');
+        // console.log('clearFavourites');
         setFavourites([]); // Clear the favourites
     };
 

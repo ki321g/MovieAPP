@@ -1,5 +1,4 @@
 import React, { useState } from "react"; 
-//  import TVShowHeader from "../headerTVShow";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -24,7 +23,6 @@ const styles = {
         flexWrap: "wrap",
         background: "#141414",
         boxShadow: 'none',
-        // paddingBottom: '20px',
         paddingTop: '40px',
     },
     gridListRoot: {

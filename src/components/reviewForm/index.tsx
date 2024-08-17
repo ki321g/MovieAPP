@@ -13,7 +13,6 @@ import { BaseMovieProps, Review } from "../../types/interfaces";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-
 const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
     const defaultValues = {
         defaultValues: {
@@ -50,14 +49,13 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
         review.movieId = movie.id;
         review.rating = rating;
         context.addReview(movie, review);
-        setOpen(true); // NEW
-        // console.log(review);
+        setOpen(true); 
       };
     
       return (
         <Box component="div" sx={styles.root}>
-          <Typography component="h2" variant="h3">
-            Write a review
+          <Typography component="h2" variant="h3" sx={styles.titleText}>
+            WRITE A REVIEW
           </Typography>
           <Snackbar
             sx={styles.snack}
@@ -83,7 +81,13 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
               defaultValue=""
               render={({ field: { onChange, value } }) => (
                 <TextField
-                  sx={{ width: "40ch" }}
+                  sx={{ 
+                    width: "40ch", 
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                   }}
+                  InputLabelProps={{
+                    sx: styles.labelText,
+                  }}
                   variant="outlined"
                   margin="normal"
                   required
@@ -92,6 +96,7 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
                   id="author"
                   label="Author's name"
                   autoFocus
+                  
                 />
               )}
             />
@@ -120,6 +125,12 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
                   id="review"
                   multiline
                   minRows={10}
+                  sx={{  
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                   }}
+                  InputLabelProps={{
+                    sx: styles.labelText,
+                  }}
                 />
               )}
             />
@@ -141,7 +152,14 @@ const ReviewForm: React.FC<BaseMovieProps> = (movie) => {
                   label="Rating Select"
                   value={rating}
                   onChange={handleRatingChange}
-                  helperText="Don't forget your rating"
+                  // helperText="Don't forget your rating"
+                  sx={{ 
+                    margin: '10px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                   }}
+                  InputLabelProps={{
+                    sx: styles.labelText,
+                  }}
                 >
                   {ratings.map((option) => (
                     <MenuItem key={option.value} value={option.value}>

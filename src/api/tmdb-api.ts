@@ -1,3 +1,7 @@
+/*
+ * This file contains the code to fetch data from the TMDB API
+ */
+// Gets the Movies from the API
 export const getMovies = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&include_adult=false&include_video=false&page=${page}`
@@ -8,7 +12,6 @@ export const getMovies = (page: string | number) => {
 					`Unable to fetch movies. Response status: ${response.status}`
 				);
 			const getMoviesResults = response.json();
-			//console.log(getMoviesResults);
 			return getMoviesResults;
 		})
 		.catch((error) => {
@@ -16,6 +19,7 @@ export const getMovies = (page: string | number) => {
 		});
 };
 
+// Gets a Movie from the API by ID
 export const getMovie = (id: string) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -33,6 +37,7 @@ export const getMovie = (id: string) => {
 		});
 };
 
+// Get the genres from the API
 export const getGenres = () => {
 	return fetch(
 		'https://api.themoviedb.org/3/genre/movie/list?api_key=' +
@@ -51,6 +56,7 @@ export const getGenres = () => {
 		});
 };
 
+// Get teh Movie Images from the API
 export const getMovieImages = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -61,7 +67,6 @@ export const getMovieImages = (id: string | number) => {
 			}
 			return response.json();
 		})
-		// .then((json) => json.posters)
 		.then((json) => {
 			//Filter out images that are not in English. Cant do it in call as it i loose the backdrop images
 			const posters = (json.posters || []).filter((poster: any) => poster.iso_639_1 === 'en');
@@ -73,6 +78,7 @@ export const getMovieImages = (id: string | number) => {
 		});
 };
 
+// Get the Movie Videos from the API
 export const getMovieVideos = (id?: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -92,9 +98,10 @@ export const getMovieVideos = (id?: string | number) => {
 		});
 };
 
+// Get Similar Movies from the API
 export const getSimilarMovies = (id: string | number, page: string | number) => {
 	return fetch(
-	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=${page}`
 	)
 	.then((response) => {
 		if (!response.ok) {
@@ -109,7 +116,7 @@ export const getSimilarMovies = (id: string | number, page: string | number) => 
 	});
 };
   
-
+// Get the Reviews for a Movie from the API
 export const getMovieReviews = (id: string | number) => {
 	//movie id can be string or number
 	return fetch(
@@ -117,26 +124,28 @@ export const getMovieReviews = (id: string | number) => {
 	)
 		.then((res) => res.json())
 		.then((json) => {
-			// console.log(json.results);
 			return json.results;
 		});
 };
 
+/* Get the Upcoming Movies from the API
+ * The API call is made to the /movie/upcoming endpoint. it isnt as good as teh /discover/movie endpoint
+ * I wanted to use the discover endpoint but to show i used another endpoint i left it at /movie/upcoming
+ * /discover/movie call and code needed commented out 
+ */
 export const getUpcomingMovies = (page: string | number) => {
-	// Get the current date
-	let todaysDate = new Date();
+	// // Get the current date
+	// let todaysDate = new Date();
 
-	// Add 6 months to the current date
-	todaysDate.setMonth(todaysDate.getMonth() + 6);
+	// // Add 6 months to the current date
+	// todaysDate.setMonth(todaysDate.getMonth() + 6);
   
-	// Format the date as YYYY-MM-DD
-	let minDate = todaysDate.toISOString().slice(0, 10);
-	console.log('Date: ', minDate)
-  
+	// // Format the date as YYYY-MM-DD
+	// let minDate = todaysDate.toISOString().slice(0, 10);
+	
 	return fetch(
-		// `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
-		`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}&sort_by=popularity.desc&with_release_type=2|3&release_date.gte=${minDate}`
-
+		`https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
+		// `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}&sort_by=popularity.desc&with_release_type=2|3&release_date.gte=${minDate}`
 	)
 		.then((response) => {
 			if (!response.ok)
@@ -144,7 +153,6 @@ export const getUpcomingMovies = (page: string | number) => {
 					`Unable to fetch movies. Response status: ${response.status}`
 				);
 			const getUpcomingMoviesResults = response.json();
-			//console.log(getMoviesResults);
 			return getUpcomingMoviesResults;
 		})
 		.catch((error) => {
@@ -152,22 +160,8 @@ export const getUpcomingMovies = (page: string | number) => {
 		});
 };
 
+// Get the Now Playing Movies from the API
 export const getNowPlayingMovies = (page: string | number) => {
-	// // Get the current date
-	// let todaysDate = new Date()
-	// let toDate = new Date();
-
-	// // Add 6 months to the current date
-	// toDate.setMonth(todaysDate.getMonth() + 1);
-  
-	// // Format the date as YYYY-MM-DD
-	// let minDate = todaysDate.toISOString().slice(0, 10);
-	// let maxDate = toDate.toISOString().slice(0, 10);
-
-	// console.log('Date minDate: ', minDate)
-	
-	// console.log('Date maxDate: ', maxDate)
-
 	return fetch(
 		`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
 	)
@@ -177,7 +171,6 @@ export const getNowPlayingMovies = (page: string | number) => {
 					`Unable to fetch movies. Response status: ${response.status}`
 				);
 			const getNowPlayingResults = response.json();
-			//console.log(getMoviesResults);
 			return getNowPlayingResults;
 		})
 		.catch((error) => {
@@ -185,6 +178,7 @@ export const getNowPlayingMovies = (page: string | number) => {
 		});
 };
 
+// Get the Popular Movies from the API
 export const getPopularMovies = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
@@ -195,7 +189,6 @@ export const getPopularMovies = (page: string | number) => {
 					`Unable to fetch movies. Response status: ${response.status}`
 				);
 			const getPopularResults = response.json();
-			//console.log(getMoviesResults);
 			return getPopularResults;
 		})
 		.catch((error) => {
@@ -203,6 +196,7 @@ export const getPopularMovies = (page: string | number) => {
 		});
 };
 
+// Get the Top Rated Movies from the API
 export const getTopRatedMovies = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
@@ -213,7 +207,6 @@ export const getTopRatedMovies = (page: string | number) => {
 					`Unable to fetch movies. Response status: ${response.status}`
 				);
 			const getTopRatedResults = response.json();
-			//console.log(getMoviesResults);
 			return getTopRatedResults;
 		})
 		.catch((error) => {
@@ -221,6 +214,7 @@ export const getTopRatedMovies = (page: string | number) => {
 		});
 };
 
+// Get the TV Show from the API by ID
 export const getTVShow = (id: string) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -238,6 +232,7 @@ export const getTVShow = (id: string) => {
 		});
 };
 
+// Get the TV Show Images from the API
 export const getTVShows = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}&with_original_language=en`
@@ -254,6 +249,7 @@ export const getTVShows = (page: string | number) => {
 		});
 };
 
+// Get the TV Show Reviews from the API
 export const getTVShowReviews = (id: string | number) => {
 	//movie id can be string or number
 	return fetch(
@@ -265,6 +261,7 @@ export const getTVShowReviews = (id: string | number) => {
 		});
 };
 
+// GEt TV Show Genres from the API
 export const getTVShowGenres = () => {
 	return fetch(
 		`https://api.themoviedb.org/3/genre/tv/list?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false`
@@ -281,6 +278,7 @@ export const getTVShowGenres = () => {
 		});
 };
 
+// Get TV Shows Airing Today from the API
 export const getTvShowsAiringToday = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
@@ -291,9 +289,6 @@ export const getTvShowsAiringToday = (page: string | number) => {
 					`Unable to fetch Tv Shows. Response status: ${response.status}`
 				);
 			const getTvShowsAiringTodayResults = response.json();
-			
-			
-			//console.log(getMoviesResults);
 			return getTvShowsAiringTodayResults;
 		})
 		.catch((error) => {
@@ -301,6 +296,9 @@ export const getTvShowsAiringToday = (page: string | number) => {
 		});
 };
 
+/* Get TV Shows On The Air from the API
+ * Again Discover endpoint is better but i wanted to show another endpoint
+ */
 export const getTvShowsOnTheAir = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/on_the_air?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
@@ -320,7 +318,9 @@ export const getTvShowsOnTheAir = (page: string | number) => {
 		});
 };
 
-
+/* Get TV Shows Popular from the API
+ * Again Discover endpoint is better but i wanted to show another endpoint
+ */
 export const getTvShowsPopular = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/popular?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
@@ -339,11 +339,13 @@ export const getTvShowsPopular = (page: string | number) => {
 		});
 };
 
+/* Get TV Shows Top Rated from the API
+ * Again Discover endpoint is better but i wanted to show another endpoint
+ */
 export const getTvShowsTopRated = (page: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/top_rated?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}`
 		// `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&language=en-US&page=${page}&sort_by=vote_average.desc&vote_count.gte=200`
-
 	)
 		.then((response) => {
 			if (!response.ok)
@@ -362,6 +364,8 @@ export const getTvShowsTopRated = (page: string | number) => {
 			throw error;
 		});
 };
+
+// Get the TV Show Images from the API
 export const getTVShowImages = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -379,9 +383,7 @@ export const getTVShowImages = (id: string | number) => {
 			if (posters.length === 0) {
 				posters = json.posters;
 			}
-			const backdrops = json.backdrops || [];	
-			console.log(json.posters);
-			console.log('posters: ', posters);
+			const backdrops = json.backdrops || [];
 			return { posters, backdrops };
 		  })
 		.catch((error) => {
@@ -389,31 +391,15 @@ export const getTVShowImages = (id: string | number) => {
 		});
 };
 
-// export const getSimilarTVShows = (id: string | number, page: string | number) => {
-// 	return fetch(
-// 	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
-// 	)
-// 	.then((response) => {
-// 		if (!response.ok) {
-// 			throw new Error(
-// 				`Failed to get similar movie data. Response status: ${response.status}`
-// 			);
-// 		}
-// 		return response.json();
-// 	})
-// 	.catch((error) => {
-// 		throw error;
-// 	});
-// };
-
+// Get Similar TV Shows from the API
 export const getSimilarTVShows = (id: string | number, page: string | number) => {
 	return fetch(
-	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=${page}`
 	)
 	.then((response) => {
 		if (!response.ok) {
 			console.log(`TV Show with ID ${id} not found.`);
-			return [];  // or return a specific message
+			return [];
 		}
 		return response.json();
 	})
@@ -422,7 +408,7 @@ export const getSimilarTVShows = (id: string | number, page: string | number) =>
 	});
 };
 
-
+// Get the TV Show Videos from the API
 export const getTVShowVideos = (id?: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
@@ -444,7 +430,7 @@ export const getTVShowVideos = (id?: string | number) => {
 
 
 // Actors/Cast
-
+// Get the Movie Cast from the API
 export const getMovieCast = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -465,7 +451,7 @@ export const getMovieCast = (id: string | number) => {
 };
 
 
-
+// Get TV Show Cast from the API
 export const getTVShowCast = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -485,6 +471,7 @@ export const getTVShowCast = (id: string | number) => {
 		});
 };
 
+// Get Actor from the API
 export const getActor = (id: string | number) => {
 	return fetch(
 	  `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -500,6 +487,7 @@ export const getActor = (id: string | number) => {
 	  });
   };
 
+  // Get Actor Movie Credits from the API
 export const getActorMovieCredits = (id: string | number) => {
 	return fetch(
 	`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -522,6 +510,7 @@ export const getActorMovieCredits = (id: string | number) => {
 	});
 };
 
+// Get Actor TV Show Credits from the API
 export const getActorTVShowCredits = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -544,7 +533,22 @@ export const getActorTVShowCredits = (id: string | number) => {
 		});
 	};
 
-
+/*  Get the Search Results from the API
+ *
+ *  The function takes in the following parameters:
+ *  - page: the page number
+ * - media: the media type (movie or tvShow)
+ * 	- genre: the genre id
+ * 	- release_date_from: the release date from
+ * 	- release_date_to: the release date to
+ * 	- vote_average: the vote average
+ * 	- sort_by: the sort by
+ * 	- with_keywords: the keywords (NOt Currently Used Ran out of time)
+ * 
+ * The function then makes a call to the TMDB API to get the search results
+ * the function builds the URL to fetch the data based on the parameters passed. 
+ * 
+ */
 export const getSearchResults = (
 	// the params for the moment (purely movie focused)
 		page: string | number,
@@ -556,9 +560,7 @@ export const getSearchResults = (
 		sort_by: string,
 		with_keywords: string
 	) => {
-		
-	
-	
+
 	// Set gte (startDate) and lte (endDate) for the release date
 	const startDate = release_date_from ? `${release_date_from}-01-01` : '';
 	const endDate = release_date_to ? `${release_date_to}-12-31` : '';
@@ -599,24 +601,28 @@ export const getSearchResults = (
 		}
 	}
 
+	// Check if the vote average is not null and add it to the url
 	if (vote_average) {
 		url += `&vote_average.gte=${vote_average}`;
 	}
 
+	// Check with_keywords is not null and add it to the url
+	// Not currently used ran out of time
 	if (with_keywords) {
 		url += `&with_keywords=${with_keywords}`;
 	}
 
+	// Check if sort_by is not null and add it to the url
 	if (sort_by) {
 		url += `&sort_by=${sort_by}`;
 	}
 	
-	console.log("URL To Fetch:", url);
+	// console.log("URL To Fetch:", url);
 
 	return fetch(url)
 	.then(res => res.json())
 	.then(data => {
-		console.log("Response Data:", data);
+		// console.log("Response Data:", data);
 		return data; 
 	})
 	.catch(err => {

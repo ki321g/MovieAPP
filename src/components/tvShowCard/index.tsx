@@ -29,11 +29,6 @@ const styles = {
 	},
 };
 
-// interface TvShowListProps {
-//   tvShow:ListedTVShow,
-//   action: (m: ListedTVShow) => React.ReactNode;
-// }
-
 interface TVShowCardProps {
 	tvShow: BaseTvShowProps;
 	action: (m: BaseTvShowProps) => React.ReactNode;
@@ -161,7 +156,6 @@ const TVShowCard: React.FC<TVShowCardProps> = ({ tvShow, action }) => {
 								/>
 								<CardMedia
 									component='img'
-									// image={`https://image.tmdb.org/t/p/w500${tvShow.backdrop_path}`}
 									image={
 										tvShow.backdrop_path
 											? `https://image.tmdb.org/t/p/w500/${tvShow.backdrop_path}`
@@ -169,7 +163,6 @@ const TVShowCard: React.FC<TVShowCardProps> = ({ tvShow, action }) => {
 									}
 									alt={tvShow.name}
 									sx={{
-										// height: '100%',
 										alignSelf: 'flex-start',
 										width: '100%',
 										borderRadius: '0px 0px 0 0',
@@ -193,17 +186,7 @@ const TVShowCard: React.FC<TVShowCardProps> = ({ tvShow, action }) => {
 								</CardActions>
 								<CardContent sx={{ textAlign: 'left', padding: '20px' }}>
 									<Typography variant='body2' color='white'>
-										{/* {tvShow.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)} */}
 										{tvShow.overview}
-										{/* {
-                  tvShow.overview.split(" ").reduce((prev, curr) => 
-                    prev.length + curr.length <= 180 
-                      ? prev + " " + curr 
-                      : prev.length <= 180 && prev.length + "...".length > 180
-                        ? prev + "..."
-                        : prev
-                  )
-                } */}
 									</Typography>
 								</CardContent>
 							</Card>

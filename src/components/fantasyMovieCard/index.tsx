@@ -6,13 +6,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
 import img from '../../images/film-poster-placeholder.png';
 import { FantasyMovieProps } from "../../types/interfaces"; 
-// import Avatar from "@mui/material/Avatar";
-// import { MoviesContext } from "../../contexts/moviesContext";
 import { Box } from '@mui/material';
-// import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
   card: { maxWidth: 345,
@@ -26,34 +22,14 @@ const styles = {
   },
 };
 
-// interface MovieListProps {
-//   movie:ListedMovie,
-//   action: (m: ListedMovie) => React.ReactNode;
-// }
-
 interface MovieCardProps {
   movie: FantasyMovieProps;
-  // action: (m: BaseMovieProps) => React.ReactNode;
 }
 
-// const MovieCard: React.FC<MovieCardProps> = ({movie, action}) => {
+/* MovieCard component for Fantasy movies
+ * This component is used to display a movie card for fantasy movies
+ */
 const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
-  // const authContext = useContext(AuthContext);
-  // const userLoggedIn = !!authContext?.token;
-
-  // const { favourites, getFavourites } = useContext(MoviesContext);
-
-  // const isFavourite = favourites.find((id) => id === movie.id)? true : false;
-  
-  // useEffect(() => {
-  //   // Fetch the favourites here and update the state
-  //   const fetchFavourites = async () => {
-  //     await getFavourites(); 
-  //   };
-  
-  //   fetchFavourites();
-  // }, []);
-
   return (
     <>
     <Box
@@ -117,13 +93,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
                     },
                   }}
                 />
-                {/* <div style={{ position: 'absolute', top: 10, left: 10 }}>
-                  {isFavourite ? (
-                    <Avatar sx={styles.avatar}>
-                      <FavoriteIcon />
-                    </Avatar>
-                  ) : null}
-                </div> */}
               </Card>
             </Box>
 
@@ -143,7 +112,6 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
               flexDirection: 'column',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              // padding: '20px',
               boxSizing: 'border-box',
               border: 'none',
               backgroundImage: 'none',
@@ -160,15 +128,9 @@ const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
                 }
               />
               <CardActions disableSpacing>
-                {/* {userLoggedIn && (
-                  <Box onClick={(e) => e.stopPropagation()}>
-                    {action(movie)}
-                  </Box>
-                )} */}
               </CardActions>
               <CardContent sx={{ textAlign: 'left', padding: '20px', }}>               
                 <Typography variant="body2" color="white">
-                {/* {movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev)} */}
                 {movie.overview ? movie.overview.split(" ").reduce((prev, curr) => prev.length + curr.length <= 200 ? prev + " " + curr : prev) : 'No overview available'}
                 </Typography>
                 Genre: {movie.genre}

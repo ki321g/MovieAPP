@@ -31,7 +31,6 @@ const TVShowDetailsPage: React.FC= () => {
   
   // Find the trailer video
   const trailerVideo: any = videoData?.tvShows.find(video => video.type === 'Trailer' && video.site === 'YouTube') ?? undefined;
-  // console.log('trailer: ', trailerVideo);
 
   return (
     <>

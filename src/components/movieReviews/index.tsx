@@ -47,7 +47,7 @@ const MovieReviews: React.FC<MovieDetailsProps> = (movie) => {
                             <TableCell >{excerpt(r.content)}</TableCell>
                             <TableCell >
                                 <Link
-                                    to={`/reviews/${r.id}`}
+                                    to={`/reviews/movie/${r.id}`}
                                     state={{
                                         review: r,
                                         movie: movie,
