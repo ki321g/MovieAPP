@@ -11,8 +11,6 @@ import { UpcommingMovies } from '../types/interfaces';
 import { useQuery } from 'react-query';
 import Spinner from '../components/spinner';
 import { BaseMovieProps } from '../types/interfaces';
-// import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-// import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import KeyboardDoubleArrowLeftSharpIcon from '@mui/icons-material/KeyboardDoubleArrowLeftSharp';
 import KeyboardDoubleArrowRightSharpIcon from '@mui/icons-material/KeyboardDoubleArrowRightSharp';
 import Paper from "@mui/material/Paper";
@@ -34,6 +32,18 @@ const styles = {
       boxShadow: 'none',
       paddingBottom: '20px',
   },
+	titleText: {
+		fontFamily: '"Source Sans Pro", Arial, sans-serif',
+		fontSize: '2.8rem',
+		color: "#ffffff",
+		textAlign: 'center',
+		letterSpacing: 'normal',
+		width:'100%',
+		margin: '0',
+		padding: '0',
+		fontWeight: 'bold',
+		textTransform: 'uppercase',
+	},
 };
 
 const titleFiltering = {
@@ -56,8 +66,7 @@ const UpcomingMoviesPage: React.FC = () => {
 		queryFn: () => getUpcomingMovies(page),
 		keepPreviousData: true
 	});
-  // const { data, error, isLoading, isError } = useQuery<UpcommingMovies, Error>('upcomming',getUpcomingMovies);
-  
+ 
   const { filterValues, setFilterValues, filterFunction } = useFiltering(
     [titleFiltering, genreFiltering]
   );
@@ -121,7 +130,7 @@ const UpcomingMoviesPage: React.FC = () => {
 					  </Grid>
 
             <Grid item xs>
-              <Typography variant="h4" component="h3" align="center">
+              <Typography variant="h4" component="h3" align="center" sx={styles.titleText}>
               Upcoming Movies
               </Typography>
             </Grid>

@@ -1,88 +1,314 @@
 import React, { useState } from "react";
 import Chip from "@mui/material/Chip";
-import Paper from "@mui/material/Paper";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
+// import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
-import StarRate from "@mui/icons-material/StarRate";
+import Groups2Icon from '@mui/icons-material/Groups2';
+import StarRateIcon from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieDetailsProps } from "../../types/interfaces";
-import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import MovieReviews from '../movieReviews'
-
+import MovieReviews from "../movieReviews";
+import { MovieDetailsProps, MovieTrailerVideoProps } from "../../types/interfaces";
+import NavigationIcon from "@mui/icons-material/Navigation";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import Modal from '@mui/material/Modal';
+import HomeIcon from "@mui/icons-material/Home";
+import Cast from "../cast";
+// Styling for the movie details section
 const styles = {
-    chipSet: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexWrap: "wrap",
-        listStyle: "none",
-        padding: 1.5,
-        margin: 0,
+  chipSet: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    listStyle: "none",
+    padding: 1.5,
+    margin: 0,
+  },
+  chip: {
+    color: "#ffffff",
+    backgroundColor: "transparent", // Transparent background for the chip items
+    margin: "0.5rem",
+    border: "2px solid #ffffff",
+    fontSize: "1rem",
+  },
+  // Styling for the fab button for reviews
+  fabContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "0.5rem",
+  },
+  fab: {
+    backgroundColor: "transparent",
+    color: "#ffffff",
+    border: "2px solid #ffffff",
+    "&:hover": {
+      backgroundColor: "white",
+      color: "black",
     },
-    chipLabel: {
-        margin: 0.5,
-    },
-    fab: {
-        position: "fixed",
-        marginTop: 4,
-        top: 50,
-        right: 2,
-    },
+    width: "auto", 
+    height: "auto", 
+    padding: "0.5rem 1rem",
+    margin: "0.5rem",
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    fontSize: '1.4em',
+    fontWeight: '800',
+  },
+  taglineText: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    color: "#ffffff",
+    textAlign: 'start',
+    letterSpacing: 'normal',
+    marginTop: '10px',
+    marginBottom: '0',
+    fontSize: '1.8em',
+    fontWeight: '400',
+    fontStyle: 'italic',
+    opacity: '.7',
+  },
+  overviewText: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    color: "#ffffff",
+    textAlign: 'start',
+    letterSpacing: 'normal',
+  },
+  overviewHeaderText: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    color: "#ffffff",
+    textAlign: "start",
+    letterSpacing: 'normal',
+    fontSize: "2rem",
+    fontWeight: 'bold',
+  },
+  userScoreText: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    color: "#ffffff",
+    textAlign: "center",
+    letterSpacing: 'normal',
+    fontSize: "1.5rem",
+    fontWeight: 'bold',
+  },
+  movieTitle: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    fontSize: '2.8rem',
+    color: "#ffffff",
+    textAlign: 'start',
+    letterSpacing: 'normal',
+    width:'100%',
+    margin: '0',
+    padding: '0',
+    fontWeight: 'bold',
+    marginTop: '25px',
+  },
+  movieSubHeading: {
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    fontWeight: 'light',
+    color: "#ffffff",
+    textAlign: 'start',
+    letterSpacing: 'normal',
+    width:'100%', 
+    fontSize: "20px", 
+    lineHeight: '24px', 
+  },
+  trailerContainer: {
+    width: "80%",
+    maxWidth: "80%",
+    aspectRatio: "16/9",
+    marginBottom: "50px",
+    border: "none",
+  },
 };
 
-const MovieDetails: React.FC<MovieDetailsProps> = (movie) => {
+interface MovieDetailsComponentProps {
+    movie: MovieDetailsProps;
+    trailerVideo:MovieTrailerVideoProps;
+  }
 
-    const [drawerOpen, setDrawerOpen] = useState(false); // New
+const MovieDetails: React.FC<MovieDetailsComponentProps> = ({movie, trailerVideo}) => {
+    const [reviewDrawerOpen, setReviewDrawerOpen] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
-    return (
-        <>
-            <Typography variant="h5" component="h3">
-                Overview
-            </Typography>
+  const releaseYear = new Date(movie.release_date).getFullYear(); // Year Released
+  const votePercentage = movie.vote_average * 10; // Convert vote average to percentage
 
-            <Typography variant="h6" component="p">
-                {movie.overview}
-            </Typography>
+  // Function to convert runtime from minutes to hours and minutes
+    const convertRuntime = (runtime: number) => {
+        const hours = Math.floor(runtime / 60);
+        const minutes = runtime % 60;
+        return `${hours}h ${minutes}m`;
+    };
 
-            <Paper component="ul" sx={styles.chipSet}>
-                <li>
-                    <Chip label="Genres" sx={styles.chipLabel} color="primary" />
-                </li>
-                {movie.genres.map((g) => (
-                    <li key={g.name}>
-                        <Chip label={g.name} />
-                    </li>
-                ))}
-            </Paper>
-            <Paper component="ul" sx={styles.chipSet}>
-                <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-                <Chip
-                    icon={<MonetizationIcon />}
-                    // label={`${movie.revenue ? movie.revenue.toLocaleString() : '0'}`}
-                    label={`${movie.revenue.toLocaleString()}`}
-                />
-                
-                <Chip
-                    icon={<StarRate />}
-                    label={`${movie.vote_average} (${movie.vote_count}`}
-                />
-                <Chip label={`Released: ${movie.release_date}`} />
-            </Paper>
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    
+  // console.log('trailer2: ', trailerVideo.key)
+
+  return (
+    <>
+    <Typography variant="h4" component="h3" sx={styles.movieTitle}>
+     {`${movie.title} (${releaseYear})`}
+    </Typography>
+    <Typography variant="body1" component="p" sx={styles.movieSubHeading}>
+    {`${movie.release_date} ${'\u00A0\u00A0\u00A0'}•${'\u00A0\u00A0\u00A0'}`}
+    {movie.genres.map((g, index) => (
+        <React.Fragment key={g.name}>
+        {index > 0 && ', '}
+        {g.name}
+        </React.Fragment>
+        ))}
+    {`${'\u00A0\u00A0\u00A0'}•${'\u00A0\u00A0\u00A0'}${convertRuntime(movie.runtime)}`}
+    </Typography>
+    <Typography variant="h5" component="h3" sx={styles.taglineText}>
+        {movie.tagline}
+    </Typography>   
+    <Box display="flex" alignItems="center" sx={{ mt: 2, mb: 2 }}>
+        <Box position="relative" display="inline-flex" width={60} height={60}>
+            <CircularProgress 
+                variant="determinate" 
+                value={100} 
+                size={60} 
+                style={{ 
+                    color: '#204529', 
+                    position: 'absolute' 
+                }} 
+            />
+            <CircularProgress 
+                variant="determinate" 
+                value={votePercentage} 
+                size={60} style={{ 
+                    color: '#21d07a', 
+                    position: 'absolute' 
+                }} 
+            /> 
+            <Box
+                top="8%"
+                left="8%"
+                bottom={0}
+                right={0}
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                bgcolor="#081C22"
+                borderRadius="50%"             
+                width="82%"
+                height="82%"           
+            >
+                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold' }} color="textSecondary">
+                    {`${Math.round(votePercentage)}%`}
+                </Typography>
+            </Box>
+        </Box>
+        <Typography variant="h5" component="h3" sx={styles.userScoreText}>
+            {"\u00A0\u00A0\u00A0"}
+            {"USER SCORE"}
+            {"\u00A0\u00A0\u00A0"}
+        </Typography>
+        <Chip
+        icon={<StarRateIcon />}
+        label={`Count: ${movie.vote_count}`}
+        sx={styles.chip}
+        />  
+        <Chip
+        icon={<MonetizationIcon />}
+        label={`Revenue: $${movie.revenue.toLocaleString()}`}
+        sx={styles.chip}
+        />  
+        <Chip 
+            icon={<Groups2Icon />}
+            label={`Popularity: ${movie.popularity}`}
+            sx={styles.chip} 
+        />
+    </Box>      
+    <Typography variant="h5" component="h3" sx={styles.overviewHeaderText}>            
+            {"Overview"}
+        </Typography> 
+    <Typography variant="h6" component="p" sx={styles.overviewText}>
+        {movie.overview}
+    </Typography>
+    <Box display="flex" alignItems="center" sx={styles.fabContainer}>         
+        <Box sx={styles.fabContainer}>
+            {/*  Reviews */}
             <Fab
                 color="secondary"
                 variant="extended"
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => setReviewDrawerOpen(true)}
                 sx={styles.fab}
             >
-                <NavigationIcon />
+                <NavigationIcon fontSize="large" />
                 Reviews
             </Fab>
-            <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                <MovieReviews {...movie} />
-            </Drawer>
-        </>
-    );
+            {/* Trailer */}
+            <Fab
+                color="secondary"
+                variant="extended"
+                onClick={handleOpen}
+                sx={styles.fab}
+            >
+                <YouTubeIcon fontSize="large" />
+                Watch Trailer
+            </Fab>
+            
+            {/*  Movie Home */}
+            <Fab
+                color="secondary"
+                variant="extended"
+                onClick={() => window.open(`${movie.homepage}`, '_blank')}
+                sx={styles.fab}
+            >
+            <HomeIcon fontSize="large" />
+                Movie Home
+            </Fab>
+        </Box>
+        
+    </Box>
+    
+    {/* Review Drawer  */}
+    <Drawer anchor="top" open={reviewDrawerOpen} onClose={() => setReviewDrawerOpen(false)}>
+        <MovieReviews {...movie} />
+    </Drawer>
+    {/* Trailer Modal */}
+    <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+    >
+    <Box sx={{ 
+        position: 'absolute', 
+        top: '50%', 
+        left: '50%', 
+        transform: 'translate(-50%, -50%)', 
+        width: '50%', 
+        bgcolor: 'background.paper', 
+        border: '2px solid #000', 
+        boxShadow: 24, 
+        p: 4, 
+        aspectRatio: "16/9",
+    }}>
+        {trailerVideo && (
+            
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1`}
+                        title="Trailer"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{ border: "none" }} //this seems to be the only way I can remove the iframe border
+                    />
+            
+            )}
+    </Box>
+    </Modal>
+
+    <Cast movieId={movie.id} />
+    
+    </>
+  );
 };
+
 export default MovieDetails;

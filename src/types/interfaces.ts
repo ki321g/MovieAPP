@@ -19,7 +19,8 @@ export interface BaseMovieProps {
   genre_ids?: number[];
   genre?: string;
   productionCompany?: string;
-  receivedAnOscar?: boolean;
+  receivedAnOscar?: boolean;  
+  cast?: MovieCastMember[];
 };
 
 export interface BaseMovieListProps {
@@ -42,7 +43,34 @@ export interface MovieImage {
   vote_count?: number;
   width?: number;
 };
+
+export interface MovieTrailerVideoProps {
+  id: string;
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  key?: string;
+  name?: string;
+  official?: boolean;
+  published_at?: string;
+  site?: string;
+  size: number
+  type?: string;
+};
+
+export interface TvShowTrailerVideoProps {
+  id: string;
+  iso_639_1?: string;
+  iso_3166_1?: string;
+  key?: string;
+  name?: string;
+  official?: boolean;
+  published_at?: string;
+  site?: string;
+  size: number
+  type?: string;
+};
   
+
 export interface MoviePageProps {
   movie: MovieDetailsProps;
   images: MovieImage[];
@@ -153,12 +181,15 @@ export interface BaseTvShowProps {
   first_air_date: string;
   vote_average: number;
   popularity: number;
+  vote_count: number;
+  homepage: string;
+  status?: string;
   poster_path?: string;
   backdrop_path?: string;
   genre_ids?: number[];
   favourite?: boolean;
   playlist?: boolean;
-  // cast?: TvShowCastMember[];
+  cast?: TvShowCastMember[];
 }
 
 
@@ -235,15 +266,7 @@ export interface TVShowListPageTemplateProps extends BaseTvShowListProps {
   title: string;
 }
 
-export interface TvImage {
-  file_path: string;
-  aspect_ratio?: number;
-  height?: number;
-  iso_639_1?: string;
-  vote_average?: number;
-  vote_count?: number;
-  width?: number;
-}
+
 
 export interface FantasyMovieProps {  
   title?: string;
@@ -279,3 +302,53 @@ export interface PlaylistProps {
   movie_id: number;
   results: BaseMovieProps[];
 }
+
+export interface MovieCastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+}
+
+export interface TvShowCastMember {
+  id: number;
+  name: string;
+  character: string;
+  profile_path?: string;
+}
+
+export interface ActorDetailsProps {
+  id: number;
+  name: string;
+  biography: string;
+  profile_path?: string;
+  gender: number;
+  birthday?: string;
+  deathday?: string;
+  known_for_department: string;
+  popularity: number;
+  place_of_birth?: string;
+  also_known_as?: string[];
+}
+
+
+export interface GenreData {
+  genres: {
+    id: string;
+    name: string
+  }[];
+}
+
+export interface SearchResultsMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
+
+export interface SearchResultsTVShows {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};

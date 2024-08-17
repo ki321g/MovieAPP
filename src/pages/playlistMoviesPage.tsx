@@ -15,6 +15,7 @@ import Grid from "@mui/material/Grid"
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import AddToPlaylistIcon from '../components/cardIcons/addToPlaylist'
 
 const styles = {
   root: {
@@ -120,7 +121,14 @@ const getPlaylistsMovies = async () => {
       <PageTemplate
           movies={selectedPlaylist === 'All' ? displayMovies : selectedMovies}
           action={(movie: BaseMovieProps) => {
-            return <AddToFavouritesIcon {...movie} />;
+            // return <AddToFavouritesIcon {...movie} />
+            // return <AddToPlaylistIcon {...movie} />;
+            return (
+              <>
+                <AddToFavouritesIcon {...movie} />
+                <AddToPlaylistIcon {...movie} />
+              </>
+            );
           }}
       />
     </>

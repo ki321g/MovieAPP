@@ -5,7 +5,9 @@ import { BaseTvShowListProps, BaseTvShowProps} from "../../types/interfaces";
 import { Box } from "@mui/material"
 
 const TVShowList: React.FC<BaseTvShowListProps> = ({tvShows, action}) => {
-  
+  if (!Array.isArray(tvShows)) {
+    return null; // or some fallback UI
+  }
   let tvShowCards = tvShows.map((tvShow: BaseTvShowProps) => (
     <Grid container key={tvShow.id} item xs={12} sm={6} md={4} lg={3} xl={3}>
       {/* <TVShow key={tvShow.id} tvShow={tvShow} action={action}/> */}

@@ -61,11 +61,54 @@ export const getMovieImages = (id: string | number) => {
 			}
 			return response.json();
 		})
-		.then((json) => json.posters)
+		// .then((json) => json.posters)
+		.then((json) => {
+			//Filter out images that are not in English. Cant do it in call as it i loose the backdrop images
+			const posters = (json.posters || []).filter((poster: any) => poster.iso_639_1 === 'en');
+			const backdrops = json.backdrops || [];	
+			return { posters, backdrops };
+		  })
 		.catch((error) => {
 			throw error;
 		});
 };
+
+export const getMovieVideos = (id?: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch videos');
+			}
+			return response.json();
+		})
+		.then((json) => {
+		  const videos = json.results || [];
+		  return { videos };
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
+export const getSimilarMovies = (id: string | number, page: string | number) => {
+	return fetch(
+	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+	)
+	.then((response) => {
+		if (!response.ok) {
+			throw new Error(
+				`Failed to get similar movie data. Response status: ${response.status}`
+			);
+		}
+		return response.json();
+	})
+	.catch((error) => {
+		throw error;
+	});
+};
+  
 
 export const getMovieReviews = (id: string | number) => {
 	//movie id can be string or number
@@ -110,25 +153,23 @@ export const getUpcomingMovies = (page: string | number) => {
 };
 
 export const getNowPlayingMovies = (page: string | number) => {
-	// Get the current date
-	let todaysDate = new Date()
-	let toDate = new Date();
+	// // Get the current date
+	// let todaysDate = new Date()
+	// let toDate = new Date();
 
-	// Add 6 months to the current date
-	toDate.setMonth(todaysDate.getMonth() + 1);
+	// // Add 6 months to the current date
+	// toDate.setMonth(todaysDate.getMonth() + 1);
   
-	// Format the date as YYYY-MM-DD
-	let minDate = todaysDate.toISOString().slice(0, 10);
-	let maxDate = toDate.toISOString().slice(0, 10);
+	// // Format the date as YYYY-MM-DD
+	// let minDate = todaysDate.toISOString().slice(0, 10);
+	// let maxDate = toDate.toISOString().slice(0, 10);
 
-	console.log('Date minDate: ', minDate)
+	// console.log('Date minDate: ', minDate)
 	
-	console.log('Date maxDate: ', maxDate)
+	// console.log('Date maxDate: ', maxDate)
 
 	return fetch(
 		`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&region=&page=${page}`
-		// `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc&with_release_type=2|3&sort_by=primary_release_date.asc&release_date.gte=${minDate}&release_date.lte=${maxDate}` 
-
 	)
 		.then((response) => {
 			if (!response.ok)
@@ -199,7 +240,7 @@ export const getTVShow = (id: string) => {
 
 export const getTVShows = (page: string | number) => {
 	return fetch(
-		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}`
+		`https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${page}&with_original_language=en`
 	)
 		.then((response) => {
 			if (!response.ok)
@@ -239,27 +280,6 @@ export const getTVShowGenres = () => {
 			throw error;
 		});
 };
-
-//   export const getSimilarTvShows = (id: string | number) => {
-// 	return fetch(
-// 	  `https://api.themoviedb.org/3/tv/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=1`
-// 	)
-// 	  .then((res) => res.json())
-// 	  .catch((error) => {
-// 		throw error;
-// 	  });
-//   };
-
-//   export const getTvShowsAiringToday = (page: string | number) => {
-// 	return fetch(
-// 		`https://api.themoviedb.org/3/tv/airing_today?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=${page}`
-// 	)
-// 	  .then((res) => res.json())
-// 	  .then((json) => {
-// 		console.log(json.results);
-// 	  	return json.results;
-// 	});
-//   };
 
 export const getTvShowsAiringToday = (page: string | number) => {
 	return fetch(
@@ -330,14 +350,18 @@ export const getTvShowsTopRated = (page: string | number) => {
 				throw new Error(
 					`Unable to fetch Tv Shows. Response status: ${response.status}`
 				);
-			const TvShowsTopRatedResults = response.json();
-			return TvShowsTopRatedResults;
+			return response.json();
 		})
+		.then((data) => {
+		  if (Array.isArray(data.results)) {
+			  data.results.sort((a: any, b: any) => new Date(b.vote_average).getTime() - new Date(a.vote_average).getTime());
+			}
+			return data ; // Return an object with the cast array
+		  })
 		.catch((error) => {
 			throw error;
 		});
 };
-
 export const getTVShowImages = (id: string | number) => {
 	return fetch(
 		`https://api.themoviedb.org/3/tv/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
@@ -348,8 +372,255 @@ export const getTVShowImages = (id: string | number) => {
 			}
 			return response.json();
 		})
-		.then((json) => json.posters)
+		.then((json) => {
+			//Filter out images that are not in English. Cant do it in call as it i loose the backdrop images
+			let posters = (json.posters || []).filter((poster: any) => poster.iso_639_1 === 'en');
+			// If posters length is 0 then set  posters back to json.posters
+			if (posters.length === 0) {
+				posters = json.posters;
+			}
+			const backdrops = json.backdrops || [];	
+			console.log(json.posters);
+			console.log('posters: ', posters);
+			return { posters, backdrops };
+		  })
 		.catch((error) => {
 			throw error;
 		});
+};
+
+// export const getSimilarTVShows = (id: string | number, page: string | number) => {
+// 	return fetch(
+// 	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+// 	)
+// 	.then((response) => {
+// 		if (!response.ok) {
+// 			throw new Error(
+// 				`Failed to get similar movie data. Response status: ${response.status}`
+// 			);
+// 		}
+// 		return response.json();
+// 	})
+// 	.catch((error) => {
+// 		throw error;
+// 	});
+// };
+
+export const getSimilarTVShows = (id: string | number, page: string | number) => {
+	return fetch(
+	  `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1&include_adult=false&page=${page}`
+	)
+	.then((response) => {
+		if (!response.ok) {
+			console.log(`TV Show with ID ${id} not found.`);
+			return [];  // or return a specific message
+		}
+		return response.json();
+	})
+	.catch((error) => {
+		throw error;
+	});
+};
+
+
+export const getTVShowVideos = (id?: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${import.meta.env.VITE_TMDB_KEY}`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch videos');
+			}
+			return response.json();
+		})
+		.then((json) => {
+		  const tvShows = json.results || [];
+		  return { tvShows };
+		})
+		.catch((error) => {
+			throw error;
+		});
+};
+
+
+// Actors/Cast
+
+export const getMovieCast = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch cast');
+			}
+			return response.json();
+		})		
+		.then((json) => {
+			const cast = json.cast || [];
+			return { cast }; // Return an object with the cast array
+		  })
+		.catch((error) => {
+			throw error;
+		});
+};
+
+
+
+export const getTVShowCast = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/tv/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error('failed to fetch cast');
+			}
+			return response.json();
+		})		
+		.then((json) => {
+			const cast = json.cast || [];
+			return { cast }; // Return an object with the cast array
+		  })
+		.catch((error) => {
+			throw error;
+		});
+};
+
+export const getActor = (id: string | number) => {
+	return fetch(
+	  `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+	  .then((response) => {
+		if (!response.ok) {
+		  throw new Error("failed to fetch actor data");
+		}
+		return response.json();
+	  })
+	  .catch((error) => {
+		throw error;
+	  });
+  };
+
+export const getActorMovieCredits = (id: string | number) => {
+	return fetch(
+	`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+	.then((response) => {
+		if (!response.ok) {
+		throw new Error("failed to fetch actor Movie credits");
+		}
+		return response.json();
+	})	
+	.then((data) => {
+		if (Array.isArray(data.cast)) {
+			data.cast = data.cast.filter((movie: any) => movie.poster_path != null);
+			data.cast.sort((a: any, b: any) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+		}
+		return data ; // Return an object with the cast array
+		})
+	.catch((error) => {
+		throw error;
+	});
+};
+
+export const getActorTVShowCredits = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+		.then((response) => {
+		if (!response.ok) {
+			throw new Error("failed to fetch actor TV Show credits");
+		}
+		return response.json();
+		})	
+		.then((data) => {
+		if (Array.isArray(data.cast)) {
+			data.cast = data.cast.filter((tvshow: any) => tvshow.poster_path != null);
+			data.cast.sort((a: any, b: any) => new Date(b.first_air_date).getTime() - new Date(a.first_air_date).getTime());
+			}
+			return data ; // Return an object with the cast array
+		})
+		.catch((error) => {
+		throw error;
+		});
+	};
+
+
+export const getSearchResults = (
+	// the params for the moment (purely movie focused)
+		page: string | number,
+		media: string,
+		genre: string,
+		release_date_from: string,
+		release_date_to: string,
+		vote_average: string,
+		sort_by: string,
+		with_keywords: string
+	) => {
+		
+	
+	
+	// Set gte (startDate) and lte (endDate) for the release date
+	const startDate = release_date_from ? `${release_date_from}-01-01` : '';
+	const endDate = release_date_to ? `${release_date_to}-12-31` : '';
+
+	// Set the base URL for the API call
+	let url = "";
+
+	// Check if the media is a movie
+	if (media === "movie") {
+		url = `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_original_language=en&page=${page}`;
+	}
+	// Check if the media is a tv show
+	if (media === "tvShow") {
+		// the base url for the api call prior to any additional params (+= the params to add them to the url)
+		url = `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_original_language=en&page=${page}`;
+	}
+
+	// Check if the genre is not null and add it to the url
+	if (genre) {
+		url += `&with_genres=${genre}`;
+	  }
+	
+	// Check if the release date is not null and add it to the url
+	if(release_date_from) {
+		if (media === "movie") {
+			url += `&primary_release_date.gte=${startDate}`;
+		} else {
+			url += `&first_air_date.gte=${startDate}`;
+		}
+	}
+
+	// Check if the release date is not null and add it to the url
+	if (release_date_to) {
+		if (media === "movie") {
+			url += `&primary_release_date.lte=${endDate}`;
+		} else {
+			url += `&first_air_date.lte=${endDate}`;
+		}
+	}
+
+	if (vote_average) {
+		url += `&vote_average.gte=${vote_average}`;
+	}
+
+	if (with_keywords) {
+		url += `&with_keywords=${with_keywords}`;
+	}
+
+	if (sort_by) {
+		url += `&sort_by=${sort_by}`;
+	}
+	
+	console.log("URL To Fetch:", url);
+
+	return fetch(url)
+	.then(res => res.json())
+	.then(data => {
+		console.log("Response Data:", data);
+		return data; 
+	})
+	.catch(err => {
+		console.error("Error fetching data:", err);
+		throw err;
+	});
 };

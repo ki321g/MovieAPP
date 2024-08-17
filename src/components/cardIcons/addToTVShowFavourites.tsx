@@ -1,18 +1,17 @@
-import React, {MouseEvent, useContext} from "react";
+import React, { useContext} from "react";
 import { TVShowContext } from "../../contexts/tvShowContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { BaseTvShowProps } from "../../types/interfaces"
 
 const AddToTVShowFavouritesIcon: React.FC<BaseTvShowProps> = (tvShow) => {
-  // // const context = useContext(TVShowContext);
-  // const { favourites, addToFavourites } = useContext(TVShowContext); 
-  const context = useContext(TVShowContext);
-  // console.log('favourites');
-  const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const { favourites, addToFavourites } = useContext(TVShowContext);
+
+  console.log(favourites);
+
+  const onUserSelect = () => {
     console.log('before');
-    context.addToFavourites(tvShow);
+    addToFavourites(tvShow);
     console.log('after');
   };
  

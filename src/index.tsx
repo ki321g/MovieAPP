@@ -32,6 +32,7 @@ import OnTheAirTVShows from './pages/tvShowOnTheAir';
 import PopularTVShows from './pages/tvShowPopular';
 import TopRatedTVShows from './pages/tvShowTopRated';
 import LoginPage from "./pages/loginPage";
+import ActorPage from "./pages/actorDetailsPage";
 
 
 const queryClient = new QueryClient({
@@ -87,6 +88,7 @@ const App = () => {
                 <Route path="/reviews/form" element={<AddMovieReviewPage/>} />
                 <Route path="/reviews/tv/:id" element={<TVShowReviewPage />} />
                 {/* Other Routes */}
+                <Route path="/actor/:id" element={<ActorPage />} />
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 

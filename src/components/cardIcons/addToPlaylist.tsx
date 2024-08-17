@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 // import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import CreatableSelect from 'react-select/creatable';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { db, auth } from '../../config/firebase';
 
@@ -27,21 +26,6 @@ interface Option {
   label: string;
   value: string;
 };
-
-// interface UserPlaylist {
-//   id: string;
-//   playlist: string;
-//   userId: string;
-// }
-
-// interface Playlist {
-//   id: string;
-//   movie_id: number;
-//   movie_title: string;
-//   playlist_id: string;
-//   playlist_name: string;
-//   userId: string;
-// }
 
 const createOption = (label: string) => ({
   label,
@@ -70,6 +54,7 @@ const customStyles = {
   
 const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
   // const context = useContext(MoviesContext);
+
   const [alert, setAlert] = useState(false);
   const [alertSeverity, setAlertSeverity] = useState<"error" | "warning" | "info" | "success">("success");
   const [alertMessage, setAlertMessage] = useState("");
@@ -93,9 +78,8 @@ const AddToPlaylistIcon: React.FC<BaseMovieProps> = (movie) => {
   };
 
   const handleValueLoad = async (inputValue: string, updateValue: Boolean) => {
-
-    setIsLoading(true);
-     setTimeout(async () => {
+      setIsLoading(true);
+      setTimeout(async () => {
       setIsLoading(false);
       if(updateValue){
         const newValue = {
@@ -114,10 +98,6 @@ const getMoviePlaylists = async () => {
         where("userId", "==", auth?.currentUser?.uid),
         where("movie_id", "==", movie.id)
       );
-      // const moviePlaylists: Playlist[] = result.docs.map((doc) => ({
-      //   id: doc.id,
-      //   ...doc.data(),
-      // }));
       const moviePlaylists = await getDocs(result);
       const filteredMoviePlaylists: Playlist[] = moviePlaylists.docs.map((doc) => ({
         id: doc.id,
@@ -127,18 +107,8 @@ const getMoviePlaylists = async () => {
         playlist_name: doc.data().playlist_name,
         userId: doc.data().userId,
       }));
-      //     id: doc.id,
-      //     ...doc.data(),
-      // }));
-      // console.log(moviePlaylists);
-      // console.log(filteredMoviePlaylists);
-      // const latestMoviePlaylists: Playlist[] = filteredMoviePlaylists.map(playlist => ({
-      //   playlist_name: playlist.playlist_name,
-      // }));
       const latestMoviePlaylists: any = filteredMoviePlaylists.map(playlist => playlist.playlist_name);
-      
-      // // console.log('latestMoviePlaylists');
-      // console.log(latestMoviePlaylists);
+
       latestMoviePlaylists.forEach((item: string) => {
         const found = value.find(val => val.label === item);
         if (!found) {
@@ -158,12 +128,10 @@ const getUserPlaylists = async () => {
         id: doc.id,
         playlist: doc.data().playlist,
         userId: doc.data().userId,
-          // id: doc.id,
-          // ...doc.data(),
+
       }));
       
-      const latestUserPlaylists: any = filteredUserPlaylists.map(playlist => playlist.playlist);
-      
+      const latestUserPlaylists: any = filteredUserPlaylists.map(playlist => playlist.playlist);      
       
       latestUserPlaylists.forEach((item: string) => {
         handleCreate(item, false);
@@ -182,32 +150,18 @@ const updateUserPlaylists = async (newPlaylist: string) => {
           id: doc.id,
           playlist: doc.data().playlist,
           userId: doc.data().userId,
-          // id: doc.id,
-          //   ...doc.data(),
         }));
         
         const currentuserPlaylists: any = filteredUserPlaylists.map(playlist => playlist.playlist);
-        
-        // console.log('currentuserPlaylists');
-        // console.log(currentuserPlaylists);
 
         if (currentuserPlaylists.find((playlist: string) => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
-        // if (currentuserPlaylists.find(playlist => playlist.toLowerCase() === newPlaylist.toLowerCase())) {
-            
-          handleAlert("error", "Playlist already exists. Please try a different name.", true);
-
+            handleAlert("error", "Playlist already exists. Please try a different name.", true);
           } else {
             await addDoc(userPlaylistRef, {
                 playlist: newPlaylist,
                 userId: auth?.currentUser?.uid,
             });
-            // console.log('added');
           };
-
-        // console.log('newPlaylist');
-        // console.log(newPlaylist);
-        // console.log('updateUserPlaylists');
-        // console.log(filteredUserPlaylists);
         
     } catch (err) {
         console.error(err);
@@ -243,25 +197,15 @@ const toggleDrawer = (newOpen: boolean) => async () => {
   };
 
   const handleUpdate = async () => {
-    
-    // console.log('Update Function');
-    // console.log(JSON.stringify(value, null, 2));
     const result = query(userPlaylistRef, where("userId", "==", auth?.currentUser?.uid));
     const userPlaylists = await getDocs(result);
     const filteredUserPlaylists = userPlaylists.docs.map((doc) => ({                    
         id: doc.id,
         ...doc.data(),
     }));
-    console.log(filteredUserPlaylists);
+    
     const playlists: UserPlaylist[] = [];
 
-    // filteredUserPlaylists.forEach(doc => {
-    //   value.forEach(val => {
-    //     if (val.label.includes(doc.playlist)) {
-    //       playlists.push(doc);
-    //     }
-    //   });
-    // });
     filteredUserPlaylists.forEach((doc: any) => {
       value.forEach(val => {
         if (val.label.includes(doc.playlist)) {
@@ -270,31 +214,17 @@ const toggleDrawer = (newOpen: boolean) => async () => {
       });
     });
 
-    // filteredUserPlaylists.forEach(doc => {
-    //   value.forEach(val => {
-    //     if (val.label.includes(doc.playlist)) {
-    //       playlists.push(doc);
-    //     }
-    //   });
-    // });
-      
-
-    // Delete Currtent Playlists for Movie
+    // Delete Current Playlists for Movie
     const querySnapshot = query(
       moviePlaylistRef, 
       where("userId", "==", auth?.currentUser?.uid),
       where("movie_id", "==", movie.id)
     );
+
     const queryResults = await getDocs(querySnapshot);
     queryResults.forEach((doc) => {
       deleteDoc(doc.ref);
     });
-
-    // console.log(querySnapshot);
-    // console.log(movie.id);
-    // console.log(auth?.currentUser?.uid);      
-    // console.log(playlists);
-    // console.log(movie);
 
     // Add New Playlists for Movie
     for (const playlist of playlists) {
@@ -307,11 +237,8 @@ const toggleDrawer = (newOpen: boolean) => async () => {
       });
     };
 
-    // setAlertSeverity("success"); // or "error", "warning", "info"
-    // setAlertMessage("Your message here");
-    // setAlert(true);
     await handleAlert("success", "Playlists Updated Successfully", true);
-
+    
     //close
     setTimeout(async () => {      
       setOpen(false);
@@ -370,39 +297,10 @@ const DrawerList = (
             </Button>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>            
-            {/* <Typography 
-              sx={{
-                fontWeight: 'bold', 
-                align: 'center',
-                marginTop: '10px',
-              }} 
-              variant="h4"
-            >
-              {movie.title.toUpperCase()}
-            </Typography> */}
+
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt={movie.title} style={{ width: '350px',  marginTop: '20px', }} />
           </div>
-            
-            {/* <Button 
-                onClick={async () => await updateUserPlaylists('Kieron')}
-                sx={{
-                    mt:2, 
-                    width: 500, 
-                    p:1, 
-                    color: 'text.primary' , 
-                    backgroundColor: 'primary.main',
-                    fontWeight: 'bold', 
-                    fontSize: '20px', 
-                    '&:hover': {
-                        backgroundColor: 'primary.main',
-                        opacity: 0.8, 
-                    },
-                }} 
-                size="large"
-            >
-                TEST
-            </Button> */}
-    </Box>        
+    </Box>
 
     <Snackbar 
         TransitionComponent={SlideTransition}
@@ -421,7 +319,6 @@ const DrawerList = (
 
   return (
     <>
-    {/* <IconButton aria-label="add to playlist" onClick={onUserSelect}> */}
       <IconButton aria-label="add to playlist" onClick={toggleDrawer(true)}>
         <PlaylistAddIcon 
           color="secondary" 
