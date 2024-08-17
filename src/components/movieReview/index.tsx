@@ -15,7 +15,6 @@ const styles = {
     fontWeight: 'bold',
     marginTop: '25px',
   },
-
   reviewText: {
     fontFamily: '"Source Sans Pro", Arial, sans-serif',
     color: "#ffffff",

@@ -35,7 +35,7 @@ const styles = {
     },
 	customBoxLeft: {
 		height: '100vh',
-		backgroundColor: '#282828',
+		// backgroundColor: '#282828',
 		color: '#fff',
 		padding: '0px',
 	},
