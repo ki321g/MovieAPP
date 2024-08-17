@@ -37,7 +37,7 @@ const styles = {
 		height: '100vh',
 		// backgroundColor: '#282828',
 		color: '#fff',
-		padding: '0px',
+		padding: '10px 0px 0px',
 	},
 	title: {
 	  flexGrow: 1,
