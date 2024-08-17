@@ -38,14 +38,17 @@ const styles = {
     padding: '0',
   },
   loginOutButtons: {
-    fontSize: '1.2rem',
-    paddingTop: '8px',
-    paddingBottom: '8px',
-    paddingLeft: '16px',
-    paddingRight: '16px',  
-    backgroundColor: '#242424', 
+    fontWeight: '900',      
+    fontFamily: '"Source Sans Pro", Arial, sans-serif',
+    fontSize: '1.6rem',
+    marginTop: '8px',
+    paddingTop: '4px',
+    paddingBottom: '4px',
+    paddingLeft: '10px',
+    paddingRight: '10px',  
+    background: 'linear-gradient(180deg, #35B8D8, #06203E)',
     '&:hover': {
-        backgroundColor: '#373737',
+        background: 'linear-gradient(90deg, #35B8D8, #06203E)',
     }, 
   }
   };

@@ -500,46 +500,127 @@ export const getActor = (id: string | number) => {
 	  });
   };
 
-  export const getActorMovieCredits = (id: string | number) => {
-	  return fetch(
-		`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
-	  )
+export const getActorMovieCredits = (id: string | number) => {
+	return fetch(
+	`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
+	.then((response) => {
+		if (!response.ok) {
+		throw new Error("failed to fetch actor Movie credits");
+		}
+		return response.json();
+	})	
+	.then((data) => {
+		if (Array.isArray(data.cast)) {
+			data.cast = data.cast.filter((movie: any) => movie.poster_path != null);
+			data.cast.sort((a: any, b: any) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+		}
+		return data ; // Return an object with the cast array
+		})
+	.catch((error) => {
+		throw error;
+	});
+};
+
+export const getActorTVShowCredits = (id: string | number) => {
+	return fetch(
+		`https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
+	)
 		.then((response) => {
-		  if (!response.ok) {
-			throw new Error("failed to fetch actor Movie credits");
-		  }
-		  return response.json();
+		if (!response.ok) {
+			throw new Error("failed to fetch actor TV Show credits");
+		}
+		return response.json();
 		})	
 		.then((data) => {
-			if (Array.isArray(data.cast)) {
-				data.cast = data.cast.filter((movie: any) => movie.poster_path != null);
-				data.cast.sort((a: any, b: any) => new Date(b.release_date).getTime() - new Date(a.release_date).getTime());
+		if (Array.isArray(data.cast)) {
+			data.cast = data.cast.filter((tvshow: any) => tvshow.poster_path != null);
+			data.cast.sort((a: any, b: any) => new Date(b.first_air_date).getTime() - new Date(a.first_air_date).getTime());
 			}
 			return data ; // Return an object with the cast array
-		  })
+		})
 		.catch((error) => {
-		  throw error;
+		throw error;
 		});
 	};
 
-	export const getActorTVShowCredits = (id: string | number) => {
-		return fetch(
-		  `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false`
-		)
-		  .then((response) => {
-			if (!response.ok) {
-			  throw new Error("failed to fetch actor TV Show credits");
-			}
-			return response.json();
-		  })	
-		  .then((data) => {
-			if (Array.isArray(data.cast)) {
-				data.cast = data.cast.filter((tvshow: any) => tvshow.poster_path != null);
-				data.cast.sort((a: any, b: any) => new Date(b.first_air_date).getTime() - new Date(a.first_air_date).getTime());
-			  }
-			  return data ; // Return an object with the cast array
-			})
-		  .catch((error) => {
-			throw error;
-		  });
-	  };
+
+export const getSearchResults = (
+	// the params for the moment (purely movie focused)
+		page: string | number,
+		media: string,
+		genre: string,
+		release_date_from: string,
+		release_date_to: string,
+		vote_average: string,
+		sort_by: string,
+		with_keywords: string
+	) => {
+		
+	
+	
+	// Set gte (startDate) and lte (endDate) for the release date
+	const startDate = release_date_from ? `${release_date_from}-01-01` : '';
+	const endDate = release_date_to ? `${release_date_to}-12-31` : '';
+
+	// Set the base URL for the API call
+	let url = "";
+
+	// Check if the media is a movie
+	if (media === "movie") {
+		url = `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_original_language=en&page=${page}`;
+	}
+	// Check if the media is a tv show
+	if (media === "tvShow") {
+		// the base url for the api call prior to any additional params (+= the params to add them to the url)
+		url = `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&with_original_language=en&page=${page}`;
+	}
+
+	// Check if the genre is not null and add it to the url
+	if (genre) {
+		url += `&with_genres=${genre}`;
+	  }
+	
+	// Check if the release date is not null and add it to the url
+	if(release_date_from) {
+		if (media === "movie") {
+			url += `&primary_release_date.gte=${startDate}`;
+		} else {
+			url += `&first_air_date.gte=${startDate}`;
+		}
+	}
+
+	// Check if the release date is not null and add it to the url
+	if (release_date_to) {
+		if (media === "movie") {
+			url += `&primary_release_date.lte=${endDate}`;
+		} else {
+			url += `&first_air_date.lte=${endDate}`;
+		}
+	}
+
+	if (vote_average) {
+		url += `&vote_average.gte=${vote_average}`;
+	}
+
+	if (with_keywords) {
+		url += `&with_keywords=${with_keywords}`;
+	}
+
+	if (sort_by) {
+		url += `&sort_by=${sort_by}`;
+	}
+	
+	console.log("URL To Fetch:", url);
+
+	return fetch(url)
+	.then(res => res.json())
+	.then(data => {
+		console.log("Response Data:", data);
+		return data; 
+	})
+	.catch(err => {
+		console.error("Error fetching data:", err);
+		throw err;
+	});
+};

@@ -330,3 +330,25 @@ export interface ActorDetailsProps {
   place_of_birth?: string;
   also_known_as?: string[];
 }
+
+
+export interface GenreData {
+  genres: {
+    id: string;
+    name: string
+  }[];
+}
+
+export interface SearchResultsMovies {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
+
+export interface SearchResultsTVShows {
+  page: number;	
+  total_pages: number;
+  total_results: number;
+  results: BaseMovieProps[];
+};
