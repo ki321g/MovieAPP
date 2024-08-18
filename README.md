@@ -217,7 +217,7 @@ Below are both Public and Protected Routes, along with all routes within them.
 + __Firebase Backend Services:__:
   + __Firebase Authentication__ to manage user sign-in and security for protected routes.
   + __Firebase Storage__ to store Fantasy Movie Images
-  + __Firebase Realtime Database__ for retrieval of user-specific data such as Favorites, Playlists, Movies in Playlist.
+  + __Firebase Database__ for retrieval of user-specific data such as Favorites, Playlists, Movies in Playlist.
 
 + __react-google-button__ ([https://www.npmjs.com/package/react-google-button](https://www.npmjs.com/package/react-google-button)) component, used to display the sign in with google button on the Login page.
 + __@mui/system__ ([https://www.npmjs.com/package/@mui/system](https://www.npmjs.com/package/@mui/system)) component. MUI System is a set of CSS utilities to help you build custom designs more efficiently. It makes it possible to rapidly lay out custom designs.
@@ -230,7 +230,7 @@ Below are both Public and Protected Routes, along with all routes within them.
 ### INDEPENDENT LEARNING
 
 + __Vercel deployment__: https://medium.com/@abdulmuizzayo6/how-to-host-your-react-app-on-vercel-effectively-7ae35b259044 Pat was deploying his application while i was still building mine and shared this with all in slack. It saved me some time. Independent Learning?? Maybe not but group learning i suppose. Vercel itself was very helpful when looking to fix all teh type errors and unused variables in my application
-+ __Firebase Auth, Storage & Realtime DB__: Credit has to go to YouTube channel [PedroTech](https://www.youtube.com/@PedroTechnologies) for his video titled "[Firebase React Course For Beginners - Learn Firebase V9+ in 2 Hours](https://www.youtube.com/watch?v=2hR-uWjBAgw)", i found him very easy to follow and learnt a lot. I had everything integrated into my app as i watched his video. I forgot to put some into the Fantasy Movie in teh end even thou i had it working, Delete and Update Movie.
++ __Firebase Auth, Storage & Database__: Credit has to go to YouTube channel [PedroTech](https://www.youtube.com/@PedroTechnologies) for his video titled "[Firebase React Course For Beginners - Learn Firebase V9+ in 2 Hours](https://www.youtube.com/watch?v=2hR-uWjBAgw)", i found him very easy to follow and learnt a lot. I had everything integrated into my app as i watched his video. I forgot to put some into the Fantasy Movie in teh end even thou i had it working, Delete and Update Movie.
 + __Material UI__: I spent a lot of time on on there [documentation site ](https://mui.com/material-ui/getting-started/)
 
 ### MY THOUGHTS ON COMPLETION OF ASSIGNMENT
