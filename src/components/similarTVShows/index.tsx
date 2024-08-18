@@ -14,7 +14,7 @@ const SimilarTVShows: React.FC<SimilarTVShowsProps> = ({ tvShows, action }) => {
   return (
     <Box >
       <Grid container spacing={5} sx={{ padding: "10px" }}>
-        <TvShowList tvShows={tvShows} action={action} />
+        <TvShowList action={action} tvShows={tvShows} />
       </Grid>
     </Box>
   );

@@ -82,7 +82,7 @@ const TVShowPageTemplate: React.FC<TVShowPageTemplateProps> = ({tvShow, children
     
     // Get Similar Movies with useQuery
     const { data: similarTVShowsData, error: similarTVShowsError, isLoading: similarTVShowsLoading, isError: isSimilarTVShowsError, isPreviousData } = useQuery<DiscoverTvShows, Error>({
-            queryKey: ["similarMovies", tvShow.id],
+            queryKey: ["similarMovies", tvShow.id, page],
             queryFn: () => getSimilarTVShows(tvShow.id, page),
             keepPreviousData: true
         });

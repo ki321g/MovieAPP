@@ -1,3 +1,6 @@
+
+https://youtu.be/rXJJLXb5JFc
+
 Combine useQueries to call getGenres or getTVShowGenres to Fetch genres based on media type 
 	https://tanstack.com/query/latest/docs/framework/react/reference/useQueries
 
@@ -48,7 +51,7 @@ tv/top_rated
 {/* https://www.npmjs.com/package/react-google-button */}
 
 
-
+https://www.youtube.com/watch?v=2hR-uWjBAgw
 
 
 

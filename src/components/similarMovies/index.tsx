@@ -14,7 +14,7 @@ const SimilarMovies: React.FC<SimilarMoviesProps> = ({ movies, action }) => {
   return (
     <Box >
       <Grid container spacing={5} sx={{ padding: "10px" }}>
-        <MovieList movies={movies} action={action} />
+        <MovieList action={action} movies={movies} />
       </Grid>
     </Box>
   );
